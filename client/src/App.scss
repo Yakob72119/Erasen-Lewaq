@@ -1,7 +1,40 @@
-$primary-color: #4b92e2;
 $text-white: #fff;
+$brand-color-one: #41948a;
+$brand-color-two: #3f6892;
+$text-primary: #3d4794;
+$text-gray-dark: #8a8a8a;
+$button-primary: #1362d8;
 
-body {
-    background-color: $primary-color;
-    color: $text-white;
+*{
+    margin: 0;
+    padding: 0;
 }
+
+.App {
+    .Registration{
+        display: flex;
+        flex-direction: row;
+
+
+        .left-decor {
+            width: 200px;
+            height: 200px;
+            background-color: $brand-color-one;
+        }
+
+        .choose-user {
+            position: fixed;
+            top: 20px;
+            right: 20px
+        }
+
+        .right-decor {
+            width: 200px;
+            height: 200px;
+            background-color: $brand-color-two;
+        }
+    }
+}
+
+
+
