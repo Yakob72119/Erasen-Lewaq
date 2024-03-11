@@ -15,6 +15,16 @@ const Registration = () => {
     'Educator'
   ];
 
+  const departments = [
+    'Software Engineering',
+    'Computer Since'
+  ]
+
+  const collages = [
+    'Haramaya University',
+    'Addis Ababa University'
+  ]
+
   const handleCheckboxChange = () => {
     if (isCheck) {
       SetIsCheck(false)
@@ -81,7 +91,7 @@ const Registration = () => {
           <option className='option' value="">~Choose Role~</option>
           {options.map((option) => (
             <option key={option} value={option}>
-              {options}
+              {option}
             </option>
           ))}
         </select>
@@ -97,17 +107,17 @@ const Registration = () => {
           <input type="email" name="email" placeholder="Email" />
           <select className='input' name='department' id="comboDepartment" value={selectedValueDepartment} onChange={handleComboBoxChangeDepartment}>
             <option className='option' value="">~Department~</option>
-            {options.map((option) => (
-              <option key={option} value={option}>
-                {option}
+            {departments.map((department) => (
+              <option key={department} value={department}>
+                {department}
               </option>
             ))}
           </select>
           <select className='input' name='collage' id="comboCollage" value={selectedValueCollage} onChange={handleComboBoxChangeCollage}>
             <option className='option' value="">~University/Collage~</option>
-            {options.map((option) => (
-              <option key={option} value={option}>
-                {option}
+            {collages.map((collage) => (
+              <option key={collage} value={collage}>
+                {collage}
               </option>
             ))}
           </select>
