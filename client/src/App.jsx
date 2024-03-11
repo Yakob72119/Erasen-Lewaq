@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 import Registration from './page/Registration'
 
 function App() {
