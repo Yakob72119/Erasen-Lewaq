@@ -58,6 +58,7 @@ const Registration = () => {
     const formData = new FormData(s.target);
     console.log('Form Data:', formData);
 
+    const role = formData.get('role');
     const firstName = formData.get('fullName');
     const userName = formData.get('userName');
     const email = formData.get('email');
@@ -65,9 +66,10 @@ const Registration = () => {
     const collage = formData.get('collage');
     const gender = formData.get('gender');
     const password = formData.get('password');
-    const confirmPassword = formData.get('confirmPassword');   
+    const confirmPassword = formData.get('confirmPassword');
     // Perform further actions with the form data
     console.log({
+      role,
       firstName,
       userName,
       email,
@@ -77,7 +79,7 @@ const Registration = () => {
       password,
       confirmPassword
     });
-}
+  }
 
   return (
     <div className='Registration'>
@@ -85,23 +87,24 @@ const Registration = () => {
         {/* this is just for left decor */}
       </div>
 
-      {/* comboBox for choosing role   */}
-      <div className="choose-user">
-        <select className='input' name='eduLevel' id="combo" value={selectedValue} onChange={handleComboBoxChange}>
-          <option className='option' value="">~Choose Role~</option>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
+
 
       {/* container for all central components */}
       <div className="registration-container">
-        <img src={erasenLweq} alt="EranseLewaq-logo" />
-        <h1>Registration</h1>
+        <img className='EranseLewaqLogo' src={erasenLweq} alt="EranseLewaq-logo" />
+        <h1 className='title'>Registration</h1>
         <form className='registerForm' onSubmit={handleSubmit}>
+          {/* comboBox for choosing role   */}
+          <div className="choose-user">
+            <select className='role' name='role' id="combo" value={selectedValue} onChange={handleComboBoxChange}>
+              <option className='option' value="">~Choose Role~</option>
+              {options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
           <input type="text" name="fullName" placeholder="Full Name" />
           <input type="text" name="userName" placeholder="User Name" />
           <input type="email" name="email" placeholder="Email" />
@@ -121,16 +124,18 @@ const Registration = () => {
               </option>
             ))}
           </select>
+          
+          <input type={isCheck ? "text" : "password"} name="password" placeholder="Password" />
+          <input type={isCheck ? "text" : "password"} name="confirmPassword" placeholder="Confirm Password" />
           <div className="Gender">
+            <label htmlFor="gender">Gender</label>
             <label className='radioGroup'>
-              <input type='radio' name='gender' value="Male" checked={selectedRadio === 'Male'} onChange={handleSelectedRadio} /><p>Male</p>
+              <input type='radio' name='gender' value="Male" checked={selectedRadio === 'Male'} onChange={handleSelectedRadio} />Male
             </label>
             <label className='radioGroup'>
               <input type='radio' name='gender' value="Female" checked={selectedRadio === 'Female'} onChange={handleSelectedRadio} />Female
             </label>
           </div>
-          <input type={isCheck ? "text" : "password"} name="password" placeholder="Password" />
-          <input type={isCheck ? "text" : "password"} name="confirmPassword" placeholder="Confirm Password" />
           <div className='showPass'>
             <input
               type='checkbox'
