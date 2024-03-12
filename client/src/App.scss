@@ -22,7 +22,8 @@ $button-primary: #1362d8;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        align-items: center;
+        height: 100vh;
+        
 
         // styling left side corner
         .left-decor {
@@ -32,6 +33,7 @@ $button-primary: #1362d8;
             left: -12.5vw;
             transform: rotate(38deg);
             background-color: $brand-color-one;
+            box-shadow: 5px 5px 15px #000;
 
         }
 
@@ -53,6 +55,7 @@ $button-primary: #1362d8;
             .registerForm {
                 display: flex;
                 flex-direction: column;
+                justify-content: center;
 
                 /* 
                 * we set fixed position for user choose
@@ -122,6 +125,7 @@ $button-primary: #1362d8;
             right: -13vw;
             transform: rotate(38deg);
             background-color: $brand-color-two;
+            box-shadow: 10px 5px 10px #000;
         }
     }
     // style for registration page end
