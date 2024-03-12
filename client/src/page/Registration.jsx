@@ -5,7 +5,6 @@ const Registration = () => {
   const [formData, setFormData] = useState({
     role: '',
     fullName: '',
-    userName: '',
     email: '',
     department: '',
     collage: '',
@@ -114,13 +113,7 @@ const Registration = () => {
             value={formData.fullName}
             onChange={handleInputChange}
             {...(submit && formData.fullName === '' && { required: true })} />
-          <input
-            type="text"
-            name="userName"
-            placeholder="User Name"
-            value={formData.userName}
-            onChange={handleInputChange}
-            {...(submit && formData.userName === '' && { required: true })} />
+         
           <input
             type="email"
             name="email"
