@@ -1,3 +1,4 @@
+// variables for color
 $text-white: #fff;
 $brand-color-one: #41948a;
 $brand-color-two: #3f6892;
@@ -5,6 +6,8 @@ $text-primary: #3d4794;
 $text-gray-dark: #8a8a8a;
 $button-primary: #1362d8;
 
+
+// set style for all element in the page
 * {
     margin: 0;
     padding: 0;
@@ -12,23 +15,27 @@ $button-primary: #1362d8;
 
 }
 
+
 .App {
+    // style for registration page start
     .Registration {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
 
+        // styling left side corner
         .left-decor {
             position: fixed;
             width: 25vw;
-            height: 70vh;
+            height: 90vh;
             left: -12.5vw;
             transform: rotate(38deg);
             background-color: $brand-color-one;
 
         }
 
+        // style for registration container
         .registration-container {
             width: 50vw;
             height: 80vh;
@@ -47,7 +54,10 @@ $button-primary: #1362d8;
                 display: flex;
                 flex-direction: column;
 
-
+                /* 
+                * we set fixed position for user choose
+                * comboBox to place is on top right corner
+                */
                 .choose-user {
                     position: fixed;
                     top: 20px;
@@ -57,6 +67,10 @@ $button-primary: #1362d8;
                         font-size: calc(7px + 2vmin);
                         outline: none;
                         border-radius: 5px;
+
+                        &:required{
+                            border: 1px solid red;
+                        }
                     }
                 }
 
@@ -68,18 +82,25 @@ $button-primary: #1362d8;
                     border-bottom: 2px solid $text-gray-dark;
                     padding: 5px 10px;
                     margin-bottom: 10px;
+
+                    &:required{
+                        border: 1px solid red;
+                    }
                 }
 
-                .Gender {
+                .Gender,
+                .error {
                     width: 60%;
                     margin-bottom: 10px;
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
-                    font-size: calc(7px + 2vmin);
-
-
+                    font-size: calc(7px + 2vmin);  
                 }
+                .error {
+                    color: red;
+                }
+
 
                 .formBtn {
                     width: calc(100px + 2vmin);
@@ -97,10 +118,12 @@ $button-primary: #1362d8;
             right: 0;
             bottom: 0;
             width: 25vw;
-            height: 70vh;
+            height: 90vh;
             right: -13vw;
-            transform: rotate(45deg);
+            transform: rotate(38deg);
             background-color: $brand-color-two;
         }
     }
+    // style for registration page end
+
 }

@@ -2,12 +2,22 @@ import React, { useState } from 'react'
 import erasenLweq from '../assets/erasenLweq.png'
 
 const Registration = () => {
-
-  const [selectedValue, setSelectedValue] = useState('');
-  const [selectedValueDepartment, setSelectedValueDepartment] = useState('');
-  const [selectedValueCollage, setSelectedValueCollage] = useState('');
+  const [formData, setFormData] = useState({
+    role: '',
+    fullName: '',
+    userName: '',
+    email: '',
+    department: '',
+    collage: '',
+    password: '',
+    confirmPassword: '',
+    gender: ''
+  });
   const [selectedRadio, setselectedRadio] = useState('');
   const [isCheck, SetIsCheck] = useState(false)
+  const [error, setError] = useState("");
+  const [submit, setSubmit] = useState("")
+
 
   // Options for the combo box
   const options = [
@@ -25,6 +35,11 @@ const Registration = () => {
     'Addis Ababa University'
   ]
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value })
+  };
+
   const handleCheckboxChange = () => {
     if (isCheck) {
       SetIsCheck(false)
@@ -34,51 +49,36 @@ const Registration = () => {
   }
 
   const handleSelectedRadio = (e) => {
-    setselectedRadio(e.target.value);
+    const { name, value} = e.target;
+    setFormData({...formData, [name]:value});
+    setselectedRadio(formData.gender);
   }
 
-  const handleComboBoxChange = (event) => {
-    setSelectedValue(event.target.value);
-    console.log(event.target.value)
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleComboBoxChangeDepartment = (event) => {
-    setSelectedValueDepartment(event.target.value);
-    console.log(event.target.value)
-  };
+    setSubmit(true)
 
-  const handleComboBoxChangeCollage = (event) => {
-    setSelectedValueCollage(event.target.value);
-    console.log(event.target.value)
-  };
+    const emptyFields = Object.values(formData).filter(value => value === '');
+    if (emptyFields.length > 0) {
+      setError('All fields are required.');
+      return;
+    }
 
-  const handleSubmit = async (s) => {
-    s.preventDefault();
+    if (formData.password.length < 6) {
+      setError('The Password must be at least 6 characters long.');
+      return;
+    }
 
-    const formData = new FormData(s.target);
-    console.log('Form Data:', formData);
+    if (formData.password !== formData.confirmPassword) {
+      setError('The Passwords do not match.');
+      return;
+    }
 
-    const role = formData.get('role');
-    const firstName = formData.get('fullName');
-    const userName = formData.get('userName');
-    const email = formData.get('email');
-    const department = formData.get('department');
-    const collage = formData.get('collage');
-    const gender = formData.get('gender');
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirmPassword');
+    setError('')
+
     // Perform further actions with the form data
-    console.log({
-      role,
-      firstName,
-      userName,
-      email,
-      department,
-      collage,
-      gender,
-      password,
-      confirmPassword
-    });
+    console.log(formData);
   }
 
   return (
@@ -96,7 +96,9 @@ const Registration = () => {
         <form className='registerForm' onSubmit={handleSubmit}>
           {/* comboBox for choosing role   */}
           <div className="choose-user">
-            <select className='role' name='role' id="combo" value={selectedValue} onChange={handleComboBoxChange}>
+            <select className='role' name='role' id="combo" 
+            value={formData.role} onChange={handleInputChange} 
+            {...(submit && formData.role === '' && { required: true })}>
               <option className='option' value="">~Choose Role~</option>
               {options.map((option) => (
                 <option key={option} value={option}>
@@ -105,10 +107,28 @@ const Registration = () => {
               ))}
             </select>
           </div>
-          <input type="text" name="fullName" placeholder="Full Name" />
-          <input type="text" name="userName" placeholder="User Name" />
-          <input type="email" name="email" placeholder="Email" />
-          <select className='input' name='department' id="comboDepartment" value={selectedValueDepartment} onChange={handleComboBoxChangeDepartment}>
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Full Name"
+            value={formData.fullName}
+            onChange={handleInputChange}
+            {...(submit && formData.fullName === '' && { required: true })} />
+          <input
+            type="text"
+            name="userName"
+            placeholder="User Name"
+            value={formData.userName}
+            onChange={handleInputChange}
+            {...(submit && formData.userName === '' && { required: true })} />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleInputChange}
+            {...(submit && formData.email === '' && { required: true })} />
+          <select className='input' name='department' id="comboDepartment" value={formData.department} onChange={handleInputChange} {...(submit && formData.department === '' && { required: true })}>
             <option className='option' value="">~Department~</option>
             {departments.map((department) => (
               <option key={department} value={department}>
@@ -116,7 +136,9 @@ const Registration = () => {
               </option>
             ))}
           </select>
-          <select className='input' name='collage' id="comboCollage" value={selectedValueCollage} onChange={handleComboBoxChangeCollage}>
+          <select className='input' name='collage' id="comboCollage"
+            value={formData.collage} onChange={handleInputChange}
+            {...(submit && formData.collage === '' && { required: true })}>
             <option className='option' value="">~University/Collage~</option>
             {collages.map((collage) => (
               <option key={collage} value={collage}>
@@ -124,16 +146,38 @@ const Registration = () => {
               </option>
             ))}
           </select>
-          
-          <input type={isCheck ? "text" : "password"} name="password" placeholder="Password" />
-          <input type={isCheck ? "text" : "password"} name="confirmPassword" placeholder="Confirm Password" />
-          <div className="Gender">
+
+          <input
+            type={isCheck ? "text" : "password"}
+            name="password" placeholder="Password"
+            value={formData.password}
+            onChange={handleInputChange}
+            {...(submit && formData.password === '' && { required: true })} />
+          <input
+            type={isCheck ? "text" : "password"}
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+            {...(submit && formData.confirmPassword === '' && { required: true })} />
+          <div className={submit && formData.gender === '' ? 'error' : 'Gender'}>
             <label htmlFor="gender">Gender</label>
             <label className='radioGroup'>
-              <input type='radio' name='gender' value="Male" checked={selectedRadio === 'Male'} onChange={handleSelectedRadio} />Male
+              <input
+                type='radio'
+                name='gender'
+                value="Male"
+                checked={selectedRadio === 'Male'}
+                onChange={handleSelectedRadio}/>Male
             </label>
             <label className='radioGroup'>
-              <input type='radio' name='gender' value="Female" checked={selectedRadio === 'Female'} onChange={handleSelectedRadio} />Female
+              <input
+                type='radio'
+                name='gender'
+                value="Female"
+                checked={selectedRadio === 'Female'}
+                onChange={handleSelectedRadio}
+                {...(submit && formData.gender === '' && { required: true })} />Female
             </label>
           </div>
           <div className='showPass'>
@@ -146,6 +190,7 @@ const Registration = () => {
             />
             <label htmlFor="checkBox" className='check-label'>Show me the password</label>
           </div>
+          {error && <span style={{ color: "red" }}>{error}</span>}
           <input type="submit" value="Register" className="formBtn" id='forBtn' />
           <div className="redirect">
             <p>You have account? <a href='#'>Login</a></p>
