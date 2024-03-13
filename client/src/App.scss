@@ -1,3 +1,6 @@
+@import "_mixins.scss";
+
+
 // variables for color
 $text-white: #fff;
 $brand-color-one: #41948a;
@@ -7,43 +10,72 @@ $text-gray-dark: #8a8a8a;
 $button-primary: #1362d8;
 
 
-// set style for all element in the page
-* {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-
-}
-
-
 .App {
+
     // style for registration page start
     .Registration {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         height: 100vh;
-        
+
 
         // styling left side corner
         .left-decor {
             position: fixed;
             width: 25vw;
-            height: 90vh;
+            height: 70vh;
             left: -12.5vw;
-            transform: rotate(38deg);
+            transform: rotate(40deg);
             background-color: $brand-color-one;
             box-shadow: 5px 5px 15px #000;
+
+            @include laptop {
+                top: -10%;
+                width: 60vw;
+                left: -55vw;
+            }
+
+            @include tablet {
+                top: -15%;
+                width: 60vw;
+                left: -55vw;
+            }
+
+            @include mobile {
+                top: -5%;
+                width: 40vw;
+                left: -55vw;
+            }
+
+            
+            
 
         }
 
         // style for registration container
         .registration-container {
+            position: fixed;
             width: 50vw;
             height: 80vh;
             font-weight: 700;
+            align-self: center;
 
+            @include laptop {
+                width: 70vw;
+                margin-top: 50%;
+            }
 
+            @include tablet {
+                width: 70vw;
+                margin-top: 30%;
+            }
+
+            @include mobile {
+                width: 70vw;
+                margin-top: 30%;
+            }
+        
             .EranseLewaqLogo {
                 width: calc(120px + 2vmin);
             }
@@ -71,7 +103,7 @@ $button-primary: #1362d8;
                         outline: none;
                         border-radius: 5px;
 
-                        &:required{
+                        &:required {
                             border: 1px solid red;
                         }
                     }
@@ -86,7 +118,7 @@ $button-primary: #1362d8;
                     padding: 5px 10px;
                     margin-bottom: 10px;
 
-                    &:required{
+                    &:required {
                         border: 1px solid red;
                     }
                 }
@@ -98,15 +130,20 @@ $button-primary: #1362d8;
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
-                    font-size: calc(7px + 2vmin);  
+                    font-size: calc(7px + 2vmin);
+
+                    @include mobile {
+                        width: 80%;
+                    }
                 }
+
                 .error {
                     color: red;
                 }
 
 
                 .formBtn {
-                    width: calc(100px + 2vmin);
+                    width: fit-content;
                     border: none;
                     background-color: $button-primary;
                     color: $text-white;
@@ -121,13 +158,36 @@ $button-primary: #1362d8;
             right: 0;
             bottom: 0;
             width: 25vw;
-            height: 90vh;
+            height: 70vh;
             right: -13vw;
             transform: rotate(38deg);
             background-color: $brand-color-two;
             box-shadow: 10px 5px 10px #000;
+
+            @include laptop {
+                bottom: -10%;
+                width: 60vw;
+                right: -55vw;
+            }
+
+            @include tablet {
+                bottom: -15%;
+                width: 60vw;
+                right: -55vw;
+            }
+
+            @include mobile {
+                bottom: -5%;
+                width: 40vw;
+                right: -55vw;
+            }
+
+            
+
+            
         }
     }
+
     // style for registration page end
 
 }
