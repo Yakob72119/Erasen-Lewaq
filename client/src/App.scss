@@ -9,9 +9,9 @@ $text-primary: #3d4794;
 $text-gray-dark: #8a8a8a;
 $button-primary: #1362d8;
 
-
 .App {
 
+    
     // style for registration page start
     .Registration {
         display: flex;
@@ -102,6 +102,7 @@ $button-primary: #1362d8;
                         font-size: calc(7px + 2vmin);
                         outline: none;
                         border-radius: 5px;
+                        background: transparent;
 
                         &:required {
                             border: 1px solid red;
@@ -112,11 +113,13 @@ $button-primary: #1362d8;
                 input,
                 .input {
                     font-size: calc(7px + 2vmin);
+                    background: transparent;
                     border: none;
                     outline: none;
                     border-bottom: 2px solid $text-gray-dark;
                     padding: 5px 10px;
                     margin-bottom: 10px;
+                    
 
                     &:required {
                         border: 1px solid red;
