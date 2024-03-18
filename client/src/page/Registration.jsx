@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import erasenLweq from '../assets/erasenLweq.png'
+import { Link } from 'react-router-dom';
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -186,7 +187,7 @@ const Registration = () => {
           {error && <span style={{ color: "red" }}>{error}</span>}
           <input type="submit" value="Register" className="formBtn" id='forBtn' />
           <div className="redirect">
-            <p>You have account? <a href='#'>Login</a></p>
+            <p>You have account? <Link to={'/login'}>Login</Link></p>
           </div>
         </form>
 

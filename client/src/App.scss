@@ -8,10 +8,70 @@ $brand-color-two: #3f6892;
 $text-primary: #3d4794;
 $text-gray-dark: #8a8a8a;
 $button-primary: #1362d8;
+$button-primary-hover: #1362d8cc;
 
 .App {
 
-    
+    // style for home page 
+    .homePage {
+        height: 100vh;
+
+        .nav-bar {
+            width: 98.5%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            // border-bottom: $text-primary solid 10px;
+            box-shadow: 0px 10px $button-primary;
+
+            .logo {
+                img {
+                    width: calc(100px + 2vmin);
+                }
+            }
+
+
+            .links {
+                display: flex;
+                justify-content: space-between;
+                width: 50%;
+
+                ul {
+                    width: 100%;
+                    list-style: none;
+                    display: flex;
+                    justify-content: space-between;
+
+                    .link {
+                        text-decoration: none;
+                        font-weight: 900;
+                        font-size: calc(10px + 2vmin);
+                    }
+
+                    .btn {
+                        color: $text-white;
+                        background-color: $button-primary;
+                        padding: 5px 20px;
+                        border-radius: 50px;
+                        transition: background-color 0.3s;
+
+
+                        &:hover {
+                            background-color: $button-primary-hover;
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+    }
+
     // style for registration page start
     .Registration {
         display: flex;
@@ -48,8 +108,8 @@ $button-primary: #1362d8;
                 left: -55vw;
             }
 
-            
-            
+
+
 
         }
 
@@ -75,7 +135,7 @@ $button-primary: #1362d8;
                 width: 70vw;
                 margin-top: 30%;
             }
-        
+
             .EranseLewaqLogo {
                 width: calc(120px + 2vmin);
             }
@@ -119,7 +179,7 @@ $button-primary: #1362d8;
                     border-bottom: 2px solid $text-gray-dark;
                     padding: 5px 10px;
                     margin-bottom: 10px;
-                    
+
 
                     &:required {
                         border: 1px solid red;
@@ -185,9 +245,9 @@ $button-primary: #1362d8;
                 right: -55vw;
             }
 
-            
 
-            
+
+
         }
     }
 
