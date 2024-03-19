@@ -8,7 +8,7 @@ $brand-color-two: #3f6892;
 $text-primary: #3d4794;
 $text-gray-dark: #8a8a8a;
 $button-primary: #1362d8;
-$button-primary-hover: #1362d8cc;
+$button-primary-hover: #6f13d8cc;
 
 .App {
 
@@ -52,7 +52,7 @@ $button-primary-hover: #1362d8cc;
                         font-size: calc(10px + 2vmin);
                     }
 
-                    
+
 
                     .btn {
                         color: $text-white;
@@ -74,8 +74,70 @@ $button-primary-hover: #1362d8cc;
 
     }
 
+    .login {
+        .registration-container {
+            width: 30vw;
+        }
+    }
+
+    // information to registration page style
+    .info-register {
+        width: 100%;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .logo-container {
+            img {
+                width: calc(200px + 2vmin);
+                margin-bottom: 20px;
+            }
+        }
+
+        .info-container {
+            text-align: center;
+            font-size: calc(1px + 2vmin);
+            width: 80%;
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            width: 40%;
+
+            @include between{
+                width: 80%;
+            }
+
+            .link {
+                text-decoration: none;
+                color: $text-white;
+                background-color: $button-primary;
+                font-size: calc(15px + 2vmin);
+                font-weight: 900;
+                padding: calc(20px + 2vmin) calc(40px + 2vmin);
+                border-radius: 50px;
+                transition: background-color 0.25s;
+
+                @include between {
+                    padding: calc(10px + 2vmin) calc(10px + 2vmin);
+
+                }
+
+                &:hover {
+                    background-color: $button-primary-hover;
+                }
+            }
+        }
+
+    }
+
     // style for registration page start
-    .Registration {
+    .Registration,
+    .login {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
@@ -118,7 +180,7 @@ $button-primary-hover: #1362d8cc;
         // style for registration container
         .registration-container {
             position: fixed;
-            width: 50vw;
+            width: 30vw;
             height: 80vh;
             font-weight: 700;
             align-self: center;
@@ -214,6 +276,14 @@ $button-primary-hover: #1362d8cc;
                     color: $text-white;
                     padding: 10px 20px;
                     border-radius: calc(50px + 2vmin);
+                }
+
+                .ancr {
+                    transition: color 0.2s;
+
+                    &:hover {
+                        color: $text-primary;
+                    }
                 }
             }
         }
