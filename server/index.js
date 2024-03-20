@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/erasen_lewaq_db')
     })
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
-     app.use("/", studentRoutes);
+ app.use("/", studentRoutes);
 
 const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {

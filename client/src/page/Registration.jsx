@@ -10,7 +10,6 @@ const Registration = () => {
     department: '',
     collage: '',
     password: '',
-    confirmPassword: '',
     gender: ''
   });
   const [selectedRadio, setselectedRadio] = useState('');
@@ -64,7 +63,7 @@ const Registration = () => {
 
     // Send form data to the backend
     try {
-     const response = await axios.post('/api/student/register', formData); 
+     const response = await axios.post('/student/register', formData); 
       console.log(response.data); // Log the response from the backend
       // Reset form after successful registration (if needed)
       setFormData({
@@ -73,12 +72,13 @@ const Registration = () => {
         department: '',
         collage: '',
         password: '',
+        confirmPassword: '',
         gender: ''
       });
       setError('Registration successful'); // Provide feedback to the user
     } catch (error) {
       console.error('Error registering user:', error);
-      setError('An error occurred during registration. Please try again.');
+      setError(error);
     }
   };
 
