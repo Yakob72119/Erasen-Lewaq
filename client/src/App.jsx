@@ -5,6 +5,7 @@ import Index from './page/Index';
 import Login from './page/Login';
 import RegisterInfo from './page/RegisterInfo';
 import EducatorRegister from './page/EducatorRegister'
+import EduDashboard from './page/EduDashboard';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="register" element={<Registration />} />
           <Route path="information" element={<RegisterInfo />} />
           <Route path="educator-registration" element={<EducatorRegister />} />
+          <Route path="educator-dashboard" element={<EduDashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

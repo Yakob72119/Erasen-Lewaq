@@ -1,14 +1,5 @@
 @import "_mixins.scss";
-
-
-// variables for color
-$text-white: #fff;
-$brand-color-one: #41948a;
-$brand-color-two: #3f6892;
-$text-primary: #3d4794;
-$text-gray-dark: #8a8a8a;
-$button-primary: #1362d8;
-$button-primary-hover: #6f13d8cc;
+@import "color.scss";
 
 .App {
 
@@ -141,7 +132,7 @@ $button-primary-hover: #6f13d8cc;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        height: 100vh;
+        height: 90vh;
 
 
         // styling left side corner

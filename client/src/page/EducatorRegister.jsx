@@ -60,26 +60,6 @@ const EducatorRegister = () => {
     }
 
     setError('');
-
-    // Send form data to the backend
-    try {
-      const response = await axios.post('/api/students/register', formData); // Corrected endpoint URL
-      console.log(response.data); // Log the response from the backend
-      // Reset form after successful registration (if needed)
-      setFormData({
-        fullName: '',
-        email: '',
-        collage: '',
-        residence: '',
-        password: '',
-        confirmPassword: '',
-        gender: ''
-      });
-      setError('Registration successful'); // Provide feedback to the user
-    } catch (error) {
-      console.error('Error registering user:', error);
-      setError('An error occurred during registration. Please try again.');
-    }
   };
 
   return (
@@ -127,9 +107,9 @@ const EducatorRegister = () => {
           </select>
           <select
             className='input'
-            name='department'
+            name='residence'
             id='comboDepartment'
-            value={formData.department}
+            value={formData.residence}
             onChange={handleInputChange}
             {...(submit && formData.residence === '' && { required: true })}>
             <option className='option' value=''>
