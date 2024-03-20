@@ -1,19 +1,18 @@
-const Student = require('../models/studetnModel');
+const Student = require('./../models/studentModel');
 
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
   try {
-    const { role, fullName, email, department, collage, password, gender } = req.body;
+    const {fullName, email, department, collage, password, gender } = req.body;
 
     // Create a new user instance
     const student = new Student({
-      role,
-      fullName,
-      email,
-      department,
-      collage,
-      password,
-      gender
+      fullName:fullName,
+      email:email,
+      department: department,
+      collage: collage,
+      password: password,
+      gender: gender
     });
 
     // Save the student to the database
@@ -26,4 +25,8 @@ exports.register = async (req, res) => {
     console.error('Error registering student:', error);
     res.status(500).json({ error: 'Server error' });
   }
+};
+
+module.exports={
+  register
 };

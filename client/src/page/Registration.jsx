@@ -64,7 +64,7 @@ const Registration = () => {
 
     // Send form data to the backend
     try {
-      const response = await axios.post('/api/students/register', formData); // Corrected endpoint URL
+     const response = await axios.post('/api/student/register', formData); 
       console.log(response.data); // Log the response from the backend
       // Reset form after successful registration (if needed)
       setFormData({
@@ -73,7 +73,6 @@ const Registration = () => {
         department: '',
         collage: '',
         password: '',
-        confirmPassword: '',
         gender: ''
       });
       setError('Registration successful'); // Provide feedback to the user
