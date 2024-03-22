@@ -7,7 +7,9 @@
     .homePage {
         height: 100vh;
 
-        .nav-bar {
+
+        .nav-bar,
+        .nav-bar-show {
             width: 98.5%;
             display: flex;
             flex-wrap: wrap;
@@ -16,8 +18,12 @@
             padding: 10px;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
-            // border-bottom: $text-primary solid 10px;
             box-shadow: 0px 10px $button-primary;
+
+            @include mobile {
+                height: calc(50px + 2vmin);
+                overflow: hidden;
+            }
 
             .logo {
                 img {
@@ -31,19 +37,57 @@
                 justify-content: space-between;
                 width: 50%;
 
+                @include laptop {
+                    width: 80%;
+                }
+
+
+
                 ul {
                     width: 100%;
                     list-style: none;
                     display: flex;
                     justify-content: space-between;
 
+                    @include mobile {
+                        flex-direction: column;
+                    }
+
+                    li {
+                        @include mobile {
+                            margin-bottom: 10px;
+                            margin-left: 10px;
+                        }
+                    }
+
+                    li.prof {
+                        .hMenu {
+                            display: none;
+
+                            @include mobile {
+                                display: block;
+                            }
+                        }
+
+                        @include mobile {
+                            position: absolute;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            width: 35%;
+                            color: #000;
+                            top: 20px;
+                            right: 10px;
+                        }
+                    }
+
                     .link {
                         text-decoration: none;
                         font-weight: 900;
                         font-size: calc(10px + 2vmin);
+
+
                     }
-
-
 
                     .btn {
                         color: $text-white;
@@ -51,6 +95,7 @@
                         padding: 5px 20px;
                         border-radius: 50px;
                         transition: background-color 0.3s;
+
 
 
                         &:hover {
@@ -63,11 +108,11 @@
 
         }
 
-    }
-
-    .login {
-        .registration-container {
-            width: 30vw;
+        .nav-bar-show {
+            @include mobile {
+                height: auto;
+                overflow: hidden;
+            }
         }
     }
 
@@ -99,7 +144,7 @@
             justify-content: space-between;
             width: 40%;
 
-            @include between{
+            @include between {
                 width: 80%;
             }
 
@@ -132,8 +177,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        height: 90vh;
-
+        height: 80vh;
 
         // styling left side corner
         .left-decor {
@@ -188,7 +232,7 @@
 
             @include mobile {
                 width: 70vw;
-                margin-top: 30%;
+                margin-top: 60%;
             }
 
             .EranseLewaqLogo {
@@ -267,6 +311,12 @@
                     color: $text-white;
                     padding: 10px 20px;
                     border-radius: calc(50px + 2vmin);
+                    transition: background-color 0.25s;
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: $button-primary-hover;
+                    }
                 }
 
                 .ancr {
@@ -314,6 +364,9 @@
         }
     }
 
-    // style for registration page end
+    // login style if need 
+    .login {
+        height: 100vh;
+    }
 
 }

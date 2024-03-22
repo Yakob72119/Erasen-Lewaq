@@ -10,6 +10,7 @@ const EducatorRegister = () => {
     email: '',
     collage: '',
     residence: '',
+    bankAcc: '',
     password: '',
     confirmPassword: '',
     gender: ''
@@ -59,6 +60,7 @@ const EducatorRegister = () => {
       return;
     }
 
+    console.log(formData)
     setError('');
   };
 
@@ -121,6 +123,14 @@ const EducatorRegister = () => {
               </option>
             ))}
           </select>
+          <input
+            type='number'
+            name='bankAcc'
+            placeholder='Bank Acccount'
+            value={formData.bankAcc}
+            onChange={handleInputChange}
+            {...(submit && formData.bankAcc === '' && { required: true })}
+          />
           <input
             type={isCheck ? 'text' : 'password'}
             name='password'
