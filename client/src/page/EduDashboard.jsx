@@ -1,7 +1,6 @@
 import {useState} from 'react'
 import './style/EduDashboard.scss'
 import erasenLweq from '../assets/erasenLweq.png'
-import bell from '../assets/bell.svg'
 
 
 const EduDashboard = () => {
