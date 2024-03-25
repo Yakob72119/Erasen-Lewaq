@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const studentRoutes = require("./src/routes/studentRoutes.js"); 
-const body
+const bodyParser = require("body-parser")
 
 const app = express();
 app.use(express.json());
