@@ -78,7 +78,7 @@ const Registration = () => {
       setError('Registration successful'); // Provide feedback to the user
     } catch (error) {
       console.error('Error registering user:', error);
-      setError(error);
+      // setError(error);
     }
   };
 
