@@ -1,10 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const studentRoutes = require("./src/routes/studentRoutes.js"); 
+const body
 
 const app = express();
 app.use(express.json());
-
 
 mongoose.connect('mongodb://localhost:27017/erasen_lewaq_db')
     .then(() => {
