@@ -27,6 +27,7 @@ const EducatorRegister = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    setError(''); // Clear error message when input changes
   };
 
   const handleCheckboxChange = () => {
@@ -41,29 +42,46 @@ const EducatorRegister = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setSubmit(true);
-
+  
+    // Form validation
     const emptyFields = Object.values(formData).filter((value) => value === '');
     if (emptyFields.length > 0) {
       setError('All fields are required.');
       return;
     }
-
+  
     if (formData.password.length < 6) {
       setError('The Password must be at least 6 characters long.');
       return;
     }
-
+  
     if (formData.password !== formData.confirmPassword) {
       setError('The Passwords do not match.');
       return;
     }
-
-    console.log(formData)
-    setError('');
+  
+    try {
+      const response = await axios.post('http://localhost:3000/educator/register', formData);
+      console.log(response.data); // Log the response from the backend
+      setFormData({
+        fullName: '',
+        email: '',
+        collage: '',
+        residence: '',
+        bankAcc: '',
+        password: '',
+        confirmPassword: '',
+        gender: ''
+      });
+      setError('Registration successful'); // Provide feedback to the user
+    } catch (error) {
+      console.error('Error registering user:', error.response.data.error);
+      setError(error.response.data.error); // Display error message returned from the backend
+    }
   };
-
+  
+ 
   return (
     <div className='Registration'>
       <div className='left-decor'>{/* this is just for left decor */}</div>

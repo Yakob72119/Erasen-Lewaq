@@ -5,7 +5,7 @@ const educatorSchema = new mongoose.Schema({
   email: String,
   collage: String,
   residence:String,
-  bankAcc: String,
+  bankAcc: Number,
   password: String,
   gender: String
 });
