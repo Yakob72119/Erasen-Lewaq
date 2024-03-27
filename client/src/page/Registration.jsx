@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import erasenLweq from '../assets/erasenLweq.png'
+import { useState } from 'react';
+import erasenLweq from '../assets/erasenLweq.png';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -17,32 +17,30 @@ const Registration = () => {
   const [error, setError] = useState('');
   const [submit, setSubmit] = useState('');
 
-
-
-  const departments = ['Software Engineering', 'Computer Science']; // Corrected typo
-
+  const departments = ['Software Engineering', 'Computer Science'];
   const collages = ['Haramaya University', 'Addis Ababa University'];
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    setError(''); // Clear error message when input changes
   };
 
   const handleCheckboxChange = () => {
-    SetIsCheck(!isCheck); // Toggle the value of isCheck
+    SetIsCheck(!isCheck);
   };
 
   const handleSelectedRadio = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setselectedRadio(value); // Use the current value, not formData.gender
+    setselectedRadio(value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setSubmit(true);
 
+    // Form validation
     const emptyFields = Object.values(formData).filter((value) => value === '');
     if (emptyFields.length > 0) {
       setError('All fields are required.');
@@ -59,13 +57,10 @@ const Registration = () => {
       return;
     }
 
-    setError('');
-
     // Send form data to the backend
     try {
-     const response = await axios.post('http://localhost:3000/student/register', formData); 
+      const response = await axios.post('http://localhost:3000/student/register', formData);
       console.log(response.data); // Log the response from the backend
-      // Reset form after successful registration (if needed)
       setFormData({
         fullName: '',
         email: '',
@@ -77,48 +72,41 @@ const Registration = () => {
       });
       setError('Registration successful'); // Provide feedback to the user
     } catch (error) {
-      console.error('Error registering user:', error);
-      // setError(error);
+      console.error('Error registering user:', error.response.data.error);
+      setError(error.response.data.error); // Display error message returned from the backend
     }
   };
 
   return (
     <div className='Registration'>
       <div className='left-decor'>{/* this is just for left decor */}</div>
-
-      {/* container for all central components */}
       <div className='registration-container'>
         <img className='EranseLewaqLogo' src={erasenLweq} alt='EranseLewaq-logo' />
         <h1 className='title'>Registration</h1>
         <form className='registerForm' onSubmit={handleSubmit}>
-         
           <input
             type='text'
             name='fullName'
             placeholder='Full Name'
             value={formData.fullName}
             onChange={handleInputChange}
-            {...(submit && formData.fullName === '' && { required: true })}
+            required
           />
-
           <input
             type='email'
             name='email'
             placeholder='Email'
             value={formData.email}
             onChange={handleInputChange}
-            {...(submit && formData.email === '' && { required: true })}
+            required
           />
           <select
             className='input'
             name='department'
-            id='comboDepartment'
             value={formData.department}
             onChange={handleInputChange}
-            {...(submit && formData.department === '' && { required: true })}>
-            <option className='option' value=''>
-              ~Department~
-            </option>
+            required>
+            <option value=''>~Department~</option>
             {departments.map((department) => (
               <option key={department} value={department}>
                 {department}
@@ -128,27 +116,23 @@ const Registration = () => {
           <select
             className='input'
             name='collage'
-            id='comboCollage'
             value={formData.collage}
             onChange={handleInputChange}
-            {...(submit && formData.collage === '' && { required: true })}>
-            <option className='option' value=''>
-              ~University/Collage~
-            </option>
+            required>
+            <option value=''>~University/Collage~</option>
             {collages.map((collage) => (
               <option key={collage} value={collage}>
                 {collage}
               </option>
             ))}
           </select>
-
           <input
             type={isCheck ? 'text' : 'password'}
             name='password'
             placeholder='Password'
             value={formData.password}
             onChange={handleInputChange}
-            {...(submit && formData.password === '' && { required: true })}
+            required
           />
           <input
             type={isCheck ? 'text' : 'password'}
@@ -156,7 +140,7 @@ const Registration = () => {
             placeholder='Confirm Password'
             value={formData.confirmPassword}
             onChange={handleInputChange}
-            {...(submit && formData.confirmPassword === '' && { required: true })}
+            required
           />
           <div className={submit && formData.gender === '' ? 'error' : 'Gender'}>
             <label htmlFor='gender'>Gender</label>
@@ -193,14 +177,15 @@ const Registration = () => {
               Show me the password
             </label>
           </div>
-          {error && <span style={{ color: "red" }}>{error}</span>}
-          <input type="submit" value="Register" className="formBtn" id='forBtn' />
-          <div className="redirect">
-            <p>You have account? <Link className='ancr' to={'/login'}>Login</Link></p>
+          {error && <span style={{ color: 'red' }}>{error}</span>}
+          <input type='submit' value='Register' className='formBtn' />
+          <div className='redirect'>
+            <p>
+              You have an account? <Link className='ancr' to={'/login'}>Login</Link>
+            </p>
           </div>
         </form>
       </div>
-
       <div className='right-decor'>{/* this is just for right decor */}</div>
     </div>
   );

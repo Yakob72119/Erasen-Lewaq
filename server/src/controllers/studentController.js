@@ -1,11 +1,25 @@
 const Student = require('./../models/studentModel');
-
+const User = require('./../models/userModel');
 
 const register = async (req, res) => {
   try {
     const {fullName, email, department, collage, password, gender } = req.body;
 
-    // Create a new user instance
+    const existingUser  = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email is already registered' });
+    }
+
+    const user = new User({
+      email: email,
+      password: password,
+      role: "student" 
+    });
+
+    await user.save();
+
+    
     const student = new Student({
       fullName:fullName,
       email:email,
@@ -15,13 +29,11 @@ const register = async (req, res) => {
       gender: gender
     });
 
-    // Save the student to the database
     await student.save();
 
-    // Send success response
     res.status(201).json({ message: 'student registered successfully' });
   } catch (error) {
-    // Handle errors
+    
     console.error('Error registering student:', error);
     res.status(500).json({ error: 'Server error' });
   }
