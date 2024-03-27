@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import './style/EduDashboard.scss'
 import erasenLweq from '../assets/erasenLweq.png'
+import Cv from '../components/Cv'
 
 
 const EduDashboard = () => {
@@ -37,7 +38,9 @@ const EduDashboard = () => {
                 </div>
             </div>
 
-            <div className="main"></div>
+            <div className="main">
+                <Cv />
+            </div>
             <div className='right-decor'>{/* this is just for right decor */}</div>
         </div>
     )
