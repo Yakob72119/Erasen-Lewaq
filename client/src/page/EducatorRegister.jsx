@@ -10,6 +10,7 @@ const EducatorRegister = () => {
     email: '',
     collage: '',
     residence: '',
+    bank: '',
     bankAcc: '',
     password: '',
     confirmPassword: '',
@@ -18,11 +19,13 @@ const EducatorRegister = () => {
   const [selectedRadio, setselectedRadio] = useState('');
   const [isCheck, SetIsCheck] = useState(false);
   const [error, setError] = useState('');
+  const [errorStyle, setErrorStyle] = useState('red');
   const [submit, setSubmit] = useState('');
 
   const collages = ['Hramaya university', 'Addis Ababa university', 'Software Engineering', 'Computer Science']; // Corrected typo
 
   const residences = ['Harar', 'Addis Ababa'];
+  const bank = ['CBE', 'Awash International Bank', 'Abyssinia Bank'];
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -43,24 +46,27 @@ const EducatorRegister = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
-  
+
     // Form validation
     const emptyFields = Object.values(formData).filter((value) => value === '');
     if (emptyFields.length > 0) {
       setError('All fields are required.');
+      setErrorStyle('red')
       return;
     }
-  
+
     if (formData.password.length < 6) {
       setError('The Password must be at least 6 characters long.');
+      setErrorStyle('red')
       return;
     }
-  
+
     if (formData.password !== formData.confirmPassword) {
       setError('The Passwords do not match.');
+      setErrorStyle('red')
       return;
     }
-  
+
     try {
       const response = await axios.post('http://localhost:3000/educator/register', formData);
       console.log(response.data); // Log the response from the backend
@@ -69,21 +75,27 @@ const EducatorRegister = () => {
         email: '',
         collage: '',
         residence: '',
+        bank: '',
         bankAcc: '',
         password: '',
         confirmPassword: '',
         gender: ''
       });
       setError('Registration successful'); // Provide feedback to the user
+      setErrorStyle('green')
+      setSubmit(false)
     } catch (error) {
       console.error('Error registering user:', error.response.data.error);
       setError(error.response.data.error); // Display error message returned from the backend
+      setErrorStyle('red')
     }
   };
-  
- 
+
+
   return (
     <div className='Registration'>
+      <div className="scroll"></div>
+
       <div className='left-decor'>{/* this is just for left decor */}</div>
 
       {/* container for all central components */}
@@ -128,7 +140,7 @@ const EducatorRegister = () => {
           <select
             className='input'
             name='residence'
-            id='comboDepartment'
+            id='comboResidence'
             value={formData.residence}
             onChange={handleInputChange}
             {...(submit && formData.residence === '' && { required: true })}>
@@ -138,6 +150,22 @@ const EducatorRegister = () => {
             {residences.map((residence) => (
               <option key={residence} value={residence}>
                 {residence}
+              </option>
+            ))}
+          </select>
+          <select
+            className='input'
+            name='bank'
+            id='comboBank'
+            value={formData.bank}
+            onChange={handleInputChange}
+            {...(submit && formData.bank === '' && { required: true })}>
+            <option className='option' value=''>
+              ~Bank~
+            </option>
+            {bank.map((bank) => (
+              <option key={bank} value={bank}>
+                {bank}
               </option>
             ))}
           </select>
@@ -200,7 +228,7 @@ const EducatorRegister = () => {
               Show me the password
             </label>
           </div>
-          {error && <span style={{ color: "red" }}>{error}</span>}
+          {error && <span style={{ color: errorStyle }}>{error}</span>}
           <input type="submit" value="Register" className="formBtn" id='forBtn' />
           <div className="redirect">
             <p>You have account?  <Link className='ancr' to={'/login'}>Login</Link> </p>

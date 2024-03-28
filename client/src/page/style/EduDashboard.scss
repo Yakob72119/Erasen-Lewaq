@@ -5,6 +5,14 @@
     width: 100%;
     height: 100vh;
 
+
+    .scroll {
+        // only for scroll on mobile 
+        width: 100vw;
+        height: 100vh;
+    }
+    
+
     .logo-profile {
         position: fixed;
         top: 10px;
@@ -17,6 +25,10 @@
         img {
             width: calc(100px + 2vmin);
             opacity: 0.6;
+        }
+
+        .bell {
+            width: calc(30px + 2vmin);
         }
 
         .profile {
@@ -43,11 +55,13 @@
         border-top-right-radius: 30px;
         border-bottom-right-radius: 30px;
         color: $text-white;
+        z-index: 5;
+        overflow: hidden;
 
         @include mobile {
             font-size: 10px;
-            left: -20vw;
-            width: 25vw;
+            left: -40vw;
+            width: 45vw;
         }
 
         .nav-btn {
@@ -70,7 +84,26 @@
             }
 
             li {
+                margin-left: 80px;
+                width: 200px;
                 margin-bottom: 10px;
+                font-size: calc(10px + 2vmin);
+                transition: 0.5s;
+                padding: 2px 10px;
+                border-radius: 5px;
+
+                img {
+                    width: calc(10px + 2vmin);
+                    padding-right: 10px;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: $brand-color-two;
+                    box-shadow: 10px 10px $brand-color-one;
+                    font-weight: 500;
+
+                }
             }
         }
     }
@@ -92,6 +125,10 @@
         padding: 10px;
         z-index: 3;
         background-color: #fff;
+
+        @include mobile {
+            width: 80%;
+        }
 
         @include laptop {
             height: 75vh;
@@ -129,6 +166,11 @@
                     background-color: transparent;
                     border: 3px solid $brand-color-one;
                     outline: none;
+
+                    &:required {
+                        border: 3px solid red;
+
+                    }
                 }
 
                 .formBtn {
@@ -156,5 +198,42 @@
             }
         }
 
+        .wait {
+            .image-wait-time {
+                z-index: 0;
+                position: absolute;
+                right: 0;
+                width: 90%;
+            }
+            p {
+                z-index: 1;
+                position: absolute;                
+            }
+
+            .message{
+                top: 50%;
+                text-align: justify;
+                width: 50%;
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                color: $brand-color-two;
+                font-weight: 700;
+
+                @include between {
+                    top: 30%;
+                    width: 80%;
+                }
+            }
+
+            .support {
+                bottom: 0;
+                text-align: justify;
+                width: 80%;
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                color: $text-gray-dark;
+                font-weight: 700;
+            }
+
+
+        }
     }
 }

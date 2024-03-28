@@ -10,11 +10,13 @@ const Registration = () => {
     department: '',
     collage: '',
     password: '',
+    confirmPassword: '',
     gender: ''
   });
   const [selectedRadio, setselectedRadio] = useState('');
   const [isCheck, SetIsCheck] = useState(false);
   const [error, setError] = useState('');
+  const [errorStyle, setErrorStyle] = useState('red');
   const [submit, setSubmit] = useState('');
 
   const departments = ['Software Engineering', 'Computer Science'];
@@ -44,16 +46,19 @@ const Registration = () => {
     const emptyFields = Object.values(formData).filter((value) => value === '');
     if (emptyFields.length > 0) {
       setError('All fields are required.');
+      setErrorStyle('red')
       return;
     }
 
     if (formData.password.length < 6) {
       setError('The Password must be at least 6 characters long.');
+      setErrorStyle('red')
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
       setError('The Passwords do not match.');
+      setErrorStyle('red')
       return;
     }
 
@@ -71,9 +76,13 @@ const Registration = () => {
         gender: ''
       });
       setError('Registration successful'); // Provide feedback to the user
+      setErrorStyle('green')
+      setSubmit(false)
     } catch (error) {
       console.error('Error registering user:', error.response.data.error);
       setError(error.response.data.error); // Display error message returned from the backend
+      setErrorStyle('red')
+
     }
   };
 
@@ -90,7 +99,7 @@ const Registration = () => {
             placeholder='Full Name'
             value={formData.fullName}
             onChange={handleInputChange}
-            required
+            {...(submit && formData.fullName === '' && {required: true})}
           />
           <input
             type='email'
@@ -98,14 +107,15 @@ const Registration = () => {
             placeholder='Email'
             value={formData.email}
             onChange={handleInputChange}
-            required
+            {...(submit && formData.email === '' && {required: true})}
+
           />
           <select
             className='input'
             name='department'
             value={formData.department}
             onChange={handleInputChange}
-            required>
+            {...(submit && formData.department === '' && {required: true})}>
             <option value=''>~Department~</option>
             {departments.map((department) => (
               <option key={department} value={department}>
@@ -118,7 +128,7 @@ const Registration = () => {
             name='collage'
             value={formData.collage}
             onChange={handleInputChange}
-            required>
+            {...(submit && formData.collage === '' && {required: true})}>
             <option value=''>~University/Collage~</option>
             {collages.map((collage) => (
               <option key={collage} value={collage}>
@@ -132,7 +142,7 @@ const Registration = () => {
             placeholder='Password'
             value={formData.password}
             onChange={handleInputChange}
-            required
+            {...(submit && formData.password === '' && {required: true})}
           />
           <input
             type={isCheck ? 'text' : 'password'}
@@ -140,10 +150,10 @@ const Registration = () => {
             placeholder='Confirm Password'
             value={formData.confirmPassword}
             onChange={handleInputChange}
-            required
+            {...(submit && formData.confirmPassword === '' && {required: true})}
           />
           <div className={submit && formData.gender === '' ? 'error' : 'Gender'}>
-            <label htmlFor='gender'>Gender</label>
+            <label htmlFor='gender' {...(submit && formData.gender === '' && {required: true})}>Gender</label>
             <label className='radioGroup'>
               <input
                 type='radio'
@@ -151,6 +161,7 @@ const Registration = () => {
                 value='Male'
                 checked={selectedRadio === 'Male'}
                 onChange={handleSelectedRadio}
+                {...(submit && formData.gender === '' && {required: true})}
               />
               Male
             </label>
@@ -161,6 +172,7 @@ const Registration = () => {
                 value='Female'
                 checked={selectedRadio === 'Female'}
                 onChange={handleSelectedRadio}
+                {...(submit && formData.gender === '' && {required: true})}
               />
               Female
             </label>
@@ -177,7 +189,7 @@ const Registration = () => {
               Show me the password
             </label>
           </div>
-          {error && <span style={{ color: 'red' }}>{error}</span>}
+          {error && <span style={{ color: errorStyle }}>{error}</span>}
           <input type='submit' value='Register' className='formBtn' />
           <div className='redirect'>
             <p>

@@ -10,6 +10,7 @@
 
         .nav-bar,
         .nav-bar-show {
+            right: 0;
             width: 98.5%;
             display: flex;
             flex-wrap: wrap;
@@ -178,7 +179,8 @@
         flex-direction: row;
         justify-content: space-around;
         height: 80vh;
-
+        
+        
         // styling left side corner
         .left-decor {
             position: fixed;
@@ -236,7 +238,7 @@
             }
 
             .EranseLewaqLogo {
-                width: calc(120px + 2vmin);
+                width: calc(100px + 2vmin);
             }
 
             .title {
@@ -248,26 +250,7 @@
                 flex-direction: column;
                 justify-content: center;
 
-                /* 
-                * we set fixed position for user choose
-                * comboBox to place is on top right corner
-                */
-                .choose-user {
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-
-                    .role {
-                        font-size: calc(7px + 2vmin);
-                        outline: none;
-                        border-radius: 5px;
-                        background: transparent;
-
-                        &:required {
-                            border: 1px solid red;
-                        }
-                    }
-                }
+                
 
                 input,
                 .input {
