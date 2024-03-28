@@ -11,6 +11,7 @@ const Index = () => {
         <div className='homePage'>
             <Header/> 
             <Link to={'/educator-dashboard'}>dashboard</Link>
+            <Link to={'/admin-dashboard'}>a-dashboard</Link>
         </div>
     )
 }

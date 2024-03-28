@@ -6,6 +6,7 @@ import Login from './page/Login';
 import RegisterInfo from './page/RegisterInfo';
 import EducatorRegister from './page/EducatorRegister'
 import EduDashboard from './page/EduDashboard';
+import AdminDashboard from './page/AdminDashboard';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="information" element={<RegisterInfo />} />
           <Route path="educator-registration" element={<EducatorRegister />} />
           <Route path="educator-dashboard" element={<EduDashboard />} />
+          <Route path="admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

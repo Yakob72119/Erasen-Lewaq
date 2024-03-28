@@ -10,6 +10,7 @@ const Cv = () => {
         gLink: ''
     });
     const [error, setError] = useState('');
+    const [errorStyle, setErrorStyle] = useState('red');
     const [submit, setSubmit] = useState('');
 
     const eduStatus = ['Degree', 'Masters', 'PHD']; // Corrected typo
@@ -28,13 +29,22 @@ const Cv = () => {
         const emptyFields = Object.values(formData).filter((value) => value === '');
         if (emptyFields.length > 0) {
             setError('All fields are required.');
+            setErrorStyle('red')
             return;
         }
 
-
         console.log(formData)
-        setError('');
-
+        setError('Submitted');
+        
+        setErrorStyle('green')
+        setFormData({
+            fullName: '',
+            eduStatus: '',
+            experience: '',
+            department: '',
+            gLink: ''
+        });
+        setSubmit(false)
         // Send form data to the backend
 
     };
@@ -96,11 +106,7 @@ const Cv = () => {
                     {...(submit && formData.gLink === '' && { required: true })}
                 />
 
-                
-
-
-
-                {error && <span style={{ color: "red" }}>{error}</span>}
+                {error && <span style={{ color: errorStyle, fontWeight: 900 }}>{error}</span>}
                 <input type="submit" value="Submit" className="formBtn" id='forBtn' />
                 <a href="#" className='examp'>Example of Google Doc form</a>
 
