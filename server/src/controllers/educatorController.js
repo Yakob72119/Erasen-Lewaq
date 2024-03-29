@@ -4,7 +4,7 @@ const User = require('./../models/userModel');
 const register = async (req, res) => {
   try {
     
-    const {fullName, email, collage,residence,bankAcc, password, gender } = req.body;
+    const {fullName, email, collage,residence,bank, bankAcc, password, gender } = req.body;
 
     const existingUser  = await User.findOne({ email });
 
@@ -26,6 +26,7 @@ const register = async (req, res) => {
       email: email,
       collage: collage,
       residence: residence,
+      bank: bank,
       bankAcc: bankAcc,
       password: password,
       gender: gender
