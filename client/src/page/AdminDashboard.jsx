@@ -9,9 +9,11 @@ import Payment from '../assets/payment.svg'
 import Setting from '../assets/setting.svg'
 import Logout from '../assets/logout.svg'
 import Bell from '../assets/notfication.svg'
+import Admincv from '../components/Admincv'
 
 const AdminDashboard = () => {
     const [navBar, setNavBar] = useState('side-nav')
+    const [display, setDisplay] = useState('dashboard')
 
     const handleNav = () => {
         if(navBar === 'side-nav') {
@@ -19,6 +21,14 @@ const AdminDashboard = () => {
         } else {
             setNavBar('side-nav')
         }
+    }
+
+    const handleCv = () => {
+        setDisplay('cv')
+    }
+    
+    const handleDashboard = () => {
+        setDisplay('dashboard')
     }
     
     return (
@@ -34,10 +44,10 @@ const AdminDashboard = () => {
                 <span  onClick={handleNav} className='nav-btn'>|</span>
                 <div className="option">
                     <ul>
-                        <li><img src={Home} alt="" />Dashboard</li>
+                        <li className={display === 'dashboard' && 'currentClass'} onClick={handleDashboard}><img src={Home} alt="" />Dashboard</li>
                         <li><img src={Exam} alt="" />Exams</li>
                         <li><img src={User} alt="" />User</li>
-                        <li><img src={Cv} alt="" />CV</li>
+                        <li className={display === 'cv' && 'currentClass'} onClick={handleCv}><img src={Cv} alt="" />CV</li>
                         <li><img src={Payment} alt="" />Payment</li>
                     </ul>
                 </div>
@@ -50,7 +60,8 @@ const AdminDashboard = () => {
             </div>
 
             <div className="main">
-                Admin
+                {display === 'cv' && <Admincv />}
+                {display === 'dashboard' && 'dashboard'}
             </div>
             <div className='right-decor'>{/* this is just for right decor */}</div>
         </div>

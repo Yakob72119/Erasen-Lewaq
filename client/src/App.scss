@@ -250,7 +250,30 @@
                 flex-direction: column;
                 justify-content: center;
 
-                
+                .contact {
+                    display: flex;
+
+                    input {
+                        width: 40%;
+                        margin-right: 1%;
+                    }
+
+                    .phoneNumber {
+                        width: 60%;
+                        display: flex;
+
+                        .code {
+                            width: 25%;
+                            border: 2px solid $text-gray-dark;
+                            padding: 0;
+                        }
+
+                        .phone {
+                            width: 80%;
+                        }
+                    }
+
+                }
 
                 input,
                 .input {

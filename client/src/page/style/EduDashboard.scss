@@ -11,7 +11,7 @@
         width: 100vw;
         height: 100vh;
     }
-    
+
 
     .logo-profile {
         position: fixed;
@@ -105,6 +105,12 @@
 
                 }
             }
+
+            .currentClass {
+                background-color: $brand-color-two;
+                box-shadow: 10px 10px $brand-color-one;
+                font-weight: 500;
+            }
         }
     }
 
@@ -144,6 +150,7 @@
             .title {
                 color: $brand-color-two;
             }
+
             .cvForm {
                 width: 40%;
                 height: 70vh;
@@ -157,7 +164,7 @@
                 @include between {
                     width: 80%;
                 }
-               
+
 
                 input,
                 .input {
@@ -179,7 +186,7 @@
                     color: aliceblue;
                     border-radius: 5px;
                     transition: 0.3s;
-                    
+
                     &:hover {
                         cursor: pointer;
                         box-shadow: 5px 5px 5px #555555cc;
@@ -205,12 +212,13 @@
                 right: 0;
                 width: 90%;
             }
+
             p {
                 z-index: 1;
-                position: absolute;                
+                position: absolute;
             }
 
-            .message{
+            .message {
                 top: 50%;
                 text-align: justify;
                 width: 50%;

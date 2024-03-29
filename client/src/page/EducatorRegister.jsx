@@ -8,6 +8,7 @@ const EducatorRegister = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
+    phone: '',
     collage: '',
     residence: '',
     bank: '',
@@ -113,14 +114,37 @@ const EducatorRegister = () => {
             {...(submit && formData.fullName === '' && { required: true })}
           />
 
-          <input
-            type='email'
-            name='email'
-            placeholder='Email'
-            value={formData.email}
-            onChange={handleInputChange}
-            {...(submit && formData.email === '' && { required: true })}
-          />
+          <div className="contact">
+            <input
+              type='email'
+              name='email'
+              placeholder='Email'
+              value={formData.email}
+              onChange={handleInputChange}
+              {...(submit && formData.email === '' && { required: true })}
+            />
+            <div className="phoneNumber">
+            <input
+              type='tel'
+              name='code'
+              className='code'
+              placeholder='+251'
+              value='+251'
+              onChange={handleInputChange}
+              disabled true
+            />
+            <input
+              type='tel'
+              name='phone'
+              className='phone'
+              placeholder='XXX XXX XXX'
+              value={formData.phone}
+              onChange={handleInputChange}
+              maxLength={9}
+              {...(submit && formData.phone === '' && { required: true })}
+            />
+            </div>
+          </div>
           <select
             className='input'
             name='collage'
