@@ -50,7 +50,7 @@ const EduDashboard = () => {
 
             <div className="main">
                 <Cv />
-                {/* <Wait /> */}
+               {/* <Wait />*/}
             </div>
             <div className='right-decor'>{/* this is just for right decor */}</div>
         </div>
