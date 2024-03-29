@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import './style/EduDashboard.scss'
+import './style/AdminDashboard.scss'
 import erasenLweq from '../assets/erasenLweq.png'
 import Home from '../assets/home.svg'
 import Exam from '../assets/exam.svg'
@@ -32,7 +33,7 @@ const AdminDashboard = () => {
     }
     
     return (
-        <div className='Registration edu-dashboard'>
+        <div className='admin-dashboard Registration edu-dashboard'>
             <div className="scroll"></div>
 
             <div className="logo-profile">

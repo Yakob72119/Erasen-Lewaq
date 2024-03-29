@@ -1,0 +1,176 @@
+@import "../../mixins.scss";
+@import "../../color.scss";
+
+
+.admin-dashboard {
+    .main {
+        .admin-cv {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: calc(7px + 2vmin);
+
+            button {
+                background-color: #1362d8;
+                color: #fff;
+                font-size: calc(7px + 2vmin);
+                padding: 5px 10px;
+                border: none;
+                transition: 0.5s;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: $brand-color-two;
+                }
+            }
+
+            input {
+                background: $brand-color-two;
+                color: #fff;
+                border: none;
+                padding: 5px 10px;
+                font-size: calc(7px + 2vmin);
+            }
+
+            .navbars {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px 0;
+                border: 3px solid $button-primary-hover;
+                border-radius: 5px;
+                margin-bottom: 30px;
+
+                @include mobile {
+                    flex-direction: column;
+                }
+
+                .schedule {
+                    width: 45%;
+                    margin-left: 5%;
+                    @include mobile {
+                        width: 95%;
+                        margin-bottom: 10px;
+                    }
+
+                    .days,
+                    .daysShow {
+                        margin-top: -20px;
+                        opacity: 0;
+                        visibility: hidden;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        position: absolute;
+                        padding: 10px;
+                        border: 3px solid #1362d8;
+                        font-weight: 800;
+                        color: $brand-color-two;
+                        background-color: #fff;
+                        transition: 0.5s;
+                        z-index: 3;
+
+                        .btnSchedule {
+                            margin-top: 10px;
+                            background-color: $brand-color-one;
+
+                            &:hover {
+                                background-color: $button-primary;
+                            }
+                        }
+                    }
+
+                    .daysShow {
+                        margin-top: 0;
+                        opacity: 1;
+                        visibility: visible;
+                        transition: 0.5s;
+
+                    }
+                }
+
+                .filters {
+                    width: 50%;
+
+                    @include mobile {
+                        width: 95%;
+                    }
+
+                    .point {
+                        width: 20%;
+                        margin-right: 5%;
+                    }
+
+                    .dayDate {
+                        @include laptop {
+                            width: 30%;
+                        }
+    
+
+                    }
+
+                    .btnFilter {
+                        margin-left: 5%;
+                    }
+
+                    .delete-current {
+                        position: absolute;
+                        margin-top: 10px;
+                        right: 5%;
+
+                        button {
+                            background-color: $button-delete;
+
+                            &:hover {
+                                background-color: red;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .cvS {
+                width: 100%;
+                overflow-y: scroll;
+
+                .cv-declaration {
+                    width: 96%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    background: $brand-color-tree;
+                    color: #fff;
+                    border-radius: 5px;
+                    padding: 10px;
+                    margin-bottom: 15px;
+
+                    .controllers {
+                        display: flex;
+                        flex-direction: column;
+
+                        .btnGrade {
+                            background-color: $brand-color-two;
+
+                            &:hover {
+                                background-color: $button-primary;
+                            }
+                        }
+
+                        .btnDelete {
+                            margin-top: 10px;
+                            background-color: $button-delete;
+
+                            &:hover {
+                                background-color: red;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

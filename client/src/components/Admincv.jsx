@@ -1,34 +1,152 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Admincv = () => {
+  const [schedule, setSchedule] = useState('days')
+  const [cvDeclaration, setCvDeclaration] = useState([]);
+  const [scheduleData, setScheduleData] = useState({
+    startDate: '',
+    endDate: ''
+  })
+  const [filterData, setFilterData] = useState({
+    point: '',
+    day: ''
+  })
+  const [error, setError] = useState('')
+  const [errorStyle, setErrorStyle] = useState('red')
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setScheduleData({ ...scheduleData, [name]: value });
+  };
+
+  const handleFilterChange = (event) => {
+    const { name, value } = event.target;
+    setFilterData({ ...filterData, [name]: value });
+  };
+
+  const handleSchedule = () => {
+    if (scheduleData.startDate === '' || scheduleData.endDate === ''){
+      setError("All Field are Required!")
+      setErrorStyle('red');
+
+      setTimeout(() => {
+        setError('');
+      }, 3000);
+    }
+    else {
+      setError("Scheduled Successfully!")
+      setErrorStyle('green')
+      console.log(scheduleData)
+      setScheduleData(
+      {
+        startDate: '',
+        endDate: ''
+      });
+
+      setTimeout(() => {
+        setError('');
+      }, 3000);
+    }
+    
+    
+  }
+
+  const handleFilter = () => {
+    console.log(filterData)
+
+    setScheduleData(
+      {
+        point: '',
+        day: ''
+      }
+    )
+  }
+
+  const handleScheduleShow = () => {
+    setSchedule(schedule === 'days' ? 'daysShow' : 'days')
+  }
+
+  const generateCvDeclarations = () => {
+    const declarations = [];
+    for (let i = 0; i < 5; i++) {
+      declarations.push(
+        <div className="cv-declaration" key={i}>
+          <div className='divOne'>
+            <p>Education Status: PHD</p>
+            <p>Experience: 12 Year</p>
+          </div>
+          <div className='divTwo'>
+            <p>Department: Software Engineering</p>
+            <p>Resume: <a href="#">click hear</a></p>
+          </div>
+          <div className="controllers">
+            <button className='btnGrade'>Grade</button>
+            <button className='btnDelete'>Delete</button>
+          </div>
+        </div>
+
+      );
+    }
+
+    return declarations;
+  }
+
+  useEffect(() => {
+    setCvDeclaration(generateCvDeclarations())
+  }, [])
+
   return (
     <div className='admin-cv'>
       <div className="navbars">
         <div className="schedule">
-            <button>Application schedule</button>
+          <button className='scheduleBtn' onClick={handleScheduleShow}>Application schedule</button>
+          <div className={schedule}>
+            <label htmlFor="startDate">From</label>
+            <input
+              type='date'
+              name='startDate'
+              className='input'
+              value={scheduleData.startDate}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="ednDate">To</label>
+            <input
+              type='date'
+              name='endDate'
+              className='input'
+              value={scheduleData.endDate}
+              onChange={handleInputChange}
+            />
+            <span style={{color: errorStyle}}>{error}</span>
+            <button className='btnSchedule' onClick={handleSchedule}>Schedule</button>
+          </div>
         </div>
         <div className="filters">
-            <button>Point</button>
-            <button>Day</button>
-            <button>Filter</button>
+          <input
+            type='number'
+            name='point'
+            className='input point'
+            placeholder='Point'
+            value={filterData.point}
+            onChange={handleFilterChange}
+          />
+          <input
+            type='date'
+            name='day'
+            className='input dayDate'
+            placeholder='Day'
+            value={filterData.day}
+            onChange={handleFilterChange}
+          />
+          <button className='btnFilter' onClick={handleFilter}>Filter</button>
+          <div className="delete-current">
+            <button>Delete Current search</button>
+          </div>
         </div>
       </div>
-      <div className="delete-current">
-        Delete Current search
-      </div>
+
       <div className="cvS">
-        <div className="cv-declaration">
-            <ul>
-                <li>EduStatus</li>
-                <li>Experience</li>
-                <li>Deprt</li>
-                <li>glink</li>
-            </ul>
-            <div className="controllers">
-                <button>Grade</button>
-                <button>Delete</button>
-            </div>
-        </div>
+        {cvDeclaration}
       </div>
     </div>
   )
