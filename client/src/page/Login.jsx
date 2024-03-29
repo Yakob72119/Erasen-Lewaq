@@ -16,6 +16,7 @@ const Login = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    setError('')
   };
 
   const handleCheckboxChange = () => {
