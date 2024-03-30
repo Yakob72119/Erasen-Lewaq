@@ -83,7 +83,7 @@ const Cv = () => {
                     ))}
                 </select>
                 <input
-                    type='text'
+                    type='number'
                     name='experience'
                     className='input'
                     placeholder='Experience(Year)'
