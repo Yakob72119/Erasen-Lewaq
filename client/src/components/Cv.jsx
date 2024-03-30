@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const Cv = () => {
     const [formData, setFormData] = useState({
@@ -33,20 +33,24 @@ const Cv = () => {
             return;
         }
 
-        console.log(formData)
-        setError('Submitted');
-        
-        setErrorStyle('green')
-        setFormData({
-            fullName: '',
-            eduStatus: '',
-            experience: '',
-            department: '',
-            gLink: ''
-        });
-        setSubmit(false)
-        // Send form data to the backend
-
+        try {
+            const response= await axios.post('http://localhost:3000/cv/submitCV', formData);
+            console.log(response);
+            setError('Submitted');
+            setErrorStyle('green');
+            setFormData({
+                fullName: '',
+                eduStatus: '',
+                experience: '',
+                department: '',
+                gLink: ''
+            });
+            setSubmit(false);
+        } catch (error) {
+            console.error('Error submitting CV:', error);
+            setError('Failed to submit CV');
+            setErrorStyle('red');
+        }
     };
 
     return (
@@ -115,4 +119,4 @@ const Cv = () => {
     )
 }
 
-export default Cv
+export default Cv;

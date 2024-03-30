@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const studentRoutes = require("./src/routes/studentRoutes.js"); 
 const educatorRoutes = require("./src/routes/educatorRoutes.js");
+const cvRoutes= require("./src/routes/cvRoutes.js");
 const bodyParser = require("body-parser");
 const cors= require("cors");
 
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://localhost:27017/erasen_lewaq_db')
 
  app.use("/student", studentRoutes);
  app.use("/educator", educatorRoutes);
+ app.use("/cv", cvRoutes);
 const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
                 console.log(`Server started on port ${PORT}`);

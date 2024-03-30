@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
 const cvSchema = new mongoose.Schema({
-  fullName: String,
-  education_status: String,
-  experience: String,
-  department:String,
-  link: String
+    fullName: String,
+    eduStatus: String,
+    experience: Number,
+    department: String,
+    gLink: String,
+    submissionDate: { type: Date, default: Date.now }
 });
 
 const Cv = mongoose.model('Cv', cvSchema);
