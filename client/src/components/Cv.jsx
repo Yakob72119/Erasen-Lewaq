@@ -35,7 +35,7 @@ const Cv = () => {
 
         try {
             const response= await axios.post('http://localhost:3000/cv/submitCV', formData);
-            console.log(response);
+            console.log(response.data);
             setError('Submitted');
             setErrorStyle('green');
             setFormData({

@@ -17,10 +17,10 @@ const submitCV  = async (req, res) => {
   
     await cv.save();
 
-    res.status(201).json({ message: 'Educator registered successfully' });
+    res.status(201).json({ message: 'CV submitted successfully' });
   } catch (error) {
     
-    console.error('Error submitting CV:', error.message); 
+    console.error('Error submitting CV:', error); 
     res.status(500).json({ error: 'Server error', message: error.message });
   }
 };
