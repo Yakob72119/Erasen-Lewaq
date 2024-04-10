@@ -1,14 +1,35 @@
+require('dotenv').config();
+
+        // packages
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors= require("cors");
+
+        // utilites
 const studentRoutes = require("./src/routes/studentRoutes.js"); 
 const educatorRoutes = require("./src/routes/educatorRoutes.js");
 const cvRoutes= require("./src/routes/cvRoutes.js");
-const bodyParser = require("body-parser");
-const cors= require("cors");
+
+
+
+// session and password encryiption
+const session = require('express-session');
+
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+/// setup our session
+
+app.use(session({
+    secret:"our little secrete.",
+    resave: false,
+    saveUninitialized:false
+}));
+
+
 
 mongoose.connect('mongodb://localhost:27017/erasen_lewaq_db')
     .then(() => {

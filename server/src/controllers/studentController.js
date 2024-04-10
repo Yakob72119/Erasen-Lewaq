@@ -1,6 +1,6 @@
 const Student = require('./../models/studentModel');
 const User = require('./../models/userModel');
-
+const md5=require("md5");
 const register = async (req, res) => {
   try {
     const {fullName, email, department, collage, password, gender } = req.body;
@@ -13,7 +13,7 @@ const register = async (req, res) => {
 
     const user = new User({
       email: email,
-      password: password,
+      password: md5(password),
       role: "student" 
     });
 
@@ -25,7 +25,7 @@ const register = async (req, res) => {
       email:email,
       department: department,
       collage: collage,
-      password: password,
+      password: md5(password),
       gender: gender
     });
 
