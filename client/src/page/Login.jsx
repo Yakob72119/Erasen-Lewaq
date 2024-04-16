@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import erasenLweq from '../assets/erasenLweq.png'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +13,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [submit, setSubmit] = useState('');
 
-
+  const history = useHistory();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -41,7 +43,29 @@ const Login = () => {
       return;
     }
 
-    setError('');
+    //  setError('');
+    
+    try {
+      const response = await axios.post('http://localhost:3000/user/login', formData); 
+      console.log(response); 
+      if (response.data.success) {
+        if (response.data.role === 'educator') {
+          history.push('/educator-dashboard'); 
+        }else if(response.data.role === 'student'){
+          history.push('/student-dashboard')
+           
+        }else{
+          
+          history.push('/admin-dashboard');
+        }
+      } else {
+        setError('Failed to login. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setError('Failed to logging in');
+    }
+
   };
 
   return (

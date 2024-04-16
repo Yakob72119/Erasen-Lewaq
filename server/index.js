@@ -5,16 +5,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors= require("cors");
+const session = require('express-session');
 
         // utilites
 const studentRoutes = require("./src/routes/studentRoutes.js"); 
 const educatorRoutes = require("./src/routes/educatorRoutes.js");
 const cvRoutes= require("./src/routes/cvRoutes.js");
-
-
-
-// session and password encryiption
-const session = require('express-session');
+const userRoutes=require("./src/routes/userRoutes.js")
 
 
 const app = express();
@@ -41,6 +38,7 @@ mongoose.connect('mongodb://localhost:27017/erasen_lewaq_db')
  app.use("/student", studentRoutes);
  app.use("/educator", educatorRoutes);
  app.use("/cv", cvRoutes);
+ app.use("/user", userRoutes);
 const PORT = 3000;
         app.listen(PORT, () => {
                 console.log(`Server started on port ${PORT}`);
