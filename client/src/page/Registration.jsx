@@ -2,8 +2,9 @@ import { useState } from 'react';
 import erasenLweq from '../assets/erasenLweq.png';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 const Registration = () => {
+    const navigate= useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -78,6 +79,7 @@ const Registration = () => {
       setError('Registration successful'); // Provide feedback to the user
       setErrorStyle('green')
       setSubmit(false)
+      navigate('/login')
     } catch (error) {
       console.error('Error registering user:', error.response.data.error);
       setError(error.response.data.error); // Display error message returned from the backend

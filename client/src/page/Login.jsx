@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'; // Import PropTypes
 import erasenLweq from '../assets/erasenLweq.png';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 // import { doSignInWithEmailPassword } from '../firebase/auth';
 // import { useAuth } from '../contexts/authContext';
 
 const Login = ({ history }) => {
   //  const { userLoggedIn } = useAuth();
+  const navigate=useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -56,11 +59,15 @@ const Login = ({ history }) => {
       console.log(response);
       if (response.data.success) {
         if (response.data.role === 'educator') {
-          history.push('/educator-dashboard');
+        
+           navigate('/educator-dashboard')
+          
         } else if (response.data.role === 'student') {
-          history.push('/student-dashboard');
+        
+          navigate('/student-dashboard')
+          
         } else {
-          history.push('/admin-dashboard');
+          console.log("i am admin")
         }
       } else {
         setError('Failed to login. Please check your credentials.');
