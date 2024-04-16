@@ -3,8 +3,11 @@ import PropTypes from 'prop-types'; // Import PropTypes
 import erasenLweq from '../assets/erasenLweq.png';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+// import { doSignInWithEmailPassword } from '../firebase/auth';
+// import { useAuth } from '../contexts/authContext';
 
 const Login = ({ history }) => {
+  //  const { userLoggedIn } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -12,7 +15,16 @@ const Login = ({ history }) => {
   const [isCheck, SetIsCheck] = useState(false);
   const [error, setError] = useState('');
   const [submit, setSubmit] = useState('');
+  // const [isSigningIn, setIsSigningIn] = useState(false);
 
+
+  // const onSubmit = async (e) =>{
+  //   e.preventDefault()
+  //   if(!isSigningIn){
+  //     setIsSigningIn(true)
+  //     await doSignInWithEmailPassword(email, password)
+  //   }
+  // }
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
