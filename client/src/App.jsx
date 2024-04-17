@@ -13,13 +13,12 @@ import StudProfile from './page/StudProfile';
 import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
 
-
 const ProtectedRoute = ({ role, element, ...rest }) => {
   useEffect(() => {
-    
     const isAuthenticated = /* Retrieve isAuthenticated from session */;
     const userRole = /* Retrieve userRole from session */;
-    if (!isAuthenticated || userRole !== role) {
+    if (!isAuthenticated || (role !== userRole && role !== 'admin')) {
+      // Redirect to login page if not authenticated or role does not match
       window.location.href = '/login';
     }
   }, [role]);
@@ -37,8 +36,15 @@ const App = () => {
           <Route path="register" element={<Registration />} />
           <Route path="information" element={<RegisterInfo />} />
           <Route path="educator-registration" element={<EducatorRegister />} />
-          <Route path="educator-dashboard" element={<EduDashboard />} />
-          <Route path="admin-dashboard" element={<AdminDashboard />} />
+          {/* Protected routes for educator */}
+          <ProtectedRoute path="educator-dashboard" role="educator" element={<EduDashboard />} />
+          <ProtectedRoute path="educator-profile" role="educator" element={<EduProfile />} />
+          {/* Protected routes for admin */}
+          <ProtectedRoute path="admin-dashboard" role="admin" element={<AdminDashboard />} />
+          <ProtectedRoute path="admin-profile" role="admin" element={<AdminProfile />} />
+          {/* Protected routes for student */}
+          <ProtectedRoute path="student-dashboard" role="student" element={<StudDashboard />} />
+          <ProtectedRoute path="student-profile" role="student" element={<StudProfile />} />
         </Routes>
       </BrowserRouter>
     </div>
