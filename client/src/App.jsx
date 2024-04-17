@@ -8,6 +8,10 @@ import RegisterInfo from './page/RegisterInfo';
 import EducatorRegister from './page/EducatorRegister';
 import EduDashboard from './page/EduDashboard';
 import AdminDashboard from './page/AdminDashboard';
+import StudDashboard from './page/StudDashboard';
+import StudProfile from './page/StudProfile';
+import AdminProfile from './page/AdminProfile';
+import EduProfile from './page/EduProfile';
 
 
 const ProtectedRoute = ({ role, element, ...rest }) => {
@@ -33,10 +37,8 @@ const App = () => {
           <Route path="register" element={<Registration />} />
           <Route path="information" element={<RegisterInfo />} />
           <Route path="educator-registration" element={<EducatorRegister />} />
-          {/* Protected routes for educator */}
-          <ProtectedRoute path="educator-dashboard" role="educator" element={<EduDashboard />} />
-          {/* Protected routes for admin */}
-          <ProtectedRoute path="admin-dashboard" role="admin" element={<AdminDashboard />} />
+          <Route path="educator-dashboard" element={<EduDashboard />} />
+          <Route path="admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
     </div>
