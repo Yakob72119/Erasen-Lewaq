@@ -67,7 +67,7 @@ const Login = ({ history }) => {
           navigate('/student-dashboard')
           
         } else {
-          console.log("i am admin")
+          console.log("/admin-dashboard")
         }
       } else {
         setError('Failed to login. Please check your credentials.');
