@@ -14,6 +14,7 @@ const login = (req, res) => {
             email: email,
             role: role
           };
+          console.log('Session:', req.session.user); // Log the session object
           res.status(200).json({ success: true, role: role });
         } else {
           res.status(401).json({ success: false, message: 'Invalid email or password' });
@@ -27,6 +28,7 @@ const login = (req, res) => {
       res.status(500).json({ success: false, message: 'Internal server error' });
     });
 };
+
 
   
   
