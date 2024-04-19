@@ -1,0 +1,174 @@
+@import "../../_mixins.scss";
+@import "../../color.scss";
+
+
+.Profile {
+    .nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        box-shadow: 0px 10px $button-primary;
+
+        img {
+            width: calc(100px + 2vmin);
+            margin-left: 10px;
+        }
+
+        .back {
+            text-decoration: none;
+            color: $text-white;
+            background-color: $button-primary;
+            padding: 5px 20px;
+            border-radius: 50px;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+            font-size: calc(15px + 2vmin);
+            font-weight: 700;
+
+            &:hover {
+                background-color: $button-primary-hover;
+            }
+        }
+
+    }
+
+    .body {
+        .main-container {
+            position: relative;
+            z-index: 1000;
+            margin-top: 30px;
+            padding: 30px;
+            width: 70%;
+            border-radius: 10px;
+            border: 2px solid $brand-color-one;
+
+            @include mobile {
+                position: absolute;
+            }
+
+            .names {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 10px 50px;
+                border-bottom: 3px solid $text-gray-dark;
+
+                @include mobile {
+                    padding: 10px 0px;
+                    margin-top: 10px;
+                    margin-left: -20px;
+                }
+
+                img {
+                    width: 100px;
+                    padding: 10px;
+                    border-radius: 50%;
+                    box-shadow: 2px 2px 2px #000;
+                    background-color: #ff9a17;
+                    margin-right: 50px;
+
+                    @include mobile {
+                        width: 30px;
+                        margin-right: 10px;
+
+                    }
+                }
+            }
+
+            .infos {
+                padding: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                align-items: center;
+
+                @include mobile {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+
+                .info {
+                    margin: 20px;
+
+                    @include mobile {
+                        margin: 5px;
+                        width: 80%;
+                    }
+
+                    p {
+                        margin-bottom: 10px;
+                        font-size: calc(10px + 2vmin);
+                        font-weight: 700;
+
+                        @include mobile {
+                            width: 100%;
+                        }
+                    }
+
+                    p.value {
+                        background-color: #d6d6d6;
+                        padding: 5px 20px;
+                        border-radius: 5px;
+                    }
+                }
+
+
+                button {
+                    position: absolute;
+                    top: 80px;
+                    right: 40px;
+                    background: $button-primary;
+                    padding: 10px 20px;
+                    border: none;
+                    color: #d6d6d6;
+                    font-size: calc(5px + 2vmin);
+                    border-radius: 5px;
+                    font-weight: 700;
+                    transition: 0.25s;
+
+                    @include tablet {
+                        top: 10px;
+                        right: 10px;
+                    }
+
+                    &:hover {
+                        background-color: $brand-color-one;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    .update {
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        z-index: 1000;
+        background-color: #ff9a17;
+        @include mobile{
+            top: 5%;
+        }
+    }
+
+    .hide {
+        margin-right: 100px;
+        opacity: 0;
+        visibility: none;
+        transition: 0.25s;
+    }
+
+    .show {
+        margin-right: 0px;
+        opacity: 1;
+        visibility: visible;
+        transition: 0.25s;
+    }
+}

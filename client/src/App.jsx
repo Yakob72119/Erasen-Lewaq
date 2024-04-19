@@ -11,6 +11,7 @@ import StudDashboard from './page/StudDashboard';
 import StudProfile from './page/StudProfile';
 import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
+import ExamPage from './page/ExamPage';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="admin-profile" element={<AdminProfile />} />
           <Route path="student-dashboard" element={<StudDashboard />} />
           <Route path="student-profile" element={<StudProfile />} />
+          <Route path="exam-page" element={<ExamPage />} />
         </Routes>
       </BrowserRouter>
     </div>
