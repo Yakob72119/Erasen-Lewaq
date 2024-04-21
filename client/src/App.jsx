@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Registration from './page/Registration';
 import Index from './page/Index';
 import Login from './page/Login';
@@ -16,8 +14,6 @@ import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
 
 const ProtectedRoute = ({ role, element, ...rest }) => {
-  const navigate = useNavigate(); // Get the navigation function
-
   const navigate = useNavigate(); // Get the navigation function
 
   useEffect(() => {
