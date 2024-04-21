@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import './App.scss';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Registration from './page/Registration';
 import Index from './page/Index';
 import Login from './page/Login';
@@ -14,16 +14,22 @@ import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
 
 const ProtectedRoute = ({ role, element, ...rest }) => {
+  const navigate = useNavigate(); // Get the navigation function
+
   useEffect(() => {
-    const isAuthenticated = /* Retrieve isAuthenticated from session */;
-    const userRole = /* Retrieve userRole from session */;
+    const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+    const userRole =  sessionStorage.getItem('role');
     if (!isAuthenticated || (role !== userRole && role !== 'admin')) {
-      // Redirect to login page if not authenticated or role does not match
-      window.location.href = '/login';
+      navigate('/login');
     }
-  }, [role]);
+  }, [role, navigate]);
 
   return <Route {...rest} element={element} />;
+};
+
+ProtectedRoute.propTypes = {
+  role: PropTypes.string.isRequired,
+  element: PropTypes.element.isRequired
 };
 
 const App = () => {
