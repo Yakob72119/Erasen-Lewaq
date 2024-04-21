@@ -10,6 +10,7 @@ import EduDashboard from './page/EduDashboard';
 import AdminDashboard from './page/AdminDashboard';
 import StudDashboard from './page/StudDashboard';
 import StudProfile from './page/StudProfile';
+import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
 
 const ProtectedRoute = ({ role, element, ...rest }) => {
@@ -17,7 +18,7 @@ const ProtectedRoute = ({ role, element, ...rest }) => {
 
   useEffect(() => {
     const isAuthenticated = sessionStorage.getItem('isAuthenticated');
-    const userRole =  sessionStorage.getItem('role');
+    const userRole = sessionStorage.getItem('role');
     if (!isAuthenticated || (role !== userRole && role !== 'admin')) {
       navigate('/login');
     }
@@ -36,20 +37,18 @@ const App = () => {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route index element={<Index />} />
+          <Route path="/" element={<Index />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Registration />} />
           <Route path="information" element={<RegisterInfo />} />
           <Route path="educator-registration" element={<EducatorRegister />} />
-          {/* Protected routes for educator */}
-          <ProtectedRoute path="educator-dashboard" role="educator" element={<EduDashboard />} />
-          <ProtectedRoute path="educator-profile" role="educator" element={<EduProfile />} />
-          {/* Protected routes for admin */}
-          <ProtectedRoute path="admin-dashboard" role="admin" element={<AdminDashboard />} />
-          <ProtectedRoute path="admin-profile" role="admin" element={<AdminProfile />} />
-          {/* Protected routes for student */}
-          <ProtectedRoute path="student-dashboard" role="student" element={<StudDashboard />} />
-          <ProtectedRoute path="student-profile" role="student" element={<StudProfile />} />
+          {/* Protected routes */}
+          <Route path="educator-dashboard" element={<ProtectedRoute role="educator" element={<EduDashboard />} />} />
+          <Route path="educator-profile" element={<ProtectedRoute role="educator" element={<EduProfile />} />} />
+          <Route path="admin-dashboard" element={<ProtectedRoute role="admin" element={<AdminDashboard />} />} />
+          <Route path="admin-profile" element={<ProtectedRoute role="admin" element={<AdminProfile />} />} />
+          <Route path="student-dashboard" element={<ProtectedRoute role="student" element={<StudDashboard />} />} />
+          <Route path="student-profile" element={<ProtectedRoute role="student" element={<StudProfile />} />} />
         </Routes>
       </BrowserRouter>
     </div>

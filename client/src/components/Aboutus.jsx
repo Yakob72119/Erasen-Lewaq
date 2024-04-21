@@ -7,8 +7,6 @@ import picPerson03 from '../assets/pic-person-03.jpg'
 import ekram from '../assets/ekram.jpg'
 
 
-
-
 const Aboutus = () => {
   return (
     <div className='about'>
@@ -59,9 +57,9 @@ const Aboutus = () => {
         </div>
         <div className="dev">
           <img src={picPerson01} alt="" />
-          <h2 >Yakob M.</h2>
+          <h2 >Yakob B.</h2>
           <p className='role'>Full-Stack Developer</p>
-          <p>Yakob bridges frontend and backend seamlessly, delivering end-to-end solutions.</p>
+          <p>Yakob excels in designing and developing robust frontend and backend systems, providing end-to-end solutions .</p>
         </div>
         <div className="dev">
           <img src={picPerson02} alt="" />
