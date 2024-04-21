@@ -10,7 +10,6 @@ import EduDashboard from './page/EduDashboard';
 import AdminDashboard from './page/AdminDashboard';
 import StudDashboard from './page/StudDashboard';
 import StudProfile from './page/StudProfile';
-import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
 
 const ProtectedRoute = ({ role, element, ...rest }) => {

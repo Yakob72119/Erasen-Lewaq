@@ -1,0 +1,273 @@
+@import "../../mixins.scss";
+@import "../../color.scss";
+
+.exam-page {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+
+    // styling left side corner
+    .left-decor {
+        position: fixed;
+        width: 25vw;
+        height: 70vh;
+        left: -12.5vw;
+        transform: rotate(40deg);
+        background-color: $brand-color-one;
+        box-shadow: 5px 5px 15px #000;
+
+        @include laptop {
+            top: -10%;
+            width: 60vw;
+            left: -55vw;
+        }
+
+        @include tablet {
+            top: -15%;
+            width: 60vw;
+            left: -55vw;
+        }
+
+        @include mobile {
+            top: -5%;
+            width: 40vw;
+            left: -55vw;
+        }
+
+
+
+
+    }
+
+    .info {
+        position: absolute;
+        z-index: 1000;
+        left: 20px;
+        top: 18vh;
+        color: #fff;
+        font-weight: 700;
+
+        @include laptop {
+            top: 8vh;
+        }
+
+        @include tablet {
+            top: 5vh;
+            width: 20vw;
+        }
+
+        @include mobile {
+            left: 1px;
+            font-size: 10px;
+
+        }
+
+        .time-remain {
+            margin-top: 30px;
+            background-color: #ffffff77;
+            width: fit-content;
+            padding: 5px;
+            padding-right: 50px;
+            border-radius: 10px;
+            color: red;
+
+            @include mobile {
+                margin-top: 5px;
+                padding-right: 10px;
+
+
+            }
+        }
+    }
+
+    .exam {
+        width: 60vw;
+        margin-left: 25vw;
+        margin-top: 5vh;
+        display: flex;
+        flex-direction: column;
+        font-size: calc(10px + 2vmin);
+        font-weight: 700;
+        
+
+
+        @include mobile {
+            width: 80vw;
+            margin-left: 10vw;
+
+        }
+
+        @include laptop {
+            margin-top: 20vh;
+        }
+
+        .que {
+            width: 95%;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid $text-gray-dark;
+            margin-bottom: 30px;
+
+
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+
+            .radioGroup {
+                width: 95%;
+                padding: 20px;
+                border-radius: 10px;
+                border: 3px solid $text-gray-dark;
+                font-size: calc(2px + 2vmin);
+                margin-bottom: 10px;
+                display: flex;
+
+                input[type="radio"] {
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                    border-radius: 50%;
+                    background-color: $text-gray-dark;
+                }
+
+                /* Style the custom radio button when it's checked */
+                input[type="radio"]:checked::before {
+                    content: '';
+                    display: block;
+                    width: 100%;
+                    /* Size of the inner circle */
+                    height: 100%;
+                    border-radius: 50%;
+                    background-color: $brand-color-two;
+                    /* Change the color here */
+                }
+            }
+
+            .selected {
+                border: 3px solid $brand-color-two;
+            }
+        }
+
+        .btn {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                border: none;
+                padding: 5px 25px;
+                margin-top: 20px;
+                font-size: calc(7px + 2vmin);
+                font-weight: bold;
+                color: #fff;
+                border-radius: 5px;
+
+                &:hover {
+                    cursor: pointer;
+                    opacity: 0.9;
+                }
+            }
+
+            .previous {
+                background-color: $brand-color-two;
+            }
+
+            .next {
+                background-color: $brand-color-one;
+            }
+        }
+    }
+
+    .result {
+        width: 30vw;
+        margin-left: 35vw;
+        margin-top: 5vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #f0e9e9;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 10vw;
+        font-weight: 700;
+        box-shadow: 1px 1px 5px #000;
+
+        @include laptop {
+            margin-top: 20vh;
+        }
+
+        @include tablet {
+            width: 40vw;
+        }
+
+        @include mobile {
+            width: 60vw;
+            margin-left: 15vw;
+
+        }
+
+        h1 {
+            margin-top: 10vh;
+        }
+
+        .email {
+            color: $brand-color-two;
+            margin-bottom: 5vh;
+        }
+
+        .time-done {
+            margin-top: 2vh;
+        }
+
+        .mark {
+            padding-top: 50px;
+            padding-bottom: 50px;
+            color: #fff;
+            box-shadow: 2px 2px 5px #000;
+
+            margin: 2vw;
+            border-radius: 50%;
+            font-size: calc(40px + 2vmin);
+            background: $brand-color-tree;
+        }
+
+        .close {
+            text-decoration: none;
+            color: #fff;
+            background-color: $brand-color-two;
+            padding: 5px 25px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 2px 2px 5px #000;
+            transition: 0.2s;
+
+            &:hover {
+                background-color: $brand-color-one;
+                box-shadow: none;
+
+            }
+        }
+    }
+
+    .logo {
+        position: fixed;
+        width: calc(100px + 2vmin);
+        bottom: 10px;
+        left: 40px;
+        opacity: 0.6;
+
+        @include mobile {
+            top: 10px;
+            left: 60vw;
+            
+        }
+    }
+
+}

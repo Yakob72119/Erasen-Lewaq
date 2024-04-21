@@ -1,0 +1,615 @@
+@import "../../mixins.scss";
+@import "../../color.scss";
+
+.Home {
+    margin: 20px;
+
+    .hero-section {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: 80vh;
+        border: 3px solid $hero-border;
+        border-radius: 10px;
+
+
+        .hero-content {
+            left: 30px;
+            right: 30px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 80%;
+            margin: 30px;
+            z-index: 2;
+
+            @include laptop {
+                height: 60%;
+
+            }
+
+            h1 {
+                font-size: calc(40px + 2vmin);
+                font-family: 'Indie Flower', cursive;
+                color: $text-primary;
+
+                @include mobile {
+                    font-size: calc(25px + 2vmin);
+                    font-family: Arial, Helvetica, sans-serif;
+
+                }
+            }
+
+            p {
+                font-size: calc(20px + 2vmin);
+                font-family: 'Indie Flower', cursive;
+                color: $text-primary;
+                width: 50%;
+
+                @include laptop {
+                    width: 100%;
+                }
+
+                @include mobile {
+                    font-size: calc(15px + 2vmin);
+                    font-family: Arial, Helvetica, sans-serif;
+
+                }
+            }
+
+            .register {
+                font-size: calc(10px + 2vmin);
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: 700;
+                color: $text-white;
+                text-decoration: none;
+                background-color: $button-primary;
+                width: fit-content;
+                padding: 5px 10px;
+                border-radius: 5px;
+                transition: 0.25s;
+
+                &:hover {
+                    background-color: $button-primary-hover;
+                }
+            }
+        }
+
+        img {
+            position: absolute;
+            align-self: flex-end;
+            height: 60%;
+            right: 20px;
+
+            @include laptop {
+                height: 40%;
+            }
+
+            @include mobile {
+                height: 20%;
+            }
+        }
+    }
+
+    .feature-section {
+        margin-top: 150px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+
+        @include tablet {
+            flex-direction: column;
+            height: 90vh;
+            margin-top: 100px;
+        }
+
+        @include mobile {
+            flex-direction: column;
+            height: 150vh;
+
+        }
+
+        .feature-item {
+            width: 20vw;
+            border: 3px solid $text-gray-dark;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            color: $text-primary;
+
+            @include tablet {
+                width: 80vw;
+            }
+
+            img {
+                background-color: white;
+                padding: 10px;
+                border-radius: 50px;
+                border: 3px solid $text-gray-dark;
+                margin-top: -30%;
+                width: 100px;
+            }
+        }
+
+    }
+
+    .benefit {
+        margin: 100px;
+        display: flex;
+        font-weight: 600;
+        font-size: calc(10px + 2vmin);
+        padding: 50px 10px;
+        border: 1px solid $brand-color-one;
+        border-left: 8px solid $brand-color-one;
+        border-radius: 50px;
+        margin-bottom: 20px;
+
+        @include tablet {
+            margin: 0;
+            font-size: calc(5px + 2vmin);
+
+        }
+
+
+        p {
+            text-align: center;
+            font-family: 'Indie Flower', cursive;
+            color: $text-gray-dark;
+
+        }
+
+        img {
+            width: 200px;
+
+            @include tablet {
+                width: 100px;
+            }
+
+            @include mobile {
+                width: 50px;
+            }
+        }
+    }
+
+    .comments {
+        width: 100%;
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        .title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+
+            h1 {
+                font-size: calc(40px + 2vmin);
+                color: $text-primary;
+            }
+
+            p {
+                font-family: 'Indie Flower', cursive;
+                color: $text-gray-dark;
+                font-weight: 700;
+                font-size: calc(5px + 2vmin);
+            }
+
+        }
+
+        .testimonials {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            .comment {
+                width: 20vw;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+                text-align: center;
+
+                img {
+                    border-radius: 50%;
+                    box-shadow: 2px 2px 5px #000;
+                    margin-bottom: 20px;
+
+                    @include mobile {
+                        width: 100px;
+                    }
+
+
+                }
+
+                .text {
+                    margin-bottom: 10px;
+                    font-family: serif;
+                    font-style: italic;
+
+                    @include mobile {
+                        font-size: calc(2px + 2vmin);
+                    }
+                }
+
+                .name {
+                    color: #3153a7;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+
+    .testIt {
+        margin-top: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        p {
+            font-weight: 700;
+            font-size: calc(20px + 2vmin);
+            color: $text-primary;
+            text-align: center;
+
+
+            .register {
+                font-size: calc(10px + 2vmin);
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: 700;
+                color: $text-white;
+                text-decoration: none;
+                background-color: $button-primary;
+                width: fit-content;
+                padding: 5px 10px;
+                border-radius: 5px;
+                transition: 0.25s;
+
+                &:hover {
+                    background-color: $button-primary-hover;
+                }
+            }
+        }
+    }
+
+}
+
+.Resource {
+    width: 100%;
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+
+    @include mobile {
+        overflow-y: scroll;
+    }
+
+    .exams {
+        position: absolute;
+        width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        @include mobile {
+            width: 100%;
+            position: relative;
+        }
+        
+
+        .exam {
+            position: relative;
+            margin: 20px;
+            width: 15vw;
+            height: 40vh;
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid $brand-color-one;
+            overflow: hidden;
+
+            @include mobile {
+                width: 70vw;
+            }
+
+            h1 {
+                position: relative;
+                color: #fff;
+                text-shadow: 1px 1px 5px $text-primary;
+                z-index: 1000;
+            }
+            img {
+                top: 10px;
+                position: absolute;
+                width: 100%;
+                z-index: 0;
+            }
+            
+            .exam-info {
+                position: relative;
+                width: 100%;height: 50%;
+                padding: 10px;
+                margin: -10px;
+                margin-top: 40%;
+                border-radius: 10px;
+                background-color: $brand-color-one;
+                color: #fff;
+                font-weight: 700;
+
+                button {
+                    position: absolute;
+                    font-size: calc(10px + 2vmin);
+                    font-weight: 700;
+                    background-color: $button-primary;
+                    color: #fff;
+                    border: none;
+                    padding: 5px 25px;
+                    border-radius: 5px;
+                    bottom: 20px;
+                }
+            }
+        }
+    }
+}
+
+.about {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+        margin-top: 50px;
+        font-size: calc(40px + 2vmin);
+        color: $text-primary;
+        border-bottom: 3px solid $brand-color-one;
+
+        @include mobile {
+            font-size: calc(20px + 2vmin);
+        }
+    }
+
+    .whoWeAre {
+        margin-top: 20px;
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        text-align: justify;
+
+        @include mobile {
+            width: 90%;
+        }
+
+
+
+        img {
+            width: 30%;
+            rotate: 270deg;
+
+        }
+
+        .contents {
+
+            padding-left: 40px;
+            margin-left: -40px;
+            border-left: 3px solid $text-gray-dark;
+            color: #2a475f;
+
+            @include mobile {
+                font-size: calc(2px + 2vmin);
+                padding-left: 20px;
+                margin-left: -20px;
+            }
+
+            h2 {
+                width: fit-content;
+                margin-top: 20px;
+                margin-bottom: 10px;
+                border-bottom: 0.5px solid $text-gray-dark;
+
+            }
+
+            h2,
+            strong {
+                color: $text-primary;
+            }
+
+            li {
+                list-style: none;
+
+
+
+
+                &::before {
+                    content: "•";
+                    /* Unicode character for bullet */
+                    color: $text-primary;
+                    /* Change color to your desired color */
+                    display: inline-block;
+                    width: 1em;
+                    /* Adjust spacing as needed */
+                    margin-left: -1em;
+                    /* Adjust spacing as needed */
+                }
+            }
+        }
+
+    }
+
+    .devs {
+        margin: 50px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        @include tablet {
+            flex-direction: column;
+
+        }
+
+        .dev {
+            width: 15vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+
+            @include tablet {
+                width: 50vw;
+                margin-top: 20px
+            }
+
+            img {
+                width: 120px;
+                border-radius: 50%;
+                box-shadow: 2px 2px 5px #000;
+                margin-bottom: 20px;
+
+                @include mobile {
+                    width: 100px;
+                }
+
+            }
+
+            h2 {
+                color: $text-primary;
+            }
+
+            .role {
+                font-size: calc(1px + 2vmin);
+                color: #2a475f7e;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: calc(2px + 2vmin);
+                font-family: serif;
+                font-style: italic;
+            }
+        }
+
+    }
+
+    .contact {
+        margin-top: 20px;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: 700;
+        text-align: center;
+
+        .classic {
+            color: $brand-color-one;
+        }
+
+        .text {
+            color: gray;
+            font-size: calc(10px + 2vmin);
+            font-family: Arial, Helvetica, sans-serif;
+
+
+        }
+
+        .classic,
+        .text {
+            margin-bottom: 20px;
+        }
+
+        .link {
+            text-decoration: none;
+            color: $text-primary;
+            font-size: calc(10px + 2vmin);
+            border: 2px solid $text-primary;
+            padding: 15px 25px;
+            margin-top: 20px;
+            transition: 0.25s;
+
+            &:hover {
+                color: #fff;
+                background-color: $text-primary;
+            }
+        }
+
+    }
+}
+
+.fqa {
+    margin: 30px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+
+    a {
+        color: #0b283b;
+        font-size: calc(10px + 2vmin);
+        margin-bottom: 20px;
+        text-decoration: none;
+        @include mobile {
+            font-size: calc(7px + 2vmin);
+        }
+    }
+
+    .answers {
+        width: 100%;
+
+        .answer {
+            width: 100%;
+            margin-bottom: 50px;
+            border: 3px solid $brand-color-one;
+            padding: 20px;
+            border-left-width: 20px;
+            box-shadow: 10px 10px 15px$brand-color-one;
+            @include mobile {
+                width: 75%;
+            }
+
+            h1 {
+                color: $text-primary;
+                border-bottom: 3px solid $brand-color-one;
+                margin-bottom: 10px;
+
+                @include mobile {
+                    font-size: calc(13px + 2vmin);
+                }
+            }
+
+            p {
+                color: #0b283b;
+                font-size: calc(10px + 2vmin);
+                @include mobile {
+                    font-size: calc(5px + 2vmin);
+                }
+
+            }
+        }
+    }
+}
+
+
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 50px;
+    padding: 10px 0;
+    width: 100%;
+    height: 15vh;
+    background: $brand-color-tree;
+    color: $text-white;
+    text-align: center;
+
+    @include mobile {
+        font-size: calc(4px + 2vmin);
+    }
+}
