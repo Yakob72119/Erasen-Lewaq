@@ -287,8 +287,9 @@
     justify-content: center;
     height: 100vh;
 
-    @include mobile {
+    @include laptop {
         overflow-y: scroll;
+        width: 95%;
     }
 
     .exams {
@@ -296,11 +297,16 @@
         width: 80%;
         display: flex;
         flex-wrap: wrap;
+
+        @include laptop {
+            position: relative;
+
+        }
+
         @include mobile {
             width: 100%;
-            position: relative;
         }
-        
+
 
         .exam {
             position: relative;
@@ -312,6 +318,11 @@
             border: 1px solid $brand-color-one;
             overflow: hidden;
 
+            @include laptop {
+                width: 25vw;
+                height: 23vh;
+            }
+
             @include mobile {
                 width: 70vw;
             }
@@ -322,16 +333,18 @@
                 text-shadow: 1px 1px 5px $text-primary;
                 z-index: 1000;
             }
+
             img {
                 top: 10px;
                 position: absolute;
                 width: 100%;
                 z-index: 0;
             }
-            
+
             .exam-info {
                 position: relative;
-                width: 100%;height: 50%;
+                width: 100%;
+                height: 50%;
                 padding: 10px;
                 margin: -10px;
                 margin-top: 40%;
@@ -554,6 +567,7 @@
         font-size: calc(10px + 2vmin);
         margin-bottom: 20px;
         text-decoration: none;
+
         @include mobile {
             font-size: calc(7px + 2vmin);
         }
@@ -569,6 +583,7 @@
             padding: 20px;
             border-left-width: 20px;
             box-shadow: 10px 10px 15px$brand-color-one;
+
             @include mobile {
                 width: 75%;
             }
@@ -586,6 +601,7 @@
             p {
                 color: #0b283b;
                 font-size: calc(10px + 2vmin);
+
                 @include mobile {
                     font-size: calc(5px + 2vmin);
                 }
