@@ -10,13 +10,15 @@ const login = (req, res) => {
       if (foundUser) {
         if (foundUser.password === password) {
           const role = foundUser.role;
+          const fname = foundUser.fname;
           req.session.isAuthenticated = true; // Set isAuthenticated flag to true
           req.session.user = {
             email: email,
+            fname:fname,
             role: role
           };
           console.log('Session:', req.session.user); // Log the session object
-          res.status(200).json({ success: true, role: role });
+          res.status(200).json({ success: true, role: role, fname: fname });
         } else {
           res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
@@ -31,6 +33,7 @@ const login = (req, res) => {
 };
 
 const logout = (req, res) => {
+  req.session.isAuthenticated = false;
   req.session.destroy();
   res.send('Logged out');
 };

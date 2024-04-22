@@ -5,11 +5,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-// import { doSignInWithEmailPassword } from '../firebase/auth';
-// import { useAuth } from '../contexts/authContext';
+
 
 const Login = ({ history }) => {
-  //  const { userLoggedIn } = useAuth();
   const navigate=useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -18,16 +16,7 @@ const Login = ({ history }) => {
   const [isCheck, SetIsCheck] = useState(false);
   const [error, setError] = useState('');
   const [submit, setSubmit] = useState('');
-  // const [isSigningIn, setIsSigningIn] = useState(false);
-
-
-  // const onSubmit = async (e) =>{
-  //   e.preventDefault()
-  //   if(!isSigningIn){
-  //     setIsSigningIn(true)
-  //     await doSignInWithEmailPassword(email, password)
-  //   }
-  // }
+ 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -60,6 +49,8 @@ const Login = ({ history }) => {
       if (response.data.success) {
         sessionStorage.setItem('isAuthenticated', true);
         sessionStorage.setItem('role', response.data.role);
+        sessionStorage.setItem('fname', response.data.fname);
+      
         if (response.data.role === 'educator') {
           navigate('/educator-dashboard');
         } else if (response.data.role === 'student') {
