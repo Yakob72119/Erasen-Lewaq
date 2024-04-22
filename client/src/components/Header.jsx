@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 import erasenLweq from '../assets/erasenLweq.png'
 import menu from '../assets/menu.svg'
 import Home from '../assets/home.svg'
@@ -11,7 +12,16 @@ const Header = ({ onButtonClick, handleClass }) => {
     const [currentClass, setCurrentClass] = useState('');
     const [visible, setVisible ] = useState('hide')
 
-
+    const handleLogout = async () => {
+      try {
+          const response = await axios.get('http://localhost:3000/user/logout');
+          console.log(response); // Log the response received from the server
+      } catch (error) {
+          console.error('Error logging out:', error);
+      }
+  };
+  
+  
     useEffect(() => {
         if (handleClass === 'home') {
           setCurrentClass('home');
@@ -61,7 +71,7 @@ const Header = ({ onButtonClick, handleClass }) => {
                           <div className={`lists ${visible}`}>
                             <button><img src={Home} alt="" />Dashboard</button>
                             <button><img src={User} alt="" />Profile</button>
-                            <button><img src={Logout} alt="" />Logout</button>
+                            <button onClick={handleLogout}><img src={Logout} alt="" />Logout</button>
                           </div>
                         </div>
                         <img src={menu} className='hMenu' onClick={handleMenu} />

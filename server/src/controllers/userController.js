@@ -1,5 +1,5 @@
 const User = require('./../models/userModel');
-const md5=require("md5");
+const md5 = require("md5");
 
 const login = (req, res) => {
   const email = req.body.email;
@@ -10,6 +10,7 @@ const login = (req, res) => {
       if (foundUser) {
         if (foundUser.password === password) {
           const role = foundUser.role;
+          req.session.isAuthenticated = true; // Set isAuthenticated flag to true
           req.session.user = {
             email: email,
             role: role
@@ -29,16 +30,12 @@ const login = (req, res) => {
     });
 };
 
+const logout = (req, res) => {
+  req.session.destroy();
+  res.send('Logged out');
+};
 
-  
-  
-  const logout = (req, res) => {
-    req.session.destroy();
-    res.send('Logged out');
-  };
-  
-  module.exports = {
-    login,
-    logout
-  };
-  
+module.exports = {
+  login,
+  logout
+};

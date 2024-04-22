@@ -56,18 +56,16 @@ const Login = ({ history }) => {
 
     try {
       const response = await axios.post('http://localhost:3000/user/login', formData);
-      console.log(response);
+      console.log(response); // Log the response received from the server
       if (response.data.success) {
+        sessionStorage.setItem('isAuthenticated', true);
+        sessionStorage.setItem('role', response.data.role);
         if (response.data.role === 'educator') {
-        
-           navigate('/educator-dashboard')
-          
+          navigate('/educator-dashboard');
         } else if (response.data.role === 'student') {
-        
-          navigate('/student-dashboard')
-          
+          navigate('/student-dashboard');
         } else {
-          console.log("/admin-dashboard")
+          navigate('/admin-dashboard');
         }
       } else {
         setError('Failed to login. Please check your credentials.');

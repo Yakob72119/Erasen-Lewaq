@@ -59,7 +59,7 @@ const Aboutus = () => {
           <img src={picPerson01} alt="" />
           <h2 >Yakob B.</h2>
           <p className='role'>Full-Stack Developer</p>
-          <p>Yakob excels in designing and developing robust frontend and backend systems, providing end-to-end solutions .</p>
+          <p>Yakob demonstrates expertise in crafting and engineering resilient frontend and backend systems..</p>
         </div>
         <div className="dev">
           <img src={picPerson02} alt="" />
