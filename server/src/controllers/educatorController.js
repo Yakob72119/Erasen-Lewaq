@@ -13,10 +13,13 @@ const register = async (req, res) => {
       return res.status(400).json({ error: 'Email is already registered' });
     }
 
+    const Name = fullName;
+    const firstName = Name.split(" ")[0];
     const user = new User({
       email: email,
+      fname: firstName,
       password: md5(password),
-      role: "educator" 
+      role: "student" 
     });
 
     await user.save();
