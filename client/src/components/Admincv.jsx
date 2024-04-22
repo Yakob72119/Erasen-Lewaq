@@ -8,6 +8,7 @@ const Admincv = () => {
     endDate: ''
   })
   const [filterData, setFilterData] = useState({
+    department: '',
     point: '',
     day: ''
   })
@@ -25,7 +26,7 @@ const Admincv = () => {
   };
 
   const handleSchedule = () => {
-    if (scheduleData.startDate === '' || scheduleData.endDate === ''){
+    if (scheduleData.startDate === '' || scheduleData.endDate === '') {
       setError("All Field are Required!")
       setErrorStyle('red');
 
@@ -38,17 +39,17 @@ const Admincv = () => {
       setErrorStyle('green')
       console.log(scheduleData)
       setScheduleData(
-      {
-        startDate: '',
-        endDate: ''
-      });
+        {
+          startDate: '',
+          endDate: ''
+        });
 
       setTimeout(() => {
         setError('');
       }, 3000);
     }
-    
-    
+
+
   }
 
   const handleFilter = () => {
@@ -117,11 +118,19 @@ const Admincv = () => {
               value={scheduleData.endDate}
               onChange={handleInputChange}
             />
-            <span style={{color: errorStyle}}>{error}</span>
+            <span style={{ color: errorStyle }}>{error}</span>
             <button className='btnSchedule' onClick={handleSchedule}>Schedule</button>
           </div>
         </div>
         <div className="filters">
+          <input
+            type='text'
+            name='department'
+            className='input point'
+            placeholder='Department'
+            value={filterData.department}
+            onChange={handleFilterChange}
+          />
           <input
             type='number'
             name='point'

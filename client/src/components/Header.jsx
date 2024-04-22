@@ -65,14 +65,14 @@ const Header = ({ onButtonClick, handleClass }) => {
                     <li><button className={`link ln ${currentClass === 'faq' ? 'active' : ''}`} onClick={() => onButtonClick('faq')}>FAQ</button></li>
 
                     <li className='prof'>
-                        {/* <Link className='link btn' to={'/login'}>Login</Link> */}
+                        <Link className='link btn' to={'/login'}>Login</Link>
                         <div className='profile'>
                           <button className='link btn' onClick={handleOptions}>Akrem</button>
-                          <div className={`lists ${visible}`}>
+                          {/* <div className={`lists ${visible}`}>
                             <button><img src={Home} alt="" />Dashboard</button>
                             <button><img src={User} alt="" />Profile</button>
                             <button onClick={handleLogout}><img src={Logout} alt="" />Logout</button>
-                          </div>
+                          </div> */}
                         </div>
                         <img src={menu} className='hMenu' onClick={handleMenu} />
                     </li>
