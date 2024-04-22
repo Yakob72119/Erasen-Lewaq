@@ -13,6 +13,7 @@ import StudProfile from './page/StudProfile';
 import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
 
+
 const ProtectedRoute = ({ role, element }) => {
   const isAuthenticated = sessionStorage.getItem('isAuthenticated');
   const userRole = sessionStorage.getItem('role');
@@ -38,14 +39,14 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Registration />} />
           <Route path="information" element={<RegisterInfo />} />
+          <Route path="educator-registration" element={<EducatorRegister />} />
 
           <Route path="educator-profile" element={<ProtectedRoute role="educator" element={<EduProfile />} />} />
-          <Route path="educator-registration" element={<ProtectedRoute role="educator" element={<EducatorRegister />} />} />
           <Route path="educator-dashboard" element={<ProtectedRoute role="educator" element={<EduDashboard />} />} />
 
           <Route path="admin-dashboard" element={<ProtectedRoute role="admin" element={<AdminDashboard />} />} />
           <Route path="admin-profile" element={<ProtectedRoute role="admin" element={<AdminProfile />} />} />
-          
+
           <Route path="student-dashboard" element={<ProtectedRoute role="student" element={<StudDashboard />} />} />
           <Route path="student-profile" element={<ProtectedRoute role="student" element={<StudProfile />} />} />
           
