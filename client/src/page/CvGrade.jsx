@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import erasenLweq from '../assets/erasenLweq.png';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './style/CvGrade.scss'
 
 const CvGrade = () => {
@@ -15,7 +16,9 @@ const CvGrade = () => {
     const [errorStyle, setErrorStyle] = useState('red');
     const [submit, setSubmit] = useState('');
 
-
+    const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const gLink = searchParams.get('gLink');
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -52,7 +55,7 @@ const CvGrade = () => {
                 <Link className='close-btn' to={'/admin-dashboard'}>Back</Link>
             </div>
             <div className="resume">
-                <iframe width="100%" height="100%s" src="https://drive.google.com/file/d/1-ZUvf99VfE15Tm84G4llEMULcr6cRlKX/view?usp=sharing" frameborder="0"></iframe>
+                <iframe width="100%" height="100%s" src={`${gLink}`} frameborder="0"></iframe>
             </div>
             <div className="grade">
                 <form className="cvGradeForm" onSubmit={handleSubmit}>
