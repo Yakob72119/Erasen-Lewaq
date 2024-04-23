@@ -65,7 +65,7 @@ const Admincv = () => {
   };
 
   const redirectToResultPage = () => {
-    history.push('/result-page');
+    // history.push('/result-page');
   };
 
   const generateCvDeclarations = (cvData) => {
