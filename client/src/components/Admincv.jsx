@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate from react
 
 const Admincv = () => {
   const [schedule, setSchedule] = useState('days');
+  const [passwd, setPasswd] = useState('');
   const [cvDeclaration, setCvDeclaration] = useState([]);
   const [scheduleData, setScheduleData] = useState({
     startDate: '',
@@ -15,6 +16,34 @@ const Admincv = () => {
   });
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
+  const [submit, setSubmit] = useState(false);
+  const [deleteCurrent, setDeleteCurrent] = useState('hide')
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError('');
+      setSubmit(false)
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [submit]);
+
+  const handleDeleteOpen = () => {
+    setDeleteCurrent('showDelete');
+
+  }
+
+  const handleDeleteClose = () => {
+    setDeleteCurrent('hideDelete');
+  }
+
+  const handleDeleteInputChange = (event) => {
+    const { value } = event.target;
+    setPasswd(value);
+    setError('');
+  };
+
+
 
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -65,9 +94,26 @@ const Admincv = () => {
   };
 
   const redirectToResultPage = (gLink) => {
-    navigate(`/cv-grade?gLink=${gLink}`); 
+    navigate(`/cv-grade?gLink=${gLink}`);
   };
-  
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    setSubmit(true);
+
+    if (passwd === '') {
+      setError('Insert Your Password to Delete!');
+      setErrorStyle('red')
+      return;
+    }
+
+    console.log(passwd);
+    setError("delete successfully!")
+    setErrorStyle("Green")
+    setPasswd('')
+    setSubmit(false)
+
+  }
 
   const generateCvDeclarations = (cvData) => {
     return cvData.map((cv, index) => (
@@ -131,7 +177,7 @@ const Admincv = () => {
               value={scheduleData.endDate}
               onChange={handleInputChange}
             />
-            <span style={{color: errorStyle}}>{error}</span>
+            <span style={{ color: errorStyle }}>{error}</span>
             <button className='btnSchedule' onClick={handleSchedule}>Schedule</button>
           </div>
         </div>
@@ -154,13 +200,42 @@ const Admincv = () => {
           />
           <button className='btnFilter' onClick={handleFilter}>Filter</button>
           <div className="delete-current">
-            <button>Delete Current search</button>
+            <button onClick={handleDeleteOpen}>Delete Current search</button>
           </div>
         </div>
       </div>
 
       <div className="cvS">
         {cvDeclaration}
+      </div>
+
+      <div className={`add-new-admin ${deleteCurrent}`}>
+        <button onClick={handleDeleteClose} className='close'>Close</button>
+
+        <form className="newAdminForm" onSubmit={handleDelete}>
+
+          <input
+            type="password"
+            name="password"
+            className="input"
+            placeholder="password"
+            value={passwd}
+            onChange={handleDeleteInputChange}
+            {...(submit && passwd === '' && { required: true })}
+          />
+
+          <div className="btn-message">
+            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
+            {error && <span style={{ color: errorStyle }}>{error}</span>}
+          </div>
+        </form>
+
+      </div>
+
+      <div className="page-number">
+        <button className='preview'> &lt;&lt;</button>
+        <button className='next'> &gt;&gt;</button>
+
       </div>
     </div>
   );
