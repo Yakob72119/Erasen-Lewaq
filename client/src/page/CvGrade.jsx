@@ -55,7 +55,7 @@ const CvGrade = () => {
                 <Link className='close-btn' to={'/admin-dashboard'}>Back</Link>
             </div>
             <div className="resume">
-                <iframe width="100%" height="100%s" src={`${gLink}`} frameborder="0"></iframe>
+                <iframe width="100%" height="100%s" src={`${gLink}`}></iframe>
             </div>
             <div className="grade">
                 <form className="cvGradeForm" onSubmit={handleSubmit}>
