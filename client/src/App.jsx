@@ -42,6 +42,7 @@ const App = () => {
           <Route path="register" element={<Registration />} />
           <Route path="information" element={<RegisterInfo />} />
           <Route path="educator-registration" element={<EducatorRegister />} />
+          <Route path="admin-dashboard" element={<AdminDashboard />} />
 
           <Route path="educator-profile" element={<ProtectedRoute role="educator" element={<EduProfile />} />} />
           <Route path="educator-dashboard" element={<ProtectedRoute role="educator" element={<EduDashboard />} />} />

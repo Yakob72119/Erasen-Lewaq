@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Admincv = () => {
-  const [schedule, setSchedule] = useState('days')
+  const [schedule, setSchedule] = useState('days');
   const [cvDeclaration, setCvDeclaration] = useState([]);
   const [scheduleData, setScheduleData] = useState({
     startDate: '',
     endDate: ''
-  })
+  });
   const [filterData, setFilterData] = useState({
     department: '',
     point: '',
     day: ''
-  })
-  const [error, setError] = useState('')
-  const [errorStyle, setErrorStyle] = useState('red')
+  });
+  const [error, setError] = useState('');
+  const [errorStyle, setErrorStyle] = useState('red');
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -27,73 +28,75 @@ const Admincv = () => {
 
   const handleSchedule = () => {
     if (scheduleData.startDate === '' || scheduleData.endDate === '') {
-      setError("All Field are Required!")
+      setError('All Fields are Required!');
       setErrorStyle('red');
 
       setTimeout(() => {
         setError('');
       }, 3000);
-    }
-    else {
-      setError("Scheduled Successfully!")
-      setErrorStyle('green')
-      console.log(scheduleData)
-      setScheduleData(
-        {
-          startDate: '',
-          endDate: ''
-        });
+    } else {
+      setError('Scheduled Successfully!');
+      setErrorStyle('green');
+      console.log(scheduleData);
+      setScheduleData({
+        startDate: '',
+        endDate: ''
+      });
 
       setTimeout(() => {
         setError('');
       }, 3000);
     }
-
-
-  }
+  };
 
   const handleFilter = () => {
-    console.log(filterData)
+    console.log(filterData);
 
-    setScheduleData(
-      {
-        point: '',
-        day: ''
-      }
-    )
-  }
+    setFilterData({
+      point: '',
+      day: ''
+    });
+  };
 
   const handleScheduleShow = () => {
-    setSchedule(schedule === 'days' ? 'daysShow' : 'days')
-  }
+    setSchedule(schedule === 'days' ? 'daysShow' : 'days');
+  };
 
-  const generateCvDeclarations = () => {
-    const declarations = [];
-    for (let i = 0; i < 5; i++) {
-      declarations.push(
-        <div className="cv-declaration" key={i}>
-          <div className='divOne'>
-            <p>Education Status: PHD</p>
-            <p>Experience: 12 Year</p>
-          </div>
-          <div className='divTwo'>
-            <p>Department: Software Engineering</p>
-          </div>
-          <div className="controllers">
-            <button className='btnGrade'>Grade</button>
-            <button className='btnDelete'>Delete</button>
-          </div>
+  const generateCvDeclarations = (cvData) => {
+    return cvData.map((cv, index) => (
+      <div className="cv-declaration" key={index}>
+        <div className='divOne'>
+          <p>Education Status: {cv.eduStatus}</p>
+          <p>Experience: {cv.experience} Year</p>
         </div>
-
-      );
-    }
-
-    return declarations;
-  }
+        <div className='divTwo'>
+          <p>Department: {cv.department}</p>
+          <p>Resume: <a href="#">click here</a></p>
+        </div>
+        <div className="controllers">
+          <button className='btnGrade'>Grade</button>
+          <button className='btnDelete'>Delete</button>
+        </div>
+      </div>
+    ));
+  };
 
   useEffect(() => {
-    setCvDeclaration(generateCvDeclarations())
-  }, [])
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/cv/getCVs', { params: { limit: 10 } });
+        const cvData = response.data;
+        const cvDeclarations = generateCvDeclarations(cvData);
+        setCvDeclaration(cvDeclarations);
+      } catch (error) {
+        console.error('Error fetching CV data:', error);
+        setError('Error fetching CV data');
+        setErrorStyle('red');
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className='admin-cv'>
@@ -157,7 +160,7 @@ const Admincv = () => {
         {cvDeclaration}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Admincv
+export default Admincv;
