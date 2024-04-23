@@ -78,7 +78,6 @@ const Admincv = () => {
           </div>
           <div className='divTwo'>
             <p>Department: Software Engineering</p>
-            <p>Resume: <a href="#">click hear</a></p>
           </div>
           <div className="controllers">
             <button className='btnGrade'>Grade</button>

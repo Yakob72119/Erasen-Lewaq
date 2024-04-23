@@ -13,6 +13,8 @@ const CvGrade = () => {
     });
     const [error, setError] = useState('');
     const [errorStyle, setErrorStyle] = useState('red');
+    const [submit, setSubmit] = useState('');
+
 
 
     const handleInputChange = (event) => {
@@ -40,7 +42,6 @@ const CvGrade = () => {
     }
 
 
-    const [submit, setSubmit] = useState('');
     return (
         <div className='cv-grade'>
             <div className="nav">

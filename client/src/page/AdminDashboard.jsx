@@ -11,6 +11,7 @@ import Setting from '../assets/setting.svg'
 import Logout from '../assets/logout.svg'
 import Bell from '../assets/notfication.svg'
 import Admincv from '../components/Admincv'
+import AdminUser from '../components/AdminUser'
 
 const AdminDashboard = () => {
     const [navBar, setNavBar] = useState('side-nav')
@@ -26,6 +27,10 @@ const AdminDashboard = () => {
 
     const handleCv = () => {
         setDisplay('cv')
+    }
+
+    const handleUser = () => {
+        setDisplay('user')
     }
     
     const handleDashboard = () => {
@@ -47,7 +52,7 @@ const AdminDashboard = () => {
                     <ul>
                         <li className={display === 'dashboard' && 'currentClass'} onClick={handleDashboard}><img src={Home} alt="" />Dashboard</li>
                         <li><img src={Exam} alt="" />Exams</li>
-                        <li><img src={User} alt="" />User</li>
+                        <li className={display === 'user' && 'currentClass'} onClick={handleUser}><img src={User} alt="" />User</li>
                         <li className={display === 'cv' && 'currentClass'} onClick={handleCv}><img src={Cv} alt="" />CV</li>
                         <li><img src={Payment} alt="" />Payment</li>
                     </ul>
@@ -62,6 +67,7 @@ const AdminDashboard = () => {
 
             <div className="main">
                 {display === 'cv' && <Admincv />}
+                {display === 'user' && <AdminUser />}
                 {display === 'dashboard' && 'dashboard'}
             </div>
             <div className='right-decor'>{/* this is just for right decor */}</div>
