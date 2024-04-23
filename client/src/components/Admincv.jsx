@@ -9,6 +9,7 @@ const Admincv = () => {
     endDate: ''
   });
   const [filterData, setFilterData] = useState({
+    department: '',
     point: '',
     day: ''
   });
@@ -119,11 +120,19 @@ const Admincv = () => {
               value={scheduleData.endDate}
               onChange={handleInputChange}
             />
-            <span style={{color: errorStyle}}>{error}</span>
+            <span style={{ color: errorStyle }}>{error}</span>
             <button className='btnSchedule' onClick={handleSchedule}>Schedule</button>
           </div>
         </div>
         <div className="filters">
+          <input
+            type='text'
+            name='department'
+            className='input point'
+            placeholder='Department'
+            value={filterData.department}
+            onChange={handleFilterChange}
+          />
           <input
             type='number'
             name='point'
