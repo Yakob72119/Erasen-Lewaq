@@ -25,6 +25,18 @@ const submitCV  = async (req, res) => {
   }
 };
 
+const getCVs = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10; // Limit the number of CVs fetched, default to 10
+    const cvs = await Cv.find().limit(limit);
+    console.log(cvs);
+    res.json(cvs);
+  } catch (error) {
+    console.error('Error fetching CVs:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 module.exports={
-  submitCV 
+  submitCV, 
+  getCVs
 };
