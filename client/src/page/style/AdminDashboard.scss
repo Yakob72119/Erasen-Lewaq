@@ -201,6 +201,11 @@
                     outline: none;
                     border-radius: 3px;
                 }
+
+                .filter-items {
+                    background-color: #fff;
+                    color: $text-primary;
+                }
             }
 
             .add-new-admin {
@@ -234,13 +239,23 @@
                         outline: none;
                         border: 1px solid $brand-color-one;
                         border-radius: 5px;
+
+                        &:required {
+                            border: 1PX solid red;
+                        }
                     }
 
-                    .formBtn {
+                    .formBtn,
+                    .deleteBtn {
                         padding: 5px 10px;
                         background-color: $brand-color-one;
                         border: none;
                         margin-right: 10px;
+                        color: #fff;
+                    }
+
+                    .deleteBtn {
+                        background-color: $button-delete;
                     }
 
                     .password {
@@ -251,14 +266,16 @@
                 }
             }
 
-            .hide {
+            .hide,
+            .hideDelete{
                 visibility: hidden;
                 margin-top: 25%;
                 opacity: 0;
                 transition: .25s;
             }
 
-            .show {
+            .show ,
+            .showDelete{
                 visibility: visible;
                 opacity: 1;
                 transition: .25s;

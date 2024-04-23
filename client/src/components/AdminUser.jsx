@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const AdminUser = () => {
   const roles = ['Admin', 'Student', 'Educator'];
-  const data = ['Admin', 'Student', 'Educator'];
+  const [passwd, setPasswd] = useState('');
+  const data = [
+    ['Akrem Muktar', 'akremmuktar332@gmail.com', 'Male', 'Student'],
+    ['Yakob Beshah', 'yakobe@gmail.com', 'Male', 'Admin'],
+    ['Natenael Niguse', 'natiman@gmail.com', 'Male', 'Educator'],
+  ];
   const [selectedValue, setSelectedValue] = useState('');
   const [formData, setFormData] = useState({
     name: '',
@@ -12,15 +17,40 @@ const AdminUser = () => {
   });
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
-  const [submit, setSubmit] = useState('');
+  const [submit, setSubmit] = useState(false);
   const [addAdmin, setAddAdmin] = useState('hide')
+  const [adminPass, setAdminPass] = useState('hideDelete')
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError('');
+      setSubmit(false)
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [submit]);
 
   const handleOpen = () => {
     setAddAdmin('show');
   }
 
+  const handleDeleteOpen = () => {
+    setAdminPass('showDelete');
+
+  }
+
   const handleClose = () => {
     setAddAdmin('hide');
+    setFormData({
+      name: '',
+      email: '',
+      password: ' '
+    })
+  }
+
+  const handleDeleteClose = () => {
+    setAdminPass('hideDelete');
+    
   }
 
 
@@ -40,13 +70,19 @@ const AdminUser = () => {
     setError('');
   };
 
+  const handleDeleteInputChange = (event) => {
+    const { value } = event.target;
+    setPasswd(value);
+    setError('');
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
 
     const emptyFields = Object.values(formData).filter((value) => value === '');
     if (emptyFields.length > 0) {
-      setError('All fields are required.');
+      setError('All fields are required!');
       setErrorStyle('red')
       return;
     }
@@ -58,6 +94,24 @@ const AdminUser = () => {
     setErrorStyle("Green")
   }
 
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    setSubmit(true);
+
+    if (passwd === '') {
+      setError('Insert Your Password to Delete!');
+      setErrorStyle('red')
+      return;
+    }
+
+    console.log(passwd);
+    setError("delete successfully!")
+    setErrorStyle("Green")
+    setPasswd('')
+    setSubmit(false)
+
+  }
+
   const handleFilterChange = (event) => {
     setSelectedValue(event.target.value);
     console.log(event.target.value)
@@ -66,21 +120,12 @@ const AdminUser = () => {
   const dataView = data.map((item, index) => (
     <tbody key={item.id}>
       <tr>
-        <td className='rono'> {item.id_nu}</td>
-        <td className='name'>{item.firstName} {item.lastName}</td>
-        <td className='email'>{item.userEmail}</td>
-        <td className='telename'>{item.telebirrName}</td>
-        <td className='educ'>{item.eduLevel}</td>
-        <td className='adr'>{item.country}, {item.city}</td>
-        <td className='birth'>{item.birthDate}</td>
-        <td className='gender'>{item.gender}</td>
+        <td className='name'> {item[0]}</td>
+        <td className='email'>{item[1]}</td>
+        <td className='gender'>{item[2]}</td>
+        <td className='role'>{item[3]}</td>
         <td className='payment'>
-          <input
-            type='checkbox'
-            checked={item.payment}
-            onChange={() => handleCheckboxChange(item.id)}
-          />
-          {item.payment ? <>payed</> : <>notPayed</>}
+          <button onClick={handleDeleteOpen}>Delete</button>
         </td>
       </tr>
     </tbody>
@@ -103,12 +148,20 @@ const AdminUser = () => {
         </select>
       </div>
       <div className="data">
-
+        <table border={1}>
+          <thead>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Action</th>
+          </thead>
+          {dataView}
+        </table>
       </div>
       <div className={`add-new-admin ${addAdmin}`}>
         <button onClick={handleClose} className='close'>Close</button>
         <form className="newAdminForm" onSubmit={handleSubmit}>
-
           <input
             type="text"
             name="name"
@@ -136,6 +189,29 @@ const AdminUser = () => {
 
 
         </form>
+      </div>
+
+      <div className={`add-new-admin ${adminPass}`}>
+        <button onClick={handleDeleteClose} className='close'>Close</button>
+
+        <form className="newAdminForm" onSubmit={handleDelete}>
+
+          <input
+            type="password"
+            name="password"
+            className="input"
+            placeholder="password"
+            value={passwd}
+            onChange={handleDeleteInputChange}
+            {...(submit && passwd === '' && { required: true })}
+          />
+
+          <div className="btn-message">
+            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
+            {error && <span style={{ color: errorStyle }}>{error}</span>}
+          </div>
+        </form>
+
       </div>
     </div>
   )
