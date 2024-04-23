@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
 const Admincv = () => {
   const [schedule, setSchedule] = useState('days');
@@ -9,12 +10,13 @@ const Admincv = () => {
     endDate: ''
   });
   const [filterData, setFilterData] = useState({
-    department: '',
     point: '',
     day: ''
   });
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
+
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -62,6 +64,11 @@ const Admincv = () => {
     setSchedule(schedule === 'days' ? 'daysShow' : 'days');
   };
 
+  const redirectToResultPage = (gLink) => {
+    navigate(`/cv-grade?gLink=${gLink}`); 
+  };
+  
+
   const generateCvDeclarations = (cvData) => {
     return cvData.map((cv, index) => (
       <div className="cv-declaration" key={index}>
@@ -71,10 +78,14 @@ const Admincv = () => {
         </div>
         <div className='divTwo'>
           <p>Department: {cv.department}</p>
-          <p>Resume: <a href="#">click here</a></p>
+          <p>Resume: <a href={cv.gLink}>click here</a></p>
         </div>
         <div className="controllers">
-          <button className='btnGrade'>Grade</button>
+          {cv.value !== undefined ? (
+            <button className='btnGrade'>{cv.value}</button>
+          ) : (
+            <button className='btnGrade' onClick={() => redirectToResultPage(cv.gLink)}>Grade</button>
+          )}
           <button className='btnDelete'>Delete</button>
         </div>
       </div>
@@ -120,19 +131,11 @@ const Admincv = () => {
               value={scheduleData.endDate}
               onChange={handleInputChange}
             />
-            <span style={{ color: errorStyle }}>{error}</span>
+            <span style={{color: errorStyle}}>{error}</span>
             <button className='btnSchedule' onClick={handleSchedule}>Schedule</button>
           </div>
         </div>
         <div className="filters">
-          <input
-            type='text'
-            name='department'
-            className='input point'
-            placeholder='Department'
-            value={filterData.department}
-            onChange={handleFilterChange}
-          />
           <input
             type='number'
             name='point'

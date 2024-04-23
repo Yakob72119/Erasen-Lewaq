@@ -19,7 +19,7 @@ const register = async (req, res) => {
       email: email,
       fname: firstName,
       password: md5(password),
-      role: "student" 
+      role: "educator" 
     });
 
     await user.save();
