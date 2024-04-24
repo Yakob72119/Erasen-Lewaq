@@ -118,7 +118,7 @@ const AdminUser = () => {
   };
 
   const dataView = data.map((item, index) => (
-    <tbody key={item.id}>
+    <tbody className='body' key={item.id}>
       <tr>
         <td className='name'> {item[0]}</td>
         <td className='email'>{item[1]}</td>
@@ -149,7 +149,7 @@ const AdminUser = () => {
       </div>
       <div className="data">
         <table border={1}>
-          <thead>
+          <thead className='head'>
             <th>Name</th>
             <th>Email</th>
             <th>Password</th>
@@ -211,6 +211,11 @@ const AdminUser = () => {
             {error && <span style={{ color: errorStyle }}>{error}</span>}
           </div>
         </form>
+
+      </div>
+      <div className="page-number">
+        <button className='preview'> &lt;&lt;</button>
+        <button className='next'> &gt;&gt;</button>
 
       </div>
     </div>

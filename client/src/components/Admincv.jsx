@@ -12,7 +12,7 @@ const Admincv = () => {
   });
   const [filterData, setFilterData] = useState({
     point: '',
-    day: ''
+    depart: ''
   });
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
@@ -124,7 +124,7 @@ const Admincv = () => {
         </div>
         <div className='divTwo'>
           <p>Department: {cv.department}</p>
-          <p>Resume: <a href={cv.gLink}>click here</a></p>
+          <p>Resume: <a href={cv.gLink} target='_blanck'>click here</a></p>
         </div>
         <div className="controllers">
           {cv.value !== undefined ? (
@@ -191,11 +191,11 @@ const Admincv = () => {
             onChange={handleFilterChange}
           />
           <input
-            type='date'
-            name='day'
+            type='text'
+            name='depart'
             className='input dayDate'
-            placeholder='Day'
-            value={filterData.day}
+            placeholder='Department'
+            value={filterData.depart}
             onChange={handleFilterChange}
           />
           <button className='btnFilter' onClick={handleFilter}>Filter</button>
