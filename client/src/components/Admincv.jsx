@@ -144,9 +144,6 @@ const Admincv = () => {
       setErrorStyle('red');
     }
   };
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -236,8 +233,8 @@ const Admincv = () => {
       </div>
 
       <div className="page-number">
-        <button className='preview'> &lt;&lt;</button>
-        <button className='next'> &gt;&gt;</button>
+        <button className='preview'> &lt;&lt; Previous</button>
+        <button className='next'>Next &gt;&gt;</button>
 
       </div>
     </div>

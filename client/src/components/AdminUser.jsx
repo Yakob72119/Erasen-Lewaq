@@ -1,25 +1,50 @@
-import React, { useEffect, useState } from 'react'
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AdminUser = () => {
   const roles = ['Admin', 'Student', 'Educator'];
   const [passwd, setPasswd] = useState('');
-  const data = [
-    ['Akrem Muktar', 'akremmuktar332@gmail.com', 'Male', 'Student'],
-    ['Yakob Beshah', 'yakobe@gmail.com', 'Male', 'Admin'],
-    ['Natenael Niguse', 'natiman@gmail.com', 'Male', 'Educator'],
-  ];
   const [selectedValue, setSelectedValue] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: ' '
+    password: ''
   });
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
   const [submit, setSubmit] = useState(false);
-  const [addAdmin, setAddAdmin] = useState('hide')
-  const [adminPass, setAdminPass] = useState('hideDelete')
+  const [addAdmin, setAddAdmin] = useState('hide');
+  const [adminPass, setAdminPass] = useState('hideDelete');
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [selectedValue, currentPage]); 
+
+  const fetchUsers = async () => {
+  try {
+    const url = `http://localhost:3000/user/getUsers?role=${selectedValue.toLowerCase()}&page=${currentPage}&limit=15`;
+    const response = await axios.get(url);
+    setUsers(response.data.users);
+    setTotalPages(Math.ceil(response.data.totalCount / 15));
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
+const handleNextPage = () => {
+  if (currentPage < totalPages) {
+    setCurrentPage(currentPage + 1);
+  }
+};
+
+const handlePrevPage = () => {
+  if (currentPage > 1) {
+    setCurrentPage(currentPage - 1);
+  }
+};
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -36,7 +61,6 @@ const AdminUser = () => {
 
   const handleDeleteOpen = () => {
     setAdminPass('showDelete');
-
   }
 
   const handleClose = () => {
@@ -44,15 +68,13 @@ const AdminUser = () => {
     setFormData({
       name: '',
       email: '',
-      password: ' '
+      password: ''
     })
   }
 
   const handleDeleteClose = () => {
     setAdminPass('hideDelete');
-    
   }
-
 
   const generatePassword = () => {
     const passwordLength = 8;
@@ -87,7 +109,8 @@ const AdminUser = () => {
       return;
     }
 
-    formData.password = generatePassword();
+    const generatedPassword = generatePassword();
+    setFormData({ ...formData, password: generatedPassword });
 
     console.log(formData);
     setError("Grade successfully!")
@@ -109,27 +132,35 @@ const AdminUser = () => {
     setErrorStyle("Green")
     setPasswd('')
     setSubmit(false)
-
   }
 
   const handleFilterChange = (event) => {
-    setSelectedValue(event.target.value);
-    console.log(event.target.value)
+    const value = event.target.value;
+    setSelectedValue(value === 'All' ? '' : value);
   };
 
-  const dataView = data.map((item, index) => (
-    <tbody className='body' key={item.id}>
-      <tr>
-        <td className='name'> {item[0]}</td>
-        <td className='email'>{item[1]}</td>
-        <td className='gender'>{item[2]}</td>
-        <td className='role'>{item[3]}</td>
-        <td className='payment'>
-          <button onClick={handleDeleteOpen}>Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  ));
+  const dataView = Array.isArray(users) ? (
+    users.map((user) => (
+      <tbody className='body' key={user._id}>
+        <tr>
+          <td className='name'>{user.fname}</td>
+          <td className='email'>{user.email}</td>
+          <td className='_id'>{user._id}</td>
+          <td className='role'>{user.password}</td>
+          <td className='password'>{user.role}</td>
+
+          {/* Omit the password field */}
+          <td className='payment'>
+            <button onClick={handleDeleteOpen}>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    ))
+  ) : (
+    // Render some fallback UI if users is not an array
+    <p>No users found</p>
+  );
+  
 
   return (
     <div className='admin-user'>
@@ -150,11 +181,14 @@ const AdminUser = () => {
       <div className="data">
         <table border={1}>
           <thead className='head'>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Role</th>
-            <th>Action</th>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Id</th>
+              <th>Password</th>
+              <th>Role</th>
+              <th>Action</th>
+            </tr>
           </thead>
           {dataView}
         </table>
@@ -180,22 +214,17 @@ const AdminUser = () => {
             onChange={handleInputChange}
             {...(submit && formData.email === '' && { required: true })}
           />
-
           <div className="btn-message">
             <input type="submit" value="Register" className="formBtn" id="forBtn" />
             {error && <span style={{ color: errorStyle }}>{error}</span>}
             <p className='password'>Password: {formData.password}</p>
           </div>
-
-
         </form>
       </div>
 
       <div className={`add-new-admin ${adminPass}`}>
         <button onClick={handleDeleteClose} className='close'>Close</button>
-
         <form className="newAdminForm" onSubmit={handleDelete}>
-
           <input
             type="password"
             name="password"
@@ -205,21 +234,19 @@ const AdminUser = () => {
             onChange={handleDeleteInputChange}
             {...(submit && passwd === '' && { required: true })}
           />
-
           <div className="btn-message">
             <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
             {error && <span style={{ color: errorStyle }}>{error}</span>}
           </div>
         </form>
-
       </div>
       <div className="page-number">
-        <button className='preview'> &lt;&lt;</button>
-        <button className='next'> &gt;&gt;</button>
-
-      </div>
+  <button className='preview' onClick={handlePrevPage}> &lt;&lt;</button>
+  <span>Page {currentPage}</span>
+  <button className='next' onClick={handleNextPage}> &gt;&gt;</button>
+</div>
     </div>
   )
 }
 
-export default AdminUser
+export default AdminUser;
