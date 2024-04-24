@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import erasenLweq from '../assets/erasenLweq.png';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
@@ -15,10 +15,35 @@ const CvGrade = () => {
     const [error, setError] = useState('');
     const [errorStyle, setErrorStyle] = useState('red');
     const [submit, setSubmit] = useState('');
+    const [validGoogleDoc, setValidGoogleDoc] = useState(false);
 
     const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const gLink = searchParams.get('gLink');
+    const searchParams = new URLSearchParams(location.search);
+    const gLink = searchParams.get('gLink');
+
+    useEffect(() => {
+        const checkGoogleDocValidity = async () => {
+            try {
+                const response = await fetch(gLink);
+                if (response.ok && response.url.includes('docs.google.com')) {
+                    setValidGoogleDoc(true);
+                } else {
+                    setValidGoogleDoc(false);
+                    setError('Incorrect Google Docs link.');
+                    setErrorStyle('red');
+                }
+            } catch (error) {
+                console.error('Error checking Google Docs link validity:', error);
+                setValidGoogleDoc(false);
+                setError('An error occurred while validating the link.');
+                setErrorStyle('red');
+            }
+        };
+
+        if (gLink) {
+            checkGoogleDocValidity();
+        }
+    }, [gLink]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -38,6 +63,11 @@ const CvGrade = () => {
             setErrorStyle('red')
             return;
         }
+        if (!validGoogleDoc) {
+            setError('Please provide a valid Google Docs link.');
+            setErrorStyle('red');
+            return;
+        }
 
         console.log(gradeData);
         setError("Grade successfully!")
@@ -55,7 +85,11 @@ const CvGrade = () => {
                 <Link className='close-btn' to={'/admin-dashboard'}>Back</Link>
             </div>
             <div className="resume">
-                <iframe width="100%" height="100%s" src={`${gLink}`}></iframe>
+            {validGoogleDoc ? (
+                    <iframe width="100%" height="100%" src={gLink}></iframe>
+                ) : (
+                    <p>{error}</p>
+                )}
             </div>
             <div className="grade">
                 <form className="cvGradeForm" onSubmit={handleSubmit}>

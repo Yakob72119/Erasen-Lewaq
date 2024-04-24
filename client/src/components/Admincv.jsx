@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom'; 
 
 const Admincv = () => {
   const [schedule, setSchedule] = useState('days');
@@ -15,8 +15,9 @@ const Admincv = () => {
   });
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
+  const [cvData, setCvData] = useState([]);
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -67,8 +68,22 @@ const Admincv = () => {
   const redirectToResultPage = (gLink) => {
     navigate(`/cv-grade?gLink=${gLink}`); 
   };
-  
 
+  const handleDeleteCV = async (cvId) => {
+    try {
+      await axios.delete(`http://localhost:3000/cv/deleteCV/${cvId}`);
+      
+      // Filter out the deleted CV from cvDeclaration immediately
+      const updatedCvDeclaration = cvDeclaration.filter(cv => cv._id !== cvId);
+      setCvDeclaration(updatedCvDeclaration);
+    } catch (error) {
+      console.error('Error deleting CV:', error);
+      setError('Error deleting CV');
+      setErrorStyle('red');
+    }
+  };
+  
+  
   const generateCvDeclarations = (cvData) => {
     return cvData.map((cv, index) => (
       <div className="cv-declaration" key={index}>
@@ -86,19 +101,37 @@ const Admincv = () => {
           ) : (
             <button className='btnGrade' onClick={() => redirectToResultPage(cv.gLink)}>Grade</button>
           )}
-          <button className='btnDelete'>Delete</button>
+          {/* Pass cv._id to handleDeleteCV */}
+          <button className='btnDelete' onClick={() => handleDeleteCV(cv._id, index)}>Delete</button>
         </div>
       </div>
     ));
   };
 
+  const handleDeleteCurrentSearch = async () => {
+    try {
+     
+      const cvIds = cvData.map(cv => String(cv._id));
+      await axios.post('http://localhost:3000/cv/deleteMultipleCVs', { cvIds });
+  
+      setCvDeclaration([]);
+    } catch (error) {
+      console.error('Error deleting all rendered CVs:', error);
+      setError('Error deleting all rendered CVs');
+      setErrorStyle('red');
+    }
+  };
+  
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/cv/getCVs', { params: { limit: 10 } });
-        const cvData = response.data;
-        const cvDeclarations = generateCvDeclarations(cvData);
+        const fetchedCvData = response.data;
+        const cvDeclarations = generateCvDeclarations(fetchedCvData);
         setCvDeclaration(cvDeclarations);
+        setCvData(fetchedCvData); 
       } catch (error) {
         console.error('Error fetching CV data:', error);
         setError('Error fetching CV data');
@@ -154,7 +187,8 @@ const Admincv = () => {
           />
           <button className='btnFilter' onClick={handleFilter}>Filter</button>
           <div className="delete-current">
-            <button>Delete Current search</button>
+            {/* Add onClick handler for deleting current search */}
+            <button onClick={handleDeleteCurrentSearch}>Delete Current search</button>
           </div>
         </div>
       </div>
