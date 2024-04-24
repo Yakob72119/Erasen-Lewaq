@@ -10,12 +10,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: calc(7px + 2vmin);
+            // font-size: calc(7px + 2vmin);
 
             button {
                 background-color: #1362d8;
                 color: #fff;
-                font-size: calc(7px + 2vmin);
+                // font-size: calc(7px + 2vmin);
                 padding: 5px 10px;
                 border: none;
                 transition: 0.5s;
@@ -31,7 +31,11 @@
                 color: #fff;
                 border: none;
                 padding: 5px 10px;
-                font-size: calc(7px + 2vmin);
+                // font-size: calc(7px + 2vmin);
+                outline: none;
+                &::placeholder {
+                    color: #ffffffb4;
+                }
             }
 
             .navbars {
@@ -39,7 +43,7 @@
                 width: 100%;
                 align-items: center;
                 justify-content: space-between;
-                padding: 20px 0;
+                padding: 10px 0;
                 border: 3px solid $button-primary-hover;
                 border-radius: 5px;
                 margin-bottom: 30px;
@@ -49,7 +53,7 @@
                 }
 
                 .schedule {
-                    width: 30%;
+                    width: 50%;
                     margin-left: 2%;
 
                     @include mobile {
@@ -94,7 +98,7 @@
                 }
 
                 .filters {
-                    width: 70%;
+                    width: 50%;
                     margin-left: 1%;
 
                     @include mobile {
@@ -120,7 +124,7 @@
 
                     .delete-current {
                         position: absolute;
-                        margin-top: 10px;
+                        margin-top: 5px;
                         right: 5%;
 
                         button {
@@ -174,6 +178,103 @@
                 }
             }
 
+            .add-new-admin {
+                position: fixed;
+                width: 30%;
+                background-color: #fff;
+                box-shadow: 2px 2px 5px;
+                border-radius: 5px;
+                padding: 20px;
+                margin: 5%;
+
+
+                .close {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    background-color: $button-delete;
+                    border: none;
+                    padding: 5px 10px;
+                    color: #fff;
+                }
+
+                .newAdminForm {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    margin-top: 30px;
+
+
+                    .input {
+                        padding: 10px;
+                        margin-bottom: 20px;
+                        outline: none;
+                        border: 1px solid $brand-color-one;
+                        border-radius: 5px;
+                        background-color: #fff;
+                        color: #000;
+
+                        &:required {
+                            border: 1PX solid red;
+                        }
+                    }
+
+                    .formBtn,
+                    .deleteBtn {
+                        padding: 5px 10px;
+                        background-color: $brand-color-one;
+                        border: none;
+                        margin-right: 10px;
+                        color: #fff;
+                    }
+
+                    .deleteBtn {
+                        background-color: $button-delete;
+                    }
+
+                    .password {
+                        margin-top: 10px;
+                        color: $text-primary;
+                        font-weight: 700;
+                    }
+                }
+            }
+
+            .hide,
+            .hideDelete{
+                visibility: hidden;
+                margin-top: 25%;
+                opacity: 0;
+                transition: .25s;
+            }
+
+            .show ,
+            .showDelete{
+                visibility: visible;
+                opacity: 1;
+                transition: .25s;
+            }
+
+            .page-number{
+                width: 90%;
+                display: flex;
+                justify-content: space-between;
+                position: absolute;
+                bottom: 10px;
+
+                button {
+                    border: none;
+                    border-radius: 5px;
+                    background-color: $button-primary;
+                    font-weight: 700;
+                    color: #fff;
+                    font-size: calc(7px + 2vmin);
+                    padding: 5px 10px;
+                }
+            }
+
+
+
         }
 
         .admin-user {
@@ -202,6 +303,47 @@
                     outline: none;
                     border-radius: 3px;
                 }
+
+                .filter-items {
+                    background-color: #fff;
+                    color: $text-primary;
+                }
+            }
+
+            .data {
+                margin: 10px;
+                color: #fff;
+
+                @include between{
+                    font-size: calc(2px + 1vmin);
+                }
+
+                .head {
+                    background-color: $brand-color-one;
+                    th{
+                        padding: 5px 10px;
+                    }
+                }
+
+                .body {
+                    background-color: $brand-color-two;
+                    td{
+                        padding: 5px 10px;
+
+                        button {
+                            background-color: $button-delete;
+                            color: #fff;
+                            border: none;
+                            padding: 5px 10px;
+
+                            @include between{
+                                font-size: calc(2px + 1vmin);
+                            }
+                        }
+                    }
+                }
+
+
             }
 
             .add-new-admin {
@@ -235,13 +377,23 @@
                         outline: none;
                         border: 1px solid $brand-color-one;
                         border-radius: 5px;
+
+                        &:required {
+                            border: 1PX solid red;
+                        }
                     }
 
-                    .formBtn {
+                    .formBtn,
+                    .deleteBtn {
                         padding: 5px 10px;
                         background-color: $brand-color-one;
                         border: none;
                         margin-right: 10px;
+                        color: #fff;
+                    }
+
+                    .deleteBtn {
+                        background-color: $button-delete;
                     }
 
                     .password {
@@ -252,20 +404,40 @@
                 }
             }
 
-            .hide {
+            .hide,
+            .hideDelete{
                 visibility: hidden;
                 margin-top: 25%;
                 opacity: 0;
                 transition: .25s;
             }
 
-            .show {
+            .show ,
+            .showDelete{
                 visibility: visible;
                 opacity: 1;
                 transition: .25s;
             }
 
+            .page-number{
+                width: 90%;
+                display: flex;
+                justify-content: space-between;
+                position: absolute;
+                bottom: 10px;
+
+                button {
+                    border: none;
+                    border-radius: 5px;
+                    background-color: $button-primary;
+                    font-weight: 700;
+                    color: #fff;
+                    font-size: calc(7px + 2vmin);
+                    padding: 5px 10px;
+                }
+            }
 
         }
+        
     }
 }

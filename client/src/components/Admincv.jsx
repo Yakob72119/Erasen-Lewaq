@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Admincv = () => {
   const [schedule, setSchedule] = useState('days');
+  const [passwd, setPasswd] = useState('');
   const [cvDeclaration, setCvDeclaration] = useState([]);
   const [scheduleData, setScheduleData] = useState({
     startDate: '',
@@ -11,11 +12,39 @@ const Admincv = () => {
   });
   const [filterData, setFilterData] = useState({
     point: '',
-    day: ''
+    depart: ''
   });
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
   const [cvData, setCvData] = useState([]);
+  const [submit, setSubmit] = useState(false);
+  const [deleteCurrent, setDeleteCurrent] = useState('hide')
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError('');
+      setSubmit(false)
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [submit]);
+
+  const handleDeleteOpen = () => {
+    setDeleteCurrent('showDelete');
+
+  }
+
+  const handleDeleteClose = () => {
+    setDeleteCurrent('hideDelete');
+  }
+
+  const handleDeleteInputChange = (event) => {
+    const { value } = event.target;
+    setPasswd(value);
+    setError('');
+  };
+
+
 
   const navigate = useNavigate(); 
 
@@ -66,7 +95,7 @@ const Admincv = () => {
   };
 
   const redirectToResultPage = (gLink) => {
-    navigate(`/cv-grade?gLink=${gLink}`); 
+    navigate(`/cv-grade?gLink=${gLink}`);
   };
 
   const handleDeleteCV = async (cvId) => {
@@ -82,8 +111,25 @@ const Admincv = () => {
       setErrorStyle('red');
     }
   };
-  
-  
+
+    const handleDelete = async (event) => {
+    event.preventDefault();
+    setSubmit(true);
+
+    if (passwd === '') {
+      setError('Insert Your Password to Delete!');
+      setErrorStyle('red')
+      return;
+    }
+
+    console.log(passwd);
+    setError("delete successfully!")
+    setErrorStyle("Green")
+    setPasswd('')
+    setSubmit(false)
+
+  }
+
   const generateCvDeclarations = (cvData) => {
     return cvData.map((cv, index) => (
       <div className="cv-declaration" key={index}>
@@ -93,7 +139,7 @@ const Admincv = () => {
         </div>
         <div className='divTwo'>
           <p>Department: {cv.department}</p>
-          <p>Resume: <a href={cv.gLink}>click here</a></p>
+          <p>Resume: <a href={cv.gLink} target='_blanck'>click here</a></p>
         </div>
         <div className="controllers">
           {cv.value !== undefined ? (
@@ -164,7 +210,7 @@ const Admincv = () => {
               value={scheduleData.endDate}
               onChange={handleInputChange}
             />
-            <span style={{color: errorStyle}}>{error}</span>
+            <span style={{ color: errorStyle }}>{error}</span>
             <button className='btnSchedule' onClick={handleSchedule}>Schedule</button>
           </div>
         </div>
@@ -178,11 +224,11 @@ const Admincv = () => {
             onChange={handleFilterChange}
           />
           <input
-            type='date'
-            name='day'
+            type='text'
+            name='depart'
             className='input dayDate'
-            placeholder='Day'
-            value={filterData.day}
+            placeholder='Department'
+            value={filterData.depart}
             onChange={handleFilterChange}
           />
           <button className='btnFilter' onClick={handleFilter}>Filter</button>
@@ -195,6 +241,35 @@ const Admincv = () => {
 
       <div className="cvS">
         {cvDeclaration}
+      </div>
+
+      <div className={`add-new-admin ${deleteCurrent}`}>
+        <button onClick={handleDeleteClose} className='close'>Close</button>
+
+        <form className="newAdminForm" onSubmit={handleDelete}>
+
+          <input
+            type="password"
+            name="password"
+            className="input"
+            placeholder="password"
+            value={passwd}
+            onChange={handleDeleteInputChange}
+            {...(submit && passwd === '' && { required: true })}
+          />
+
+          <div className="btn-message">
+            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
+            {error && <span style={{ color: errorStyle }}>{error}</span>}
+          </div>
+        </form>
+
+      </div>
+
+      <div className="page-number">
+        <button className='preview'> &lt;&lt;</button>
+        <button className='next'> &gt;&gt;</button>
+
       </div>
     </div>
   );
