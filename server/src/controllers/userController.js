@@ -17,7 +17,7 @@ const login = (req, res) => {
             fname:fname,
             role: role
           };
-          console.log('Session:', req.session.user); // Log the session object
+          console.log('Session:', req.session.user); 
           res.status(200).json({ success: true, role: role, fname: fname });
         } else {
           res.status(401).json({ success: false, message: 'Invalid email or password' });
@@ -38,7 +38,34 @@ const logout = (req, res) => {
   res.send('Logged out');
 };
 
-module.exports = {
+const getUsers = async (req, res) => {
+  try {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 15;
+    const role = req.query.role;
+
+    let query = {};
+    if (role && role.toLowerCase() !== 'all') {
+      query = { role: role };
+    }
+
+    const users = await User.find(query)
+                            .limit(limit)
+                            .skip((page - 1) * limit);
+
+    const totalCount = await User.countDocuments(query);
+
+    res.json({ users, totalCount });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+module.exports={
   login,
-  logout
+  logout,
+  getUsers
 };
