@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 
 const Admincv = () => {
   const [schedule, setSchedule] = useState('days');
-  const [passwd, setPasswd] = useState('');
   const [cvDeclaration, setCvDeclaration] = useState([]);
   const [scheduleData, setScheduleData] = useState({
     startDate: '',
@@ -38,14 +37,7 @@ const Admincv = () => {
     setDeleteCurrent('hideDelete');
   }
 
-  const handleDeleteInputChange = (event) => {
-    const { value } = event.target;
-    setPasswd(value);
-    setError('');
-  };
-
-
-
+ 
   const navigate = useNavigate(); 
 
   const handleInputChange = (event) => {
@@ -98,6 +90,8 @@ const Admincv = () => {
     navigate(`/cv-grade?gLink=${gLink}`);
   };
 
+  
+
   const handleDeleteCV = async (cvId) => {
     try {
       await axios.delete(`http://localhost:3000/cv/deleteCV/${cvId}`);
@@ -111,25 +105,8 @@ const Admincv = () => {
       setErrorStyle('red');
     }
   };
-
-    const handleDelete = async (event) => {
-    event.preventDefault();
-    setSubmit(true);
-
-    if (passwd === '') {
-      setError('Insert Your Password to Delete!');
-      setErrorStyle('red')
-      return;
-    }
-
-    console.log(passwd);
-    setError("delete successfully!")
-    setErrorStyle("Green")
-    setPasswd('')
-    setSubmit(false)
-
-  }
-
+  
+  
   const generateCvDeclarations = (cvData) => {
     return cvData.map((cv, index) => (
       <div className="cv-declaration" key={index}>
@@ -234,7 +211,8 @@ const Admincv = () => {
           <button className='btnFilter' onClick={handleFilter}>Filter</button>
           <div className="delete-current">
             {/* Add onClick handler for deleting current search */}
-            <button onClick={handleDeleteCurrentSearch}>Delete Current search</button>
+            <button onClick={handleDeleteOpen}>Delete Current search</button>
+
           </div>
         </div>
       </div>
@@ -246,23 +224,15 @@ const Admincv = () => {
       <div className={`add-new-admin ${deleteCurrent}`}>
         <button onClick={handleDeleteClose} className='close'>Close</button>
 
-        <form className="newAdminForm" onSubmit={handleDelete}>
+        <div className="newAdminForm">
 
-          <input
-            type="password"
-            name="password"
-            className="input"
-            placeholder="password"
-            value={passwd}
-            onChange={handleDeleteInputChange}
-            {...(submit && passwd === '' && { required: true })}
-          />
+          <p>Are You sure you want to delet this cvs?</p>
 
           <div className="btn-message">
-            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
-            {error && <span style={{ color: errorStyle }}>{error}</span>}
+            <input onClick={handleDeleteCurrentSearch} type="submit" value="Delete" className="deleteBtn" id="forBtn" />
+            
           </div>
-        </form>
+        </div>
 
       </div>
 
