@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const Admincv = () => {
   const [schedule, setSchedule] = useState('days');
@@ -37,8 +37,8 @@ const Admincv = () => {
     setDeleteCurrent('hideDelete');
   }
 
- 
-  const navigate = useNavigate(); 
+
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -90,12 +90,12 @@ const Admincv = () => {
     navigate(`/cv-grade?gLink=${gLink}`);
   };
 
-  
+
 
   const handleDeleteCV = async (cvId) => {
     try {
       await axios.delete(`http://localhost:3000/cv/deleteCV/${cvId}`);
-      
+
       // Filter out the deleted CV from cvDeclaration immediately
       const updatedCvDeclaration = cvDeclaration.filter(cv => cv._id !== cvId);
       setCvDeclaration(updatedCvDeclaration);
@@ -105,8 +105,8 @@ const Admincv = () => {
       setErrorStyle('red');
     }
   };
-  
-  
+
+
   const generateCvDeclarations = (cvData) => {
     return cvData.map((cv, index) => (
       <div className="cv-declaration" key={index}>
@@ -133,10 +133,10 @@ const Admincv = () => {
 
   const handleDeleteCurrentSearch = async () => {
     try {
-     
+
       const cvIds = cvData.map(cv => String(cv._id));
       await axios.post('http://localhost:3000/cv/deleteMultipleCVs', { cvIds });
-  
+
       setCvDeclaration([]);
     } catch (error) {
       console.error('Error deleting all rendered CVs:', error);
@@ -144,8 +144,8 @@ const Admincv = () => {
       setErrorStyle('red');
     }
   };
-  
-  
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,7 +154,7 @@ const Admincv = () => {
         const fetchedCvData = response.data;
         const cvDeclarations = generateCvDeclarations(fetchedCvData);
         setCvDeclaration(cvDeclarations);
-        setCvData(fetchedCvData); 
+        setCvData(fetchedCvData);
       } catch (error) {
         console.error('Error fetching CV data:', error);
         setError('Error fetching CV data');
@@ -225,14 +225,13 @@ const Admincv = () => {
         <button onClick={handleDeleteClose} className='close'>Close</button>
 
         <div className="newAdminForm">
-
           <p>Are You sure you want to delet this cvs?</p>
-
-          <div className="btn-message">
-            <input onClick={handleDeleteCurrentSearch} type="submit" value="Delete" className="deleteBtn" id="forBtn" />
-            
-          </div>
         </div>
+        <div className="btn-message">
+          <input onClick={handleDeleteCurrentSearch} type="submit" value="Delete" className="deleteBtn" id="forBtn" />
+
+        </div>
+
 
       </div>
 

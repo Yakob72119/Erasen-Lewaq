@@ -4,6 +4,258 @@
 
 .admin-dashboard {
     .main {
+        .admin-exam {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            // font-size: calc(7px + 2vmin);
+
+            button {
+                background-color: #1362d8;
+                color: #fff;
+                padding: 5px 10px;
+                border: none;
+                transition: 0.5s;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: $brand-color-two;
+                }
+            }
+
+            input {
+                background: $brand-color-two;
+                color: #fff;
+                border: none;
+                padding: 5px 10px;
+                outline: none;
+
+                &::placeholder {
+                    color: #ffffffb4;
+                }
+            }
+
+            .navbars {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 0;
+                border: 3px solid $button-primary-hover;
+                border-radius: 5px;
+                margin-bottom: 30px;
+
+                @include mobile {
+                    flex-direction: column;
+                }
+
+                .nav-btns {
+                    width: 60%;
+                    margin-left: 2%;
+
+                    @include mobile {
+                        width: 95%;
+                        margin-bottom: 10px;
+                    }
+
+                    button {
+                        margin-right: 20px;
+                    }
+                }
+
+                .filters {
+                    width: 40%;
+                    margin-left: 1%;
+
+                    @include mobile {
+                        width: 95%;
+                    }
+
+                    .input {
+                        @include laptop {
+                            width: 50%;
+                        }
+                    }
+
+                    .btnFilter {
+                        margin-left: 5%;
+                    }
+
+
+                }
+            }
+
+            .exams {
+                width: 100%;
+                overflow-y: scroll;
+
+                .exam-declaration {
+                    width: 96%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    background: $brand-color-tree;
+                    color: #fff;
+                    border-radius: 5px;
+                    padding: 10px;
+                    margin-bottom: 15px;
+
+
+                    .controllers {
+                        display: flex;
+                        flex-direction: column;
+
+                        .btnView {
+                            background-color: $brand-color-two;
+
+                            &:hover {
+                                background-color: $button-primary;
+                            }
+                        }
+
+                        .btnDelete {
+                            margin-top: 10px;
+                            background-color: $button-delete;
+
+                            &:hover {
+                                background-color: red;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .historys {
+                position: absolute;
+             top: 10vh;
+                margin: 10px;
+                color: #fff;
+
+                @include between {
+             top: 15vh;
+
+                    font-size: calc(2px + 1vmin);
+                }
+
+                .head {
+                    background-color: $brand-color-one;
+
+                    th {
+                        padding: 5px 10px;
+                    }
+                }
+
+                .body {
+                    background-color: $brand-color-two;
+
+                    td {
+                        padding: 5px 10px;
+
+                        button {
+                            background-color: $button-delete;
+                            color: #fff;
+                            border: none;
+                            padding: 5px 10px;
+
+                            @include between {
+                                font-size: calc(2px + 1vmin);
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            .add-new-admin {
+                position: fixed;
+                width: 30%;
+                background-color: #fff;
+                box-shadow: 2px 2px 5px;
+                border-radius: 5px;
+                padding: 20px;
+                margin: 5%;
+
+                @include tablet {
+                    width: 60%;
+                }
+
+
+                .close {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    background-color: $button-delete;
+                    border: none;
+                    padding: 5px 10px;
+                    color: #fff;
+                }
+
+                .newAdminForm {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    margin-top: 30px;
+                    margin-bottom: 30px;
+                    color: red;
+                    text-align: center;
+
+
+                    .input {
+                        padding: 10px;
+                        margin-bottom: 20px;
+                        outline: none;
+                        border: 1px solid $brand-color-one;
+                        border-radius: 5px;
+                        background-color: #fff;
+                        color: #000;
+
+                        &:required {
+                            border: 1PX solid red;
+                        }
+                    }
+
+
+                }
+            }
+
+            .hide,
+            .hideDelete {
+                visibility: hidden;
+                margin-top: 25%;
+                opacity: 0;
+                transition: .25s;
+            }
+
+            .show,
+            .showDelete {
+                visibility: visible;
+                opacity: 1;
+                transition: .25s;
+            }
+
+            .page-number {
+                width: 90%;
+                display: flex;
+                justify-content: space-between;
+                position: absolute;
+                bottom: 10px;
+
+                button {
+                    border: none;
+                    border-radius: 5px;
+                    background-color: $button-primary;
+                    font-weight: 700;
+                    color: #fff;
+                    font-size: calc(7px + 2vmin);
+                    padding: 5px 10px;
+                }
+            }
+
+        }
+
         .admin-cv {
             width: 100%;
             height: 100%;
@@ -33,6 +285,7 @@
                 padding: 5px 10px;
                 // font-size: calc(7px + 2vmin);
                 outline: none;
+
                 &::placeholder {
                     color: #ffffffb4;
                 }
@@ -187,6 +440,9 @@
                 padding: 20px;
                 margin: 5%;
 
+                @include tablet {
+                    width: 60%;
+                }
 
                 .close {
                     position: absolute;
@@ -203,6 +459,9 @@
                     flex-direction: column;
                     width: 100%;
                     margin-top: 30px;
+                    margin-bottom: 30px;
+                    color: red;
+                    text-align: center;
 
 
                     .input {
@@ -219,43 +478,26 @@
                         }
                     }
 
-                    .formBtn,
-                    .deleteBtn {
-                        padding: 5px 10px;
-                        background-color: $brand-color-one;
-                        border: none;
-                        margin-right: 10px;
-                        color: #fff;
-                    }
 
-                    .deleteBtn {
-                        background-color: $button-delete;
-                    }
-
-                    .password {
-                        margin-top: 10px;
-                        color: $text-primary;
-                        font-weight: 700;
-                    }
                 }
             }
 
             .hide,
-            .hideDelete{
+            .hideDelete {
                 visibility: hidden;
                 margin-top: 25%;
                 opacity: 0;
                 transition: .25s;
             }
 
-            .show ,
-            .showDelete{
+            .show,
+            .showDelete {
                 visibility: visible;
                 opacity: 1;
                 transition: .25s;
             }
 
-            .page-number{
+            .page-number {
                 width: 90%;
                 display: flex;
                 justify-content: space-between;
@@ -314,20 +556,22 @@
                 margin: 10px;
                 color: #fff;
 
-                @include between{
+                @include between {
                     font-size: calc(2px + 1vmin);
                 }
 
                 .head {
                     background-color: $brand-color-one;
-                    th{
+
+                    th {
                         padding: 5px 10px;
                     }
                 }
 
                 .body {
                     background-color: $brand-color-two;
-                    td{
+
+                    td {
                         padding: 5px 10px;
 
                         button {
@@ -336,7 +580,7 @@
                             border: none;
                             padding: 5px 10px;
 
-                            @include between{
+                            @include between {
                                 font-size: calc(2px + 1vmin);
                             }
                         }
@@ -354,6 +598,9 @@
                 border-radius: 5px;
                 padding: 20px;
                 margin: 5%;
+                @include tablet {
+                    width: 60%;
+                }
 
                 .close {
                     position: absolute;
@@ -405,21 +652,21 @@
             }
 
             .hide,
-            .hideDelete{
+            .hideDelete {
                 visibility: hidden;
                 margin-top: 25%;
                 opacity: 0;
                 transition: .25s;
             }
 
-            .show ,
-            .showDelete{
+            .show,
+            .showDelete {
                 visibility: visible;
                 opacity: 1;
                 transition: .25s;
             }
 
-            .page-number{
+            .page-number {
                 width: 90%;
                 display: flex;
                 justify-content: space-between;
@@ -438,6 +685,59 @@
             }
 
         }
-        
+
+        .admin-setting {
+            width: 100%;
+            height: 100%;
+
+            h3{
+                background-color: $brand-color-two;
+                color: #fff;
+                padding: 10px 10px;
+            }
+
+            .updateFrom {
+                margin: 20px;
+                display: flex;
+                flex-direction: column;
+                width: 30%;
+
+                @include between {
+                    width: 80%;
+                }
+
+                .input {
+                    padding: 10px;
+                    border: 2px solid $brand-color-one;
+                    margin-bottom: 20px;
+                    outline: none;
+                }
+
+                .btn-error {
+                    display: flex;
+                    flex-direction: column;
+
+                    button {
+                        width: fit-content;
+                        padding: 5px 10px;
+                        background-color: $brand-color-two;
+                        border: none;
+                        color: #fff;
+                        margin-bottom: 5px;
+
+                    }
+
+                    .passwd{
+                        color: $text-primary;
+                        font-size: calc(8px + 2vmin);
+
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+
+
+
     }
 }
