@@ -83,8 +83,10 @@ const handlePrevPage = () => {
     for (let i = 0; i < passwordLength; i++) {
       password += characters.charAt(Math.floor(Math.random() * characters.length));
     }
+    console.log('Generated Password:', password);
     return password;
   }
+  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -98,24 +100,51 @@ const handlePrevPage = () => {
     setError('');
   };
 
+  
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      password: ''
+    });
+    setPasswd('');
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
-
-    const emptyFields = Object.values(formData).filter((value) => value === '');
-    if (emptyFields.length > 0) {
+  
+    const { name, email } = formData;
+    if (!name || !email) {
       setError('All fields are required!');
-      setErrorStyle('red')
+      setErrorStyle('red');
       return;
     }
-
+    
     const generatedPassword = generatePassword();
     setFormData({ ...formData, password: generatedPassword });
 
-    console.log(formData);
-    setError("Grade successfully!")
-    setErrorStyle("Green")
-  }
+    try {
+      const response = await axios.post('http://localhost:3000/user/registerAdmin', {
+        name,
+        email,
+        password: generatedPassword,
+        role: 'admin'
+      });
+  
+      setFormData({ ...formData, password: generatedPassword });
+      setError('Admin registered successfully!');
+      setErrorStyle('green');
+    } catch (error) {
+      console.error('Error registering admin:', error);
+      setError('Error registering admin');
+      setErrorStyle('red');
+    } finally {
+      resetForm();
+      setSubmit(false);
+    }
+  };
+  
 
   const handleDelete = async (event) => {
     event.preventDefault();
@@ -148,8 +177,6 @@ const handlePrevPage = () => {
           <td className='_id'>{user._id}</td>
           <td className='role'>{user.password}</td>
           <td className='password'>{user.role}</td>
-
-          {/* Omit the password field */}
           <td className='payment'>
             <button onClick={handleDeleteOpen}>Delete</button>
           </td>
@@ -157,7 +184,6 @@ const handlePrevPage = () => {
       </tbody>
     ))
   ) : (
-    // Render some fallback UI if users is not an array
     <p>No users found</p>
   );
   
@@ -215,7 +241,7 @@ const handlePrevPage = () => {
             {...(submit && formData.email === '' && { required: true })}
           />
           <div className="btn-message">
-            <input type="submit" value="Register" className="formBtn" id="forBtn" />
+            <input type="submit" value="Register" className="formBtn" id="registerBtn" />
             {error && <span style={{ color: errorStyle }}>{error}</span>}
             <p className='password'>Password: {formData.password}</p>
           </div>

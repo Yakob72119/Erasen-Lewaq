@@ -62,10 +62,35 @@ const getUsers = async (req, res) => {
   }
 };
 
+const registerAdmin = async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+
+    const existingAdmin = await User.findOne({ email });
+
+    if (existingAdmin) {
+      return res.status(400).json({ error: 'Admin already exists with this email' });
+    }
+
+    const user = new User({
+      email: email,
+      fname: name,
+      password: md5(password),
+      role: role
+    });
+
+    await user.save();
+    res.status(201).json({ message: 'Admin registered successfully!' });
+  } catch (error) {
+    console.error('Error registering admin:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 
 module.exports={
   login,
   logout,
-  getUsers
+  getUsers,
+  registerAdmin
 };
