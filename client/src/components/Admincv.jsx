@@ -83,8 +83,14 @@ const Admincv = () => {
   };
 
   const handleScheduleShow = () => {
-    setSchedule(schedule === 'days' ? 'daysShow' : 'days');
+    setSchedule('daysShow');
   };
+
+  const handleScheduleHide = () => {
+    setSchedule('days');
+  };
+
+  
 
   const redirectToResultPage = (gLink) => {
     navigate(`/cv-grade?gLink=${gLink}`);
@@ -163,11 +169,12 @@ const Admincv = () => {
   }, []);
 
   return (
-    <div className='admin-cv'>
+    <div className='admin-cv' >
       <div className="navbars">
         <div className="schedule">
-          <button className='scheduleBtn' onClick={handleScheduleShow}>Application schedule</button>
+          <button  className='scheduleBtn' onClick={handleScheduleShow}>Application schedule</button>
           <div className={schedule}>
+            <button style={{background:'red'}} onClick={handleScheduleHide}>Close</button>
             <label htmlFor="startDate">From</label>
             <input
               type='date'

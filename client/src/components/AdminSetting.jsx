@@ -8,7 +8,7 @@ const AdminSetting = () => {
     const [errorStyle, setErrorStyle] = useState('red');
     const [submit, setSubmit] = useState(false);
     const [updateData, setUpdateData] = useState({
-        name: '',
+      
         email: 'test',
         password: ''
     });
@@ -120,15 +120,6 @@ const AdminSetting = () => {
                         placeholder="Email"
                         value={updateData.email}
                         disabled
-                    />
-                    <input
-                        type="text"
-                        name="name"
-                        className="input"
-                        placeholder="Name"
-                        value={updateData.name}
-                        onChange={handleAdminChange}
-                        {...(submit && updateData.name === '' && { required: true })}
                     />
                     <input
                         type="password"

@@ -8,6 +8,7 @@ const ExamView = () => {
     const [error, setError] = useState('');
     const [errorStyle, setErrorStyle] = useState('red');
     const [examData, setExamData] = useState({
+        id: '',
         answer: '',
         question: '',
         answerA: '',
@@ -16,6 +17,17 @@ const ExamView = () => {
         answerD: '',
     });
     const [submit, setSubmit] = useState(false);
+    const [deleteCurrent, setDeleteCurrent] = useState('hide')
+
+
+    const handleDeleteOpen = () => {
+        setDeleteCurrent('show');
+
+    }
+
+    const handleDeleteClose = () => {
+        setDeleteCurrent('hide');
+    }
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -48,23 +60,46 @@ const ExamView = () => {
 
             <div className="exam-body grade-body">
                 <div className="exam resume">
+                    <button className='delete' onClick={handleDeleteOpen}>Delete</button>
                     <iframe width="100%" height="100%" src='https://www.google.com'></iframe>
+                    <div className={`add-new-admin ${deleteCurrent}`}>
+                        <button onClick={handleDeleteClose} className='close'>Close</button>
 
+                        <div className="newAdminForm">
+                            <p>Are You sure you want to delet this cvs?</p>
+                        </div>
+                        <div className="btn-message">
+                            <input type="submit" value="Delete" className="delete" id="forBtn" />
+                        </div>
+                    </div>
                 </div>
                 <div className='exam-inputs'>
                     <p className='exam-no'>1</p>
                     <form className="examForm" onSubmit={handleExamPost}>
-                        <input
-                            type="text"
-                            name="answer"
-                            className="input answer"
-                            placeholder="key"
-                            value={examData.answer}
-                            onChange={handleInputChange}
-                            {...(submit && examData.answer === '' && { required: true })}
-                        />
+                        <div className="keys">
+                            <input
+                                type="text"
+                                name="id"
+                                className="input id"
+                                placeholder="id-001"
+                                value={examData.id}
+                                disabled
+                                onChange={handleInputChange}
+                                {...(submit && examData.id === '' && { required: true })}
+                            />
 
-                        <input
+                            <input
+                                type="text"
+                                name="answer"
+                                className="input answer"
+                                placeholder="key"
+                                value={examData.answer}
+                                onChange={handleInputChange}
+                                {...(submit && examData.answer === '' && { required: true })}
+                            />
+                        </div>
+
+                        <textarea
                             type="text"
                             name="answer"
                             className="input question"
@@ -74,7 +109,7 @@ const ExamView = () => {
                             {...(submit && examData.question === '' && { required: true })}
                         />
 
-                        <input
+                        <textarea
                             type="text"
                             name="answer"
                             className="input a"
@@ -84,7 +119,7 @@ const ExamView = () => {
                             {...(submit && examData.answerA === '' && { required: true })}
                         />
 
-                        <input
+                        <textarea
                             type="text"
                             name="answer"
                             className="input b"
@@ -94,7 +129,7 @@ const ExamView = () => {
                             {...(submit && examData.answerB === '' && { required: true })}
                         />
 
-                        <input
+                        <textarea
                             type="text"
                             name="answer"
                             className="input c"
@@ -104,7 +139,7 @@ const ExamView = () => {
                             {...(submit && examData.answerC === '' && { required: true })}
                         />
 
-<input
+                        <textarea
                             type="text"
                             name="answer"
                             className="input c"
@@ -115,7 +150,7 @@ const ExamView = () => {
                         />
 
                         <div className="btn-message">
-                            <input type="submit" value="Add" className="AddBtn" id="forBtn" />
+                            <input type="submit" value="Add" className="input AddBtn" id="forBtn" />
                             {error && <span style={{ color: errorStyle }}>{error}</span>}
                         </div>
                     </form>
