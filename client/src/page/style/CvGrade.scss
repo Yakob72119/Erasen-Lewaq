@@ -56,7 +56,7 @@
         display: flex;
         align-items: center;
 
-        @include mobile {
+        @include tablet {
             flex-direction: column;
         }
 
@@ -65,13 +65,11 @@
             margin-left: 2vw;
             height: 100%;
 
-            @include mobile {
+            @include tablet {
                 width: 80vw;
                 height: 60vh;
             }
         }
-
-
 
         .grade {
             margin-top: 2vh;
@@ -79,7 +77,7 @@
             margin-left: 5vw;
             height: 40vh;
 
-            @include mobile {
+            @include tablet {
                 width: 70vw;
                 margin-left: 2vw;
                 height: 40vh;
@@ -123,6 +121,79 @@
                 }
             }
         }
+
+        .exam-inputs {
+            width: 35vw;
+            margin-left: 5vw;
+            height: 65vh;
+
+            @include tablet {
+                width: 60vw;
+                margin-left: 1vw;
+
+            }
+
+
+            .exam-no {
+                color: #00000067;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                font-weight: 700;
+                font-size: calc(7px + 2vmin);
+
+
+            }
+
+            .examForm {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;
+
+                input {
+                    width: 100%;
+                    padding: 5px 20px;
+                    font-size: calc(5px + 2vmin);
+                    outline: none;
+                    border: 2px solid $brand-color-one;
+                }
+
+                .answer {
+                    position: absolute;
+                    width: 30px;
+                    border: 2px solid $button-primary;
+                    top: 20vh;
+                    right: 2vw;
+
+                    @include tablet {
+                        position: relative;
+                        top: 0;
+                        right: 0;
+                    }
+                }
+
+                .question {
+                    border: 2px solid $brand-color-two;
+                }
+
+                .AddBtn {
+                    color: #fff;
+                    background-color: $brand-color-one;
+                    font-weight: 700;
+                    transition: 0.25s;
+
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 0.9;
+                    }
+                }
+            }
+
+        }
     }
+
+
 
 }
