@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
+import AdminExamView from './AdminExamView'
+import AdminExamHis from './AdminExamHis'
 
 const AdminExam = () => {
     const [depart, setDepart] = useState('')
-    const testData = ['0', '1', '2']
-    const [deleteCurrent, setDeleteCurrent] = useState('hide')
     const [examControl, setExamControl] = useState('show')
     const [historyControl, setHistoryControl] = useState('hide')
-    const data = [
-        ['Akrem Muktar', 'PHD', 'Seng', 'Deleted'],
-        ['Akrem Muktar', 'PHD', 'Seng', 'Deleted'],
-        ['Akrem Muktar', 'PHD', 'Seng', 'Accepted']
-    ];
+    
 
     const handleExam = () => {
         setExamControl('show');
@@ -22,15 +18,7 @@ const AdminExam = () => {
         setHistoryControl('show');
     }
 
-    const handleDeleteOpen = () => {
-        setDeleteCurrent('showDelete');
-
-    }
-
-
-    const handleDeleteClose = () => {
-        setDeleteCurrent('hideDelete');
-    }
+   
 
     const handleFilterChange = (event) => {
         const { value } = event.target;
@@ -43,34 +31,9 @@ const AdminExam = () => {
         setDepart('');
     };
 
-    const examDeclaration = testData.map((item, index) => (
-        <div className="exam-declaration" key={index}>
-            <div className='divOne'>
-                <p>Educator: Akrem Muktar</p>
-                <p>Education Status: PHD</p>
-            </div>
-            <div className='divTwo'>
-                <p>Department: Software Engineering</p>
-                <p>Exam: <a href='#' target='_blanck'>click here</a></p>
-            </div>
-            <div className="controllers">
-                <button className='btnView'>View</button>
-                <button className='btnDelete' onClick={handleDeleteOpen}>Delete</button>
-            </div>
-        </div>
-    ));
+    
 
-    const dataView = data.map((item, index) => (
-        <tbody className='body' key={item.id}>
-            <tr>
-                <td className='name'> {item[0]}</td>
-                <td className='eduStatus'>{item[1]}</td>
-                <td className='depart'>{item[2]}</td>
-                <td className='examStates'>{item[3]}</td>
-
-            </tr>
-        </tbody>
-    ));
+    
 
     return (
         <div className='admin-exam'>
@@ -94,31 +57,14 @@ const AdminExam = () => {
             </div>
 
             <div className={`exams ${examControl}`}>
-                {examDeclaration}
+                <AdminExamView />
             </div>
 
             <div className={`historys ${historyControl}`}>
-                <table border={1}>
-                    <thead className='head'>
-                        <th>Name</th>
-                        <th>Education</th>
-                        <th>Department</th>
-                        <th>Exam status</th>
-                    </thead>
-                    {dataView}
-                </table>
+                <AdminExamHis />
             </div>
 
-            <div className={`add-new-admin ${deleteCurrent}`}>
-                <button onClick={handleDeleteClose} className='close'>Close</button>
-
-                <div className="newAdminForm">
-                    <p>Are You sure you want to delet this cvs?</p>
-                </div>
-                <div className="btn-message">
-                    <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
-                </div>
-            </div>
+           
 
             <div className="page-number">
                 <button className='preview'> &lt;&lt;</button>

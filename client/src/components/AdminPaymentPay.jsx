@@ -1,36 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import AddEduExam from './AddEduExam'
+import React, { useState } from 'react'
 
-const EduExam = () => {
+const AdminPaymentPay = () => {
     const testData = ['0', '1', '2']
     const [deleteCurrent, setDeleteCurrent] = useState('hide')
-    const [hideShow, setHideShow] = useState('hideForm')
-  
-
-  
+   
 
     const handleDeleteOpen = () => {
-        setDeleteCurrent('showDelete');
+        setDeleteCurrent('show');
 
     }
 
     const handleDeleteClose = () => {
-        setDeleteCurrent('hideDelete');
+        setDeleteCurrent('hide');
     }
 
-
-    const handleOpen = () => {
-        setHideShow('showForm');
-    }
-
-    const handleClose = () => {
-        setHideShow('hideForm')
-    }
-
-  
-
-
-    const examDeclaration = testData.map((item, index) => (
+    const paymentDeclaration = testData.map((item, index) => (
         <div className="exam-declaration" key={index}>
             <div className='divOne'>
                 <p>Educator: Akrem Muktar</p>
@@ -43,43 +27,26 @@ const EduExam = () => {
                 <p>Exam: <a href='#' target='_blanck'>click here</a></p>
             </div>
             <div className="controllers">
+                <button className='btnView'>Pay</button>
                 <button className='btnDelete' onClick={handleDeleteOpen}>Delete</button>
             </div>
         </div>
     ));
     return (
-        <div className='edu-exam admin-exam'>
-            <div className="navbars nav-btns">
-                <button onClick={handleOpen} className='addBtn '>+ Add new Admin</button>
-            </div>
-
-            <div className={`exams`}>
-                {examDeclaration}
-            </div>
-
-            <div className={`form-exam ${hideShow}`} >
-                <button className='close' onClick={handleClose}>Close</button>
-
-                <AddEduExam />
-            </div>
-
+        <>
+            {paymentDeclaration}
             <div className={`add-new-admin ${deleteCurrent}`}>
                 <button onClick={handleDeleteClose} className='close'>Close</button>
 
                 <div className="newAdminForm">
-                    <p>Are You sure you want to delete this exam?</p>
+                    <p>Are You sure you want to delet this cvs?</p>
                 </div>
                 <div className="btn-message">
                     <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
                 </div>
             </div>
-
-            <div className="page-number">
-                <button className='preview'> &lt;&lt;</button>
-                <button className='next'> &gt;&gt;</button>
-            </div>
-        </div>
+        </>
     )
 }
 
-export default EduExam
+export default AdminPaymentPay

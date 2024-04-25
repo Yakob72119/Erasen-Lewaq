@@ -51,6 +51,10 @@
                     flex-direction: column;
                 }
 
+                .addBtn {
+                    margin-left: 20px;
+                }
+
                 .nav-btns {
                     width: 60%;
                     margin-left: 2%;
@@ -129,12 +133,14 @@
 
             .historys {
                 position: absolute;
-             top: 10vh;
+                top: 10vh;
                 margin: 10px;
                 color: #fff;
+                height: 75%;
+                overflow: scroll;
 
                 @include between {
-             top: 15vh;
+                    top: 15vh;
 
                     font-size: calc(2px + 1vmin);
                 }
@@ -553,8 +559,12 @@
             }
 
             .data {
+                width: 100%;
+                height: 75%;
                 margin: 10px;
                 color: #fff;
+                overflow: scroll;
+                font-size: calc(6px + 1vmin);
 
                 @include between {
                     font-size: calc(2px + 1vmin);
@@ -598,6 +608,7 @@
                 border-radius: 5px;
                 padding: 20px;
                 margin: 5%;
+
                 @include tablet {
                     width: 60%;
                 }
@@ -690,7 +701,7 @@
             width: 100%;
             height: 100%;
 
-            h3{
+            h3 {
                 background-color: $brand-color-two;
                 color: #fff;
                 padding: 10px 10px;
@@ -727,7 +738,7 @@
 
                     }
 
-                    .passwd{
+                    .passwd {
                         color: $text-primary;
                         font-size: calc(8px + 2vmin);
 
@@ -737,7 +748,158 @@
             }
         }
 
+        .edu-exam {
+            .form-exam {
+                position: fixed;
+                width: 30%;
+                background-color: #fff;
+                box-shadow: 2px 2px 5px;
+                border-radius: 5px;
+                padding: 20px;
+                margin: 5%;
+
+                @include tablet {
+                    width: 60%;
+                }
+
+                .close {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    background-color: $button-delete;
+                    border: none;
+                    padding: 5px 10px;
+                    color: #fff;
+                }
+
+                .eduExamForm {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    margin-top: 30px;
+
+                    .input {
+                        padding: 10px;
+                        margin-bottom: 20px;
+                        outline: none;
+                        border: none;
+                        border-radius: 5px;
+
+                        &:required {
+                            border: 1PX solid red;
+                        }
+                    }
+
+                    .btnAdd {
+                        width: fit-content;
+                        padding: 5px 10px;
+                        background-color: $brand-color-one;
+                        border: none;
+                        margin-right: 10px;
+                        color: #fff;
+                    }
 
 
+                }
+
+
+            }
+
+            .hideForm {
+                visibility: hidden;
+                margin-top: 25%;
+                opacity: 0;
+                transition: .25s;
+            }
+
+            .showForm {
+                visibility: visible;
+                opacity: 1;
+                transition: .25s;
+            }
+
+
+
+        }
+
+        .admin-payment {
+            .exams {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .add-new-admin {
+                    position: fixed;
+                    width: 30%;
+                    background-color: #fff;
+                    box-shadow: 2px 2px 5px;
+                    border-radius: 5px;
+                    padding: 20px;
+                    margin: 5%;
+                    z-index: 1000;
+                    top: 10vh;
+
+
+                    @include tablet {
+                        width: 60%;
+                    }
+
+
+                    .close {
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
+                        background-color: $button-delete;
+                        border: none;
+                        padding: 5px 10px;
+                        color: #fff;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+
+                    .newAdminForm {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        margin-top: 30px;
+                        margin-bottom: 30px;
+                        color: red;
+                        text-align: center;
+
+
+                        .input {
+                            padding: 10px;
+                            margin-bottom: 20px;
+                            outline: none;
+                            border: 1px solid $brand-color-one;
+                            border-radius: 5px;
+                            background-color: #fff;
+                            color: #000;
+
+                            &:required {
+                                border: 1PX solid red;
+                            }
+                        }
+
+
+                    }
+                }
+
+                .hide {
+                    visibility: hidden;
+                    margin-top: 25%;
+                    opacity: 0;
+                    transition: .25s;
+                }
+
+                .show {
+                    visibility: visible;
+                    opacity: 1;
+                    transition: .25s;
+                }
+            }
+        }
     }
 }
