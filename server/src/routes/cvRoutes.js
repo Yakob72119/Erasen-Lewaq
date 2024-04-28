@@ -6,5 +6,6 @@ router.post('/submitCV', cvController.submitCV);
 router.get('/getCVs', cvController.getCVs); 
 router.delete('/deleteCV/:id', cvController.deleteCV);
 router.post('/deleteMultipleCVs', cvController.deleteMultipleCVs);
+router.get('/status/:userId', cvController.getCvStatus);
 
 module.exports = router;

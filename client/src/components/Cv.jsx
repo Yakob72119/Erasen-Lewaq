@@ -34,7 +34,8 @@ const Cv = () => {
         }
 
         try {
-            const response= await axios.post('http://localhost:3000/cv/submitCV', formData);
+            const educatorId = sessionStorage.getItem('_id');
+            const response= await axios.post('http://localhost:3000/cv/submitCV', { ...formData, educatorId });
             console.log(response.data);
             setError('Submitted');
             setErrorStyle('green');

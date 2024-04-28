@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AddEduExam = () => {
     const [examData, setExamData] = useState({
@@ -6,36 +7,75 @@ const AddEduExam = () => {
         link: ''
     });
     const [submit, setSubmit] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setSubmit(false)
+            setSuccessMessage('');
+            setSubmit(false);
         }, 3000);
 
         return () => clearTimeout(timer);
     }, [submit]);
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setExamData({ ...examData, [name]: value });
+    // Function to retrieve the educator's ID from session data
+    const getEducatorId = () => {
+        // Assuming you've stored the educator's ID in sessionStorage
+        return sessionStorage.getItem('_id');
     };
 
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
 
-    const handleLink = (event) => {
+        // Regex pattern to allow only numbers from 1 to 3, including decimal points
+        const timePattern = /^\d{1}(\.\d{0,2})?$/;
+
+        // Check if the input matches the pattern and falls within the range of 1 to 3
+        if (name === 'time' && (timePattern.test(value) || value === '') && parseFloat(value) >= 1 && parseFloat(value) <= 3) {
+            setExamData({ ...examData, [name]: value });
+        } else if (name === 'link' && isValidGoogleDocsLink(value)) {
+            setExamData({ ...examData, [name]: value });
+        }
+    };
+
+    const isValidGoogleDocsLink = (link) => {
+        // Regex pattern for a Google Docs link
+        const googleDocsPattern = /^https?:\/\/(?:docs\.google\.com\/(?:document|spreadsheets|presentation|forms)\/d\/|drive\.google\.com\/(?:file\/d\/|open\?id=))(.*?)(?:\/edit)?(?:\?usp=sharing)?$/;
+        return googleDocsPattern.test(link);
+    };
+
+    const handleLink = async (event) => {
         event.preventDefault();
         setSubmit(true);
 
-        if (examData.time ==='' || examData.link === ''){
-            return
+        if (examData.time === '' || examData.link === '') {
+            return;
         }
 
-        console.log(examData);
-        setExamData({
-            time: '',
-            link: ''
-        })
-        setSubmit(false)
-    }
+        try {
+            // Retrieve the educator's ID from session data
+            const educatorId = getEducatorId();
+
+            // Include the educator's ID in the exam data
+            const examDataWithEducatorId = {
+                ...examData,
+                educatorId: educatorId
+            };
+
+            // Send the POST request with the exam data including the educator's ID
+            await axios.post('http://localhost:3000/exam/addExam', examDataWithEducatorId);
+            setSuccessMessage('Successfully added!');
+            setExamData({
+                time: '',
+                link: ''
+            });
+            setSubmit(false);
+        } catch (error) {
+            console.error('Error:', error.message);
+            // Handle error
+        }
+    };
+
     return (
         <div className="add-exam">
             <div className="eduExamForm">
@@ -43,24 +83,25 @@ const AddEduExam = () => {
                     type='text'
                     name='time'
                     className='input'
-                    placeholder='Time'
+                    placeholder='Time (1-3)'
                     value={examData.time}
                     onChange={handleInputChange}
-                    {...(submit && examData.time === '' && { required: true })}
+                    {...(submit && (examData.time === '' || !/^\d{1}(\.\d{0,2})?$/.test(examData.time)) && { required: true })}
                 />
                 <input
                     type='text'
                     name='link'
                     className='input'
-                    placeholder='Exam Link'
+                    placeholder='Google Docs Link'
                     value={examData.link}
                     onChange={handleInputChange}
-                    {...(submit && examData.link === '' && { required: true })}
+                    {...(submit && (examData.link === '' || !isValidGoogleDocsLink(examData.link)) && { required: true })}
                 />
                 <button className='btnAdd' onClick={handleLink}>Add</button>
+                <span className="success-message">{successMessage}</span>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AddEduExam
+export default AddEduExam;

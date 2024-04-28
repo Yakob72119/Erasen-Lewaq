@@ -1,32 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const EduAskPayment = () => {
-    const testData = ['0', '1', '2']
+    const [exams, setExams] = useState([]);
 
-  
-    const examDeclaration = testData.map((item, index) => (
-        <div className="exam-declaration" key={index}>
-            <div className='divOne'>
-                <p>Educator: Akrem Muktar</p>
-                <p>Education Status: PHD</p>
-                <p>Experience : 12</p>
-            </div>
-            <div className='divTwo'>
-                <p>Department: Software Engineering</p>
-                <p>Exam: <a href='#' target='_blanck'>click here</a></p>
+    useEffect(() => {
+        const fetchExams = async () => {
+            try {
+                const educatorId = sessionStorage.getItem('_id');
+               
+                const response = await axios.get(`http://localhost:3000/exam/getExamsByEducatorIdAndStatus/${educatorId}/Pending`);
+                setExams(response.data);
+            } catch (error) {
+                console.error('Error fetching exams:', error);
+                // Handle error
+            }
+        };
 
-                <p>Status: Pending...</p>
-            </div>
-            <div className="controllers">
-                <button className='btnView'>Ask Pay</button>
-            </div>
-        </div>
-    ))
+        fetchExams();
+    }, []); // Empty dependency array ensures the effect runs only once on mount
+
     return (
         <>
-        {examDeclaration}
+            {exams.map((exam, index) => (
+                <div className="exam-declaration" key={index}>
+                    <div className='divOne'>
+                        <p>Educator ID: {exam.educatorId}</p>
+                        <p>Exam ID: {exam._id}</p>
+                        <p>Status: {exam.status}</p>
+                    </div>
+                    <div className='divTwo'>
+                        <p>Time: {exam.time}</p>
+                        <p>Exam: <a href={exam.link} target='_blank' rel="noopener noreferrer">click here</a></p>
+                    </div>
+                    <div className="controllers">
+                        <button className='btnView'>Ask Pay</button>
+                    </div>
+                </div>
+            ))}
         </>
-    )
-}
+    );
+};
 
-export default EduAskPayment
+export default EduAskPayment;
