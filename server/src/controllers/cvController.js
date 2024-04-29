@@ -76,11 +76,54 @@ const getCvStatus = async (req, res) => {
   }
 };
 
+const filterCvs = async (req, res) => {
+  try {
+      const { department } = req.body;
+      const filteredCVs = await Cv.find({ department });
+      res.json(filteredCVs);
+  } catch (error) {
+      console.error('Error filtering CVs:', error);
+      res.status(500).json({
+          status: 'error',
+          message: 'Internal server error'
+      });
+  }
+};
+
+
+const updateCvValue = async (req, res) => {
+  const { id } = req.params; // Adjust to use "id" instead of "_id"
+  
+  const { value } = req.body; // Change to retrieve "value" from the request body
+ 
+  try {
+    const cv = await Cv.findById(id);
+
+    if (!cv) {
+      return res.status(404).json({ message: 'CV not found' });
+    }
+
+    cv.value = value;
+    if (value >= 18) {
+      cv.status = 'Accepted';
+    } else {
+      cv.status = 'Declined';
+    }
+    const updatedCv = await cv.save();
+
+    res.status(200).json(updatedCv);
+  } catch (error) {
+    console.error('Error updating CV:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 module.exports={
   submitCV, 
   getCVs,
   deleteCV,
   deleteMultipleCVs,
-  getCvStatus
+  getCvStatus,
+  filterCvs,
+  updateCvValue
 };

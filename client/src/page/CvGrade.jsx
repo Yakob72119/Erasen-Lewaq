@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import erasenLweq from '../assets/erasenLweq.png';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import './style/CvGrade.scss'
+import { Link, useLocation } from 'react-router-dom';
+import './style/CvGrade.scss';
 
 const CvGrade = () => {
     const [gradeData, setGradeData] = useState({
@@ -16,10 +16,12 @@ const CvGrade = () => {
     const [errorStyle, setErrorStyle] = useState('red');
     const [submit, setSubmit] = useState('');
     const [validGoogleDoc, setValidGoogleDoc] = useState(false);
+    const [cvId, setCvId] = useState('');
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const gLink = searchParams.get('gLink');
+    const _id = searchParams.get('_id');
 
     useEffect(() => {
         const checkGoogleDocValidity = async () => {
@@ -43,14 +45,15 @@ const CvGrade = () => {
         if (gLink) {
             checkGoogleDocValidity();
         }
-    }, [gLink]);
+
+        setCvId(_id); // Set cvId from the _id parameter
+    }, [gLink, _id]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         if (!isNaN(value) && value >= 0 && value <= 5) {
             setGradeData({ ...gradeData, [name]: value });
         }
-        // setError('');
     };
 
     const handleSubmit = async (event) => {
@@ -60,7 +63,7 @@ const CvGrade = () => {
         const emptyFields = Object.values(gradeData).filter((value) => value === '');
         if (emptyFields.length > 0) {
             setError('All fields are required.');
-            setErrorStyle('red')
+            setErrorStyle('red');
             return;
         }
         if (!validGoogleDoc) {
@@ -69,11 +72,21 @@ const CvGrade = () => {
             return;
         }
 
-        console.log(gradeData);
-        setError("Grade successfully!")
-        setErrorStyle("Green")
-    }
+        try {
+            const { reference, skill, ethical, professional, expertise } = gradeData;
+            const totalValue = parseInt(reference) + parseInt(skill) + parseInt(ethical) + parseInt(professional) + parseInt(expertise);
 
+            const response = await axios.put(`http://localhost:3000/cv/updateCvValue/${cvId}`, { value: totalValue });
+            console.log(response.data); // Assuming the response contains updated CV data
+
+            setError("Graded successfully!");
+            setErrorStyle("green");
+        } catch (error) {
+            console.error('Error updating CV:', error);
+            setError('Error updating CV');
+            setErrorStyle('red');
+        }
+    };
 
     return (
         <div className='cv-grade'>
@@ -85,89 +98,84 @@ const CvGrade = () => {
                 <Link className='close-btn' to={'/admin-dashboard'}>Back</Link>
             </div>
             <div className="grade-body">
-            <div className="resume">
-            {validGoogleDoc ? (
-                    <iframe width="100%" height="100%" src={gLink}></iframe>
-                ) : (
-                    <p>{error}</p>
-                )}
+                <div className="resume">
+                    {validGoogleDoc ? (
+                        <iframe width="100%" height="100%" src={gLink}></iframe>
+                    ) : (
+                        <p>{error}</p>
+                    )}
+                </div>
+                <div className="grade">
+                    <form className="cvGradeForm" onSubmit={handleSubmit}>
+                        <div className="grade-items">
+                            <p>References and Recommendations</p>
+                            <input
+                                type="number"
+                                name="reference"
+                                className="input"
+                                placeholder="0"
+                                value={gradeData.reference}
+                                onChange={handleInputChange}
+                                {...(submit && gradeData.reference === '' && { required: true })}
+                            />
+                        </div>
+                        <div className="grade-items">
+                            <p>Communication Skills</p>
+                            <input
+                                type="number"
+                                name="skill"
+                                className="input"
+                                placeholder="0"
+                                value={gradeData.skill}
+                                onChange={handleInputChange}
+                                {...(submit && gradeData.skill === '' && { required: true })}
+                            />
+                        </div>
+                        <div className="grade-items">
+                            <p>Professionalism and Ethical Conduct</p>
+                            <input
+                                type="number"
+                                name="ethical"
+                                className="input"
+                                placeholder="0"
+                                value={gradeData.ethical}
+                                onChange={handleInputChange}
+                                {...(submit && gradeData.ethical === '' && { required: true })}
+                            />
+                        </div>
+                        <div className="grade-items">
+                            <p>Professional Development and Contributions</p>
+                            <input
+                                type="number"
+                                name="professional"
+                                className="input"
+                                placeholder="0"
+                                value={gradeData.professional}
+                                onChange={handleInputChange}
+                                {...(submit && gradeData.professional === '' && { required: true })}
+                            />
+                        </div>
+                        <div className="grade-items">
+                            <p>Subject Expertise</p>
+                            <input
+                                type="number"
+                                name="expertise"
+                                className="input"
+                                placeholder="0"
+                                value={gradeData.expertise}
+                                onChange={handleInputChange}
+                                {...(submit && gradeData.expertise === '' && { required: true })}
+                            />
+                        </div>
+                        <div className="btn-message">
+                            <input type="submit" value="Grade" className="formBtn" id="forBtn" />
+                            {error && <span style={{ color: errorStyle }}>{error}</span>}
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div className="grade">
-                <form className="cvGradeForm" onSubmit={handleSubmit}>
-                    <div className="grade-items">
-                        <p>References and Recommendations</p>
-                        <input
-                            type="number"
-                            name="reference"
-                            className="input"
-                            placeholder="0"
-                            value={gradeData.reference}
-                            onChange={handleInputChange}
-                            {...(submit && gradeData.reference === '' && { required: true })}
-                        />
-                    </div>
-                    <div className="grade-items">
-                        <p>Communication Skills</p>
-                        <input
-                            type="number"
-                            name="skill"
-                            className="input"
-                            placeholder="0"
-                            value={gradeData.skill}
-                            onChange={handleInputChange}
-                            {...(submit && gradeData.skill === '' && { required: true })}
-                        />
-                    </div>
-                    <div className="grade-items">
-                        <p>Professionalism and Ethical Conduct</p>
-                        <input
-                            type="number"
-                            name="ethical"
-                            className="input"
-                            placeholder="0"
-                            value={gradeData.ethical}
-                            onChange={handleInputChange}
-                            {...(submit && gradeData.ethical === '' && { required: true })}
-                        />
-                    </div>
-                    <div className="grade-items">
-                        <p>Professional Development and Contributions</p>
-                        <input
-                            type="number"
-                            name="professional"
-                            className="input"
-                            placeholder="0"
-                            value={gradeData.professional}
-                            onChange={handleInputChange}
-                            {...(submit && gradeData.professional === '' && { required: true })}
-                        />
-                    </div>
-                    <div className="grade-items">
-                        <p>Subject Expertise</p>
-                        <input
-                            type="number"
-                            name="expertise"
-                            className="input"
-                            placeholder="0"
-                            value={gradeData.expertise}
-                            onChange={handleInputChange}
-                            {...(submit && gradeData.expertise === '' && { required: true })}
-                        />
-                    </div>
+        </div>
+    );
+};
 
-                    <div className="btn-message">
-                        <input type="submit" value="Grade" className="formBtn" id="forBtn" />
-                        {error && <span style={{ color: errorStyle}}>{error}</span>}
-
-                    </div>
-
-
-                </form>
-             </div>
-            </div>
-            </div>
-
-    )
-}
-
-export default CvGrade
+export default CvGrade;

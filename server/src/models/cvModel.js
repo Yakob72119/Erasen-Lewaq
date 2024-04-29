@@ -11,7 +11,8 @@ const cvSchema = new mongoose.Schema({
     department: String,
     gLink: String,
     submissionDate: { type: Date, default: Date.now },
-    status: String
+    status: String,
+    value: { type: Number, default: null }
 });
 
 const Cv = mongoose.model('Cv', cvSchema);

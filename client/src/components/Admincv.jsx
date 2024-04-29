@@ -73,13 +73,18 @@ const Admincv = () => {
     }
   };
 
-  const handleFilter = () => {
-    console.log(filterData);
-
-    setFilterData({
-      point: '',
-      day: ''
-    });
+  const handleFilter = async () => {
+    try {
+      const { depart  } = filterData;
+      const response = await axios.get(`http://localhost:3000/cv/filter?department=${depart}`);
+      const filteredCvs = response.data;
+      const cvDeclarations = generateCvDeclarations(filteredCvs);
+      setCvDeclaration(cvDeclarations);
+  } catch (error) {
+      console.error('Error filtering CVs:', error);
+      setError('Error filtering CVs');
+      setErrorStyle('red');
+  }
   };
 
   const handleScheduleShow = () => {
@@ -92,8 +97,8 @@ const Admincv = () => {
 
   
 
-  const redirectToResultPage = (gLink) => {
-    navigate(`/cv-grade?gLink=${gLink}`);
+  const redirectToResultPage = (gLink, _id) => {
+    navigate(`/cv-grade?gLink=${gLink}&_id=${_id}`);
   };
 
 
@@ -119,16 +124,17 @@ const Admincv = () => {
         <div className='divOne'>
           <p>Education Status: {cv.eduStatus}</p>
           <p>Experience: {cv.experience} Year</p>
+          <p>Id: {cv._id}</p>
         </div>
         <div className='divTwo'>
           <p>Department: {cv.department}</p>
           <p>Resume: <a href={cv.gLink} target='_blanck'>click here</a></p>
         </div>
         <div className="controllers">
-          {cv.value !== undefined ? (
+          {cv.value !== null ? (
             <button className='btnGrade'>{cv.value}</button>
           ) : (
-            <button className='btnGrade' onClick={() => redirectToResultPage(cv.gLink)}>Grade</button>
+            <button className='btnGrade' onClick={() => redirectToResultPage(cv.gLink, cv._id)}>Grade</button>
           )}
           {/* Pass cv._id to handleDeleteCV */}
           <button className='btnDelete' onClick={() => handleDeleteCV(cv._id, index)}>Delete</button>
@@ -196,14 +202,6 @@ const Admincv = () => {
           </div>
         </div>
         <div className="filters">
-          <input
-            type='number'
-            name='point'
-            className='input point'
-            placeholder='Point'
-            value={filterData.point}
-            onChange={handleFilterChange}
-          />
           <input
             type='text'
             name='depart'
