@@ -4,7 +4,6 @@ import axios from 'axios';
 import erasenLweq from '../assets/erasenLweq.png';
 import menu from '../assets/menu.svg';
 import Home from '../assets/home.svg';
-import User from '../assets/user.svg';
 import Logout from '../assets/logout.svg';
 
 const Header = ({ onButtonClick, handleClass }) => {
@@ -116,10 +115,6 @@ const Header = ({ onButtonClick, handleClass }) => {
                   <button>
                     <img src={Home} alt="" />
                     Dashboard
-                  </button>
-                  <button>
-                    <img src={User} alt="" />
-                    Profile
                   </button>
                   <button onClick={handleLogout}>
                     <img src={Logout} alt="" />

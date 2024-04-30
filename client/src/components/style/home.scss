@@ -353,6 +353,11 @@
                 color: #fff;
                 font-weight: 700;
 
+                @include mobile {
+                    height: 60%;
+                    margin-top: 10%;
+                }
+
                 button {
                     position: absolute;
                     font-size: calc(10px + 2vmin);

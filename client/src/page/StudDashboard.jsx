@@ -2,12 +2,19 @@ import React, { useState } from 'react'
 import erasenLweq from '../assets/erasenLweq.png';
 import './style/EduDashboard.scss';
 import './style/AdminDashboard.scss';
+import './style/StudentDashboard.scss';
 import Home from '../assets/home.svg';
 import Home2 from '../assets/home2.svg';
 import Exam from '../assets/exam.svg';
-import Payment from '../assets/payment.svg';
+import Wallet from '../assets/wallet.svg';
+import Compliment from '../assets/customer.svg';
 import Logout from '../assets/logout.svg';
+import User from '../assets/user.svg';
 import { Link } from 'react-router-dom';
+import StudentDashboardComponent from './../components/StudentDashboardComponent'
+import StudentWalletComponent from './../components/StudentWalletComponent'
+import StudentExamComponent from './../components/StudentExamComponent'
+import StudentComplainComponent from './../components/StudentComplainComponent'
 
 const StudDashboard = () => {
   const [navBar, setNavBar] = useState('side-nav');
@@ -24,8 +31,12 @@ const StudDashboard = () => {
     setDisplay('exam');
   };
 
-  const handlePayment = () => {
-    setDisplay('payment');
+  const handleWallet = () => {
+    setDisplay('wallet');
+  };
+
+  const handleCompliment = () => {
+    setDisplay('compliment');
   };
 
   return (
@@ -41,18 +52,23 @@ const StudDashboard = () => {
         <div className="option">
           <ul>
             <li className={display === 'dashboard' ? 'currentClass' : ''} onClick={handleDashboard}><img src={Home} alt="" />Dashboard</li>
+            <li className={display === 'wallet' ? 'currentClass' : ''} onClick={handleWallet}><img src={Wallet} alt="" />Wallet</li>
             <li className={display === 'exam' ? 'currentClass' : ''} onClick={handleExam}><img src={Exam} alt="" />Exams</li>
-            <li className={display === 'payment' ? 'currentClass' : ''} onClick={handlePayment}><img src={Payment} alt="" />Payment</li>
+            <li className={display === 'compliment' ? 'currentClass' : ''} onClick={handleCompliment}><img src={Compliment} alt="" />Compliment</li>
           </ul>
         </div>
         <div className="setting">
           <ul>
+            <li><Link className='profile' to={'/student-profile'}><img src={User} alt="" />Profile</Link></li>
             <li><img src={Logout} alt="" />Sign out</li>
           </ul>
         </div>
       </div>
       <div className="main">
-
+        {display === 'dashboard' && <StudentDashboardComponent />}
+        {display === 'wallet' && <StudentWalletComponent />}
+        {display === 'exam' && <StudentExamComponent />}
+        {display === 'compliment' && <StudentComplainComponent />}
       </div>
 
       <div className='right-decor'>{/* this is just for right decor */}</div>
