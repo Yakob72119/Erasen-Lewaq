@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './style/EduDashboard.scss';
 import './style/AdminDashboard.scss';
@@ -10,9 +10,10 @@ import Home from '../assets/home.svg';
 import Exam from '../assets/exam.svg';
 import Payment from '../assets/payment.svg';
 import Logout from '../assets/logout.svg';
-import Bell from '../assets/notfication.svg';
+import Home2 from '../assets/home2.svg';
 import EduExam from '../components/EduExam';
 import EduPayment from '../components/EduPayment';
+import Reject from '../components/Reject';
 
 const EduDashboard = () => {
     const [navBar, setNavBar] = useState('side-nav');
@@ -52,7 +53,7 @@ const EduDashboard = () => {
         setDisplay('exam');
     };
 
-    const handlePayment= () => {
+    const handlePayment = () => {
         setDisplay('payment');
     };
 
@@ -82,9 +83,8 @@ const EduDashboard = () => {
             <div className="scroll"></div>
 
             <div className="logo-profile">
-                <img src={erasenLweq} alt="" />
-                <img className='bell' src={Bell} alt="" />
-                <span className='profile'>J</span>
+                <img src={erasenLweq} alt="" className='img-logo' />
+                <Link  to={'/'}><img src={Home2} alt="" className='img-home'/></Link>
             </div>
             <div className={navBar}>
                 <span onClick={handleNav} className='nav-btn'>|</span>
@@ -116,6 +116,7 @@ const EduDashboard = () => {
                     </>
                 )}
                 {!hasCv && <Cv onSubmit={handleCvSubmit} />}
+                {/* <Reject /> */}
             </div>
 
             <div className='right-decor'>{/* this is just for right decor */}</div>
