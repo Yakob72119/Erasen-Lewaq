@@ -52,7 +52,6 @@ const AdminExam = () => {
                         onChange={handleFilterChange}
                     />
                     <button className='btnFilter' onClick={handleFilter}>Filter</button>
-
                 </div>
             </div>
 

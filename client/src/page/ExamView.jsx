@@ -9,7 +9,7 @@ const ExamView = () => {
     const [error, setError] = useState('');
     const [errorStyle, setErrorStyle] = useState('red');
     const [examData, setExamData] = useState({
-        id: '',
+        id: '001',
         answer: '',
         question: '',
         answerA: '',
@@ -20,6 +20,9 @@ const ExamView = () => {
     const [submit, setSubmit] = useState(false);
     const [deleteCurrent, setDeleteCurrent] = useState('hide');
     const [validGoogleDoc, setValidGoogleDoc] = useState(false);
+
+    const answerKey = ['A', 'B', 'C', 'D'];
+
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -73,8 +76,12 @@ const ExamView = () => {
         setError('');
     };
 
-    const handleExamPost = () => {
+    const handleExamPost = (event) => {
         // Handle posting exam data
+        event.preventDefault();
+        setSubmit(true);
+
+        console.log(examData)
     };
 
     return (
@@ -89,7 +96,7 @@ const ExamView = () => {
 
             <div className="exam-body grade-body">
                 <div className="exam resume">
-                    <button className='delete' onClick={handleDeleteOpen}>Delete</button>
+                    <button className='delete' onClick={handleDeleteOpen}>Decline</button>
                     {validGoogleDoc ? (
                         <iframe title="Exam" width="100%" height="100%" src={link}></iframe>
                     ) : (
@@ -102,7 +109,7 @@ const ExamView = () => {
                             <p>Are You sure you want to delete this cvs?</p>
                         </div>
                         <div className="btn-message">
-                            <input type="submit" value="Delete" className="delete" id="forBtn" />
+                            <button className="delete" >Decline</button>
                         </div>
                     </div>
                 </div>
@@ -120,6 +127,22 @@ const ExamView = () => {
                                 onChange={handleInputChange}
                                 {...(submit && examData.id === '' && { required: true })}
                             />
+
+                            <select
+                                name="answer"
+                                className="input answer"
+                                value={examData.answer}
+                                onChange={handleInputChange}
+                                {...(submit && examData.answer === '' && { required: true })}
+                            >
+                                <option value="">Select Key</option>
+                                {answerKey.map((key) => (
+                                    <option key={key} value={key}>
+                                        {key}
+                                    </option>
+                                ))}
+                            </select>
+
                         </div>
 
                         <textarea
@@ -172,24 +195,11 @@ const ExamView = () => {
                             {...(submit && examData.answerD === '' && { required: true })}
                         />
 
-                        <div className="keys">
-                            <select
-                                name="answer"
-                                className="input answer"
-                                value={examData.answer}
-                                onChange={handleInputChange}
-                                {...(submit && examData.answer === '' && { required: true })}
-                            >
-                                <option value="">Select Key</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                            </select>
-                        </div>
+
 
                         <div className="btn-message">
                             <input type="submit" value="Add" className="input AddBtn" id="forBtn" />
+                            <button type='button' className="input AddBtn" id="forBtn">Done</button>
                             {error && <span style={{ color: errorStyle }}>{error}</span>}
                         </div>
                     </form>

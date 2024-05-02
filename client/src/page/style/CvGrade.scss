@@ -231,6 +231,11 @@
                     font-size: calc(5px + 2vmin);
                     outline: none;
                     border: 2px solid $brand-color-one;
+
+                    &:required {
+                    border: 2px solid red;
+
+                    }
                 }
 
                 .keys {
@@ -244,7 +249,7 @@
 
                     .answer {
                         margin-left: 10px;
-                        width: 30px;
+                        width: 150px;
                         border: 2px solid $button-primary;
 
                     }
@@ -261,15 +266,20 @@
                     border: 2px solid $brand-color-two;
                 }
 
-                .AddBtn {
-                    color: #fff;
-                    background-color: $brand-color-one;
-                    font-weight: 700;
-                    transition: 0.25s;
+                .btn-message {
+                    display: flex;
+                    .AddBtn {
+                        color: #fff;
+                        background-color: $brand-color-one;
+                        font-weight: 700;
+                        transition: 0.25s;
+                        margin-right: 10px;
 
-                    &:hover {
-                        cursor: pointer;
-                        opacity: 0.9;
+    
+                        &:hover {
+                            cursor: pointer;
+                            opacity: 0.9;
+                        }
                     }
                 }
             }
