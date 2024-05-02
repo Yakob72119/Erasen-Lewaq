@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import {useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './style/CvGrade.scss';
 import erasenLweq from '../assets/erasenLweq.png';
 
@@ -25,7 +25,6 @@ const ExamView = () => {
     const searchParams = new URLSearchParams(location.search);
     const link = searchParams.get('link');
     const _id = searchParams.get('_id');
-   
 
     useEffect(() => {
         const checkGoogleDocValidity = async () => {
@@ -121,16 +120,6 @@ const ExamView = () => {
                                 onChange={handleInputChange}
                                 {...(submit && examData.id === '' && { required: true })}
                             />
-
-                            <input
-                                type="text"
-                                name="answer"
-                                className="input answer"
-                                placeholder="key"
-                                value={examData.answer}
-                                onChange={handleInputChange}
-                                {...(submit && examData.answer === '' && { required: true })}
-                            />
                         </div>
 
                         <textarea
@@ -182,6 +171,22 @@ const ExamView = () => {
                             onChange={handleInputChange}
                             {...(submit && examData.answerD === '' && { required: true })}
                         />
+
+                        <div className="keys">
+                            <select
+                                name="answer"
+                                className="input answer"
+                                value={examData.answer}
+                                onChange={handleInputChange}
+                                {...(submit && examData.answer === '' && { required: true })}
+                            >
+                                <option value="">Select Key</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                        </div>
 
                         <div className="btn-message">
                             <input type="submit" value="Add" className="input AddBtn" id="forBtn" />
