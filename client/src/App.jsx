@@ -10,7 +10,6 @@ import EduDashboard from './page/EduDashboard';
 import AdminDashboard from './page/AdminDashboard';
 import StudDashboard from './page/StudDashboard';
 import StudProfile from './page/StudProfile';
-import AdminProfile from './page/AdminProfile';
 import EduProfile from './page/EduProfile';
 import ExamPage from './page/ExamPage';
 import CvGrade from './page/CvGrade';
@@ -54,9 +53,9 @@ const App = () => {
           <Route path="cv-grade"  element={<CvGrade />} />
           <Route path="exam-view"  element={<ExamView />} />
           {/* <Route path="admin-dashboard" element={<ProtectedRoute role="admin" element={<AdminDashboard />} />} /> */}
-          <Route path="admin-profile" element={<ProtectedRoute role="admin" element={<AdminProfile />} />} />
 
-          <Route path="student-dashboard" element={<ProtectedRoute role="student" element={<StudDashboard />} />} />
+          <Route path="student-dashboard"  element={<StudDashboard />} />
+          {/* <Route path="student-dashboard" element={<ProtectedRoute role="student" element={<StudDashboard />} />} /> */}
           <Route path="student-profile" element={<ProtectedRoute role="student" element={<StudProfile />} />} />
           
           

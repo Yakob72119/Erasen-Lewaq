@@ -9,12 +9,13 @@ import Cv from '../assets/cv.svg'
 import Payment from '../assets/payment.svg'
 import Setting from '../assets/setting.svg'
 import Logout from '../assets/logout.svg'
-import Bell from '../assets/notfication.svg'
+import Home2 from '../assets/home2.svg';
 import Admincv from '../components/Admincv'
 import AdminUser from '../components/AdminUser'
 import AdminExam from '../components/AdminExam'
 import AdminPayment from '../components/AdminPayment'
 import AdminSetting from '../components/AdminSetting'
+import { Link } from 'react-router-dom'
 
 const AdminDashboard = () => {
     const [navBar, setNavBar] = useState('side-nav')
@@ -58,9 +59,9 @@ const AdminDashboard = () => {
             <div className="scroll"></div>
 
             <div className="logo-profile">
-                <img src={erasenLweq} alt="" />
-                <img className='bell' src={Bell} alt="" />
-                <span className='profile'>J</span>
+                <img src={erasenLweq} alt="" className='img-logo' />
+                <Link to={'/'}><img src={Home2} alt="" className='img-home'/></Link>
+                
             </div>
             <div className={navBar}>
                 <span onClick={handleNav} className='nav-btn'>|</span>
