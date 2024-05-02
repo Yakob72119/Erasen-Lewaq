@@ -8,7 +8,11 @@ const educatorSchema = new mongoose.Schema({
   bank: String,
   bankAcc: Number,
   password: String,
-  gender: String
+  gender: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+}
 });
 
 const Educator = mongoose.model('Educator', educatorSchema);

@@ -124,7 +124,7 @@ const Admincv = () => {
         <div className='divOne'>
           <p>Education Status: {cv.eduStatus}</p>
           <p>Experience: {cv.experience} Year</p>
-          <p>Id: {cv._id}</p>
+          <p>Status: {cv.status}</p>
         </div>
         <div className='divTwo'>
           <p>Department: {cv.department}</p>

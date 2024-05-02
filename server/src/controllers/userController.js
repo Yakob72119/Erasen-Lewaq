@@ -12,15 +12,17 @@ const login = (req, res) => {
           const role = foundUser.role;
           const fname = foundUser.fname;
           const _id = foundUser._id;
+          const department=foundUser.department;
           req.session.isAuthenticated = true; // Set isAuthenticated flag to true
           req.session.user = {
             email: email,
             fname:fname,
             role: role,
-            _id: _id
+            _id: _id,
+            department: department 
           };
           console.log('Session:', req.session.user); 
-          res.status(200).json({ success: true, role: role, fname: fname, _id: _id });
+          res.status(200).json({ success: true, role: role, fname: fname, _id: _id, department: department });
         } else {
           res.status(401).json({ success: false, message: 'Invalid email or password' });
         }

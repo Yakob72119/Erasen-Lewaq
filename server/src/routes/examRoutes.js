@@ -10,5 +10,6 @@ router.delete('/deleteExam/:examId', examController.deleteExam);
 
 router.get('/getExamsByEducatorIdAndStatus/:educatorId/:status', examController.getExamsByEducatorIdAndStatus);
 
+router.get('/getAllExams', examController.getAllExams);
 
 module.exports = router;

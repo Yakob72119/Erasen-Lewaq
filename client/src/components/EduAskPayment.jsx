@@ -30,6 +30,7 @@ const EduAskPayment = () => {
                         <p>Status: {exam.status}</p>
                     </div>
                     <div className='divTwo'>
+                         <p>Department: {exam.department}</p>
                         <p>Time: {exam.time}</p>
                         <p>Exam: <a href={exam.link} target='_blank' rel="noopener noreferrer">click here</a></p>
                     </div>

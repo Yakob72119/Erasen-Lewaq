@@ -17,6 +17,10 @@ const examSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
+    },
+    department: {
+        type: String,
+        required: true
     }
 });
 
