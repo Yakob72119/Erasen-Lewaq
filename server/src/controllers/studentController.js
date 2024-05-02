@@ -1,6 +1,9 @@
 const Student = require('./../models/studentModel');
 const User = require('./../models/userModel');
 const md5=require("md5");
+const mongoose = require('mongoose');
+
+
 const register = async (req, res) => {
   try {
     const {fullName, email, department, collage, password, gender } = req.body;
@@ -16,7 +19,8 @@ const register = async (req, res) => {
       email: email,
       fname: firstName,
       password: md5(password),
-      role: "student" 
+      role: "student",
+      department: department 
     });
 
     await user.save();
@@ -28,8 +32,9 @@ const register = async (req, res) => {
       department: department,
       collage: collage,
       password: md5(password),
-      gender: gender
-    });
+      gender: gender,
+      user: user._id
+        });
 
     await student.save();
 

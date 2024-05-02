@@ -18,10 +18,12 @@ const AddEduExam = () => {
         return () => clearTimeout(timer);
     }, [submit]);
 
-    // Function to retrieve the educator's ID from session data
-    const getEducatorId = () => {
-        // Assuming you've stored the educator's ID in sessionStorage
-        return sessionStorage.getItem('_id');
+    const getEducatorData = () => {
+        // Assuming you've stored the educator's ID and department in sessionStorage
+        return {
+            id: sessionStorage.getItem('_id'),
+            department: sessionStorage.getItem('department')
+        };
     };
 
     const handleInputChange = (event) => {
@@ -53,17 +55,17 @@ const AddEduExam = () => {
         }
 
         try {
-            // Retrieve the educator's ID from session data
-            const educatorId = getEducatorId();
+            // Retrieve the educator's ID and department from session data
+            const { id, department } = getEducatorData();
 
             // Include the educator's ID in the exam data
-            const examDataWithEducatorId = {
+            const examDataWithEducatorData = {
                 ...examData,
-                educatorId: educatorId
+                educatorId: id,
+                department: department
             };
-
             // Send the POST request with the exam data including the educator's ID
-            await axios.post('http://localhost:3000/exam/addExam', examDataWithEducatorId);
+            await axios.post('http://localhost:3000/exam/addExam', examDataWithEducatorData);
             setSuccessMessage('Successfully added!');
             setExamData({
                 time: '',

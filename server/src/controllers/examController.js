@@ -2,14 +2,15 @@ const Exam = require('./../models/examModel');
 
 
 const addExam = async (req, res) => {
-    const { time, link, educatorId } = req.body;
+    const { time, link, educatorId, department } = req.body;
 
     try {
         const newExam = new Exam({
             time: time,
             link: link,
             educatorId: educatorId,
-            status: "Pending"
+            status: "Pending",
+            department: department
         });
 
         await newExam.save();
@@ -57,9 +58,21 @@ const deleteExam = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+const getAllExams = async (req, res) => {
+    try {
+        const exams = await Exam.find();
+        res.status(200).json(exams);
+    } catch (error) {
+        console.error('Error fetching exams:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 module.exports={
     addExam,
     getExamsByEducatorId,
     deleteExam,
-    getExamsByEducatorIdAndStatus
+    getExamsByEducatorIdAndStatus,
+    getAllExams
 }

@@ -1,6 +1,7 @@
 const Educator = require('./../models/educatorModel');
 const User = require('./../models/userModel');
 const md5 =require("md5");
+const mongoose=require('mongoose');
 
 const register = async (req, res) => {
   try {
@@ -19,7 +20,8 @@ const register = async (req, res) => {
       email: email,
       fname: firstName,
       password: md5(password),
-      role: "educator" 
+      role: "educator",
+      department: collage  
     });
 
     await user.save();
@@ -33,7 +35,8 @@ const register = async (req, res) => {
       bank: bank,
       bankAcc: bankAcc,
       password: md5(password),
-      gender: gender
+      gender: gender,
+      user: user._id 
     });
     
     await educator.save();
@@ -45,6 +48,7 @@ const register = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 module.exports={
   register

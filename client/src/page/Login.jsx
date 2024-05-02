@@ -51,6 +51,7 @@ const Login = ({ history }) => {
         sessionStorage.setItem('role', response.data.role);
         sessionStorage.setItem('fname', response.data.fname);
         sessionStorage.setItem('_id', response.data._id);
+        sessionStorage.setItem('department', response.data.department);
       
         if (response.data.role === 'educator') {
           navigate('/educator-dashboard');
