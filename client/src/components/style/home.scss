@@ -7,7 +7,7 @@
     .hero-section {
         display: flex;
         overflow: hidden;
-        width: 100%;
+        width: 98%;
         height: 80vh;
         border: 3px solid $hero-border;
         border-radius: 10px;
@@ -80,7 +80,7 @@
             position: absolute;
             align-self: flex-end;
             height: 60%;
-            right: 20px;
+            right: 43px;
 
             @include laptop {
                 height: 40%;

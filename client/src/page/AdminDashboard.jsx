@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './style/EduDashboard.scss'
 import './style/AdminDashboard.scss'
 import erasenLweq from '../assets/erasenLweq.png'
@@ -20,7 +20,21 @@ import { Link } from 'react-router-dom'
 const AdminDashboard = () => {
     const [navBar, setNavBar] = useState('side-nav')
     const [display, setDisplay] = useState('dashboard')
+    const [fname, setFname] = useState('');
+    const [authenticated, setAuthenticated] = useState(false);
 
+
+    useEffect(() => {
+        const fname = sessionStorage.getItem('fname');
+
+        if (fname) {
+            setAuthenticated(true);
+            setFname(fname);
+        } else {
+            setAuthenticated(false);
+            setFname('');
+        }
+    }, []);
     const handleNav = () => {
         if (navBar === 'side-nav') {
             setNavBar('side-nav-show')
@@ -60,8 +74,9 @@ const AdminDashboard = () => {
 
             <div className="logo-profile">
                 <img src={erasenLweq} alt="" className='img-logo' />
-                <Link to={'/'}><img src={Home2} alt="" className='img-home'/></Link>
-                
+                <Link to={'/'}><img src={Home2} alt="" className='img-home' /></Link>
+                <h1 className='profile-letter'>{authenticated ? fname[0] : ''}</h1>
+
             </div>
             <div className={navBar}>
                 <span onClick={handleNav} className='nav-btn'>|</span>

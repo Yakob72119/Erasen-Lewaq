@@ -24,6 +24,18 @@ const EduDashboard = () => {
     const [userId, setUserId] = useState('');
     const [hasCv, setHasCv] = useState(false);
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        const fname = sessionStorage.getItem('fname');
+    
+        if (fname) {
+          setAuthenticated(true);
+          setFname(fname);
+        } else {
+          setAuthenticated(false);
+          setFname('');
+        }
+      }, []);
 
     useEffect(() => {
         const fetchCvStatus = async () => {
@@ -84,7 +96,9 @@ const EduDashboard = () => {
 
             <div className="logo-profile">
                 <img src={erasenLweq} alt="" className='img-logo' />
-                <Link  to={'/'}><img src={Home2} alt="" className='img-home'/></Link>
+                <Link to={'/'}><img src={Home2} alt="" className='img-home' /></Link>
+                <h1 className='profile-letter'>{authenticated ? fname[0] : ''}</h1>
+
             </div>
             <div className={navBar}>
                 <span onClick={handleNav} className='nav-btn'>|</span>

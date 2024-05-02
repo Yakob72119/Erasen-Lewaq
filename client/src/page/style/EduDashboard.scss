@@ -20,7 +20,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: calc(180px + 2vmin);
+        width: calc(190px + 2vmin);
 
         .img-logo{
             width: calc(100px + 2vmin);
@@ -30,7 +30,14 @@
         .img-home{
             width: calc(30px + 2vmin);
             opacity: 0.6;
+        }
 
+        .profile-letter {
+            background: $brand-color-tree;
+            padding: 5px 10px;
+            border-radius: 50%;
+            margin-left: 10px;
+            color: #fff;
         }
 
     }

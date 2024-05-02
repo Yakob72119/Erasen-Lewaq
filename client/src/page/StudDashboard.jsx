@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import erasenLweq from '../assets/erasenLweq.png';
 import './style/EduDashboard.scss';
 import './style/AdminDashboard.scss';
@@ -19,6 +19,22 @@ import StudentComplainComponent from './../components/StudentComplainComponent'
 const StudDashboard = () => {
   const [navBar, setNavBar] = useState('side-nav');
   const [display, setDisplay] = useState('dashboard');
+  const [fname, setFname] = useState('');
+  const [authenticated, setAuthenticated] = useState(false);
+
+
+  useEffect(() => {
+    const fname = sessionStorage.getItem('fname');
+
+    if (fname) {
+      setAuthenticated(true);
+      setFname(fname);
+    } else {
+      setAuthenticated(false);
+      setFname('');
+    }
+  }, []);
+
   const handleNav = () => {
     setNavBar(navBar === 'side-nav' ? 'side-nav-show' : 'side-nav');
   };
@@ -46,6 +62,7 @@ const StudDashboard = () => {
       <div className="logo-profile">
         <img src={erasenLweq} alt="" className='img-logo' />
         <Link to={'/'}><img src={Home2} alt="" className='img-home' /></Link>
+        <h1 className='profile-letter'>{authenticated ? fname[0] : ''}</h1>
       </div>
       <div className={navBar}>
         <span onClick={handleNav} className='nav-btn'>|</span>
