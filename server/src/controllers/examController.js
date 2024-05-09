@@ -69,10 +69,24 @@ const getAllExams = async (req, res) => {
     }
 };
 
+const declineExam = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const exam = await Exam.findByIdAndUpdate(id, { status: 'Declined' }, { new: true });
+        if (!exam) {
+            return res.status(404).json({ message: 'Exam not found' });
+        }
+        res.json({ message: 'Exam status updated to Declined', exam });
+    } catch (error) {
+        console.error('Error declining exam:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 module.exports={
     addExam,
     getExamsByEducatorId,
     deleteExam,
     getExamsByEducatorIdAndStatus,
-    getAllExams
+    getAllExams,
+    declineExam
 }

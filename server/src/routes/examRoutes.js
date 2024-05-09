@@ -12,4 +12,6 @@ router.get('/getExamsByEducatorIdAndStatus/:educatorId/:status', examController.
 
 router.get('/getAllExams', examController.getAllExams);
 
+router.put('/:id', examController.declineExam);
+
 module.exports = router;
