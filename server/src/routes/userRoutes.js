@@ -13,5 +13,6 @@ router.post('/registerAdmin', userController.registerAdmin);
 
 router.delete('/:userId', userController.deleteUser);
 
+router.put('/updatePassword', userController.updatePassword);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 import './style/EduDashboard.scss'
 import './style/AdminDashboard.scss'
 import erasenLweq from '../assets/erasenLweq.png'
@@ -73,7 +74,17 @@ const AdminDashboard = () => {
         setDisplay('setting')
     }
 
-
+    const handleSignOut = async () => {
+        try {
+          await axios.get('http://localhost:3000/user/logout');
+          sessionStorage.clear(); // Clear session storage
+          setAuthenticated(false); // Update authentication state
+          setFname(''); // Clear the user's name
+          window.location.href = '/';
+        } catch (error) {
+          console.error('Error logging out:', error);
+        }
+      };
 
     return (
         <div className='admin-dashboard Registration edu-dashboard'>
@@ -100,7 +111,7 @@ const AdminDashboard = () => {
                 <div className="setting">
                     <ul>
                         <li className={display === 'setting' && 'currentClass'} onClick={handleSetting}><img src={Setting} alt="" />Setting</li>
-                        <li><img src={Logout} alt="" />Sign out</li>
+                        <li onClick={handleSignOut}><img src={Logout} alt="" />Sign out</li>
                     </ul>
                 </div>
             </div>
