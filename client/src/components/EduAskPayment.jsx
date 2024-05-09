@@ -9,7 +9,7 @@ const EduAskPayment = () => {
             try {
                 const educatorId = sessionStorage.getItem('_id');
                
-                const response = await axios.get(`http://localhost:3000/exam/getExamsByEducatorIdAndStatus/${educatorId}/Pending`);
+                const response = await axios.get(`http://localhost:3000/exam/getExamsByEducatorIdAndStatus/${educatorId}/Accepted`);
                 setExams(response.data);
             } catch (error) {
                 console.error('Error fetching exams:', error);

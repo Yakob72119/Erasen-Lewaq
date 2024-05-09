@@ -6,6 +6,7 @@ import './style/AdminDashboard.scss';
 import erasenLweq from '../assets/erasenLweq.png';
 import Cv from '../components/Cv';
 import Wait from '../components/Wait';
+import Reject from '../components/Reject'
 import Home from '../assets/home.svg';
 import Exam from '../assets/exam.svg';
 import Payment from '../assets/payment.svg';
@@ -126,7 +127,7 @@ const EduDashboard = () => {
                             </>
                         )}
                         {cvStatus === 'Pending' && <Wait message="Your CV is pending approval." />}
-                        {cvStatus === 'Declined' && <Wait message="Your CV has been declined." />}
+                        {cvStatus === 'Declined' && <Reject message="Your CV has been declined." />}
                     </>
                 )}
                 {!hasCv && <Cv onSubmit={handleCvSubmit} />}
