@@ -16,6 +16,7 @@ const login = (req, res) => {
           const fname = foundUser.fname;
           const _id = foundUser._id;
           const department=foundUser.department;
+          const email=foundUser.email;
           req.session.isAuthenticated = true; // Set isAuthenticated flag to true
           req.session.user = {
             email: email,
@@ -25,7 +26,7 @@ const login = (req, res) => {
             department: department 
           };
           console.log('Session:', req.session.user); 
-          res.status(200).json({ success: true, role: role, fname: fname, _id: _id, department: department });
+          res.status(200).json({ success: true, role: role, fname: fname, _id: _id, department: department, email: email });
         } else {
           res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
@@ -112,6 +113,19 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updatePassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const hashedPassword=md5(password);
+    // Update password for user with matching email
+    await User.updateOne({ email }, { $set: { password: hashedPassword } });
+
+    res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    res.status(500).json({ error: 'Could not update password' });
+  }
+};
 
 
 
@@ -120,5 +134,6 @@ module.exports={
   logout,
   getUsers,
   registerAdmin,
-  deleteUser
+  deleteUser,
+  updatePassword
 };
