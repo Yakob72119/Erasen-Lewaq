@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import AdminExamHis from './AdminExamHis'
-
 const AdminExam = () => {
     const [depart, setDepart] = useState('')
     const [examControl, setExamControl] = useState('show')
-    const [historyControl, setHistoryControl] = useState('hide')
+    // const [filterControl, setFilterControl] = useState('hide')
     const [exams, setExams] = useState([]);
     const navigate = useNavigate();
 
@@ -16,13 +14,6 @@ const AdminExam = () => {
         setExamControl('show');
         setHistoryControl('hide');
     }
-
-    const handleHistory = () => {
-        setExamControl('hide');
-        setHistoryControl('show');
-    }
-
-
 
     const handleFilterChange = (event) => {
         const { value } = event.target;
@@ -99,7 +90,6 @@ const AdminExam = () => {
             <div className="navbars">
                 <div className="nav-btns">
                     <button className='exam-nav' onClick={handleExam}>Exams</button>
-                    <button className='history-nav' onClick={handleHistory}>History</button>
                 </div>
                 <div className="filters">
                     <input
@@ -117,21 +107,6 @@ const AdminExam = () => {
             <div className={`exams ${examControl}`}>
                 {examDeclaration}
             </div>
-
-            <div className={`historys ${historyControl}`}>
-            <table border={1}>
-                <thead className='head'>
-                    <th>Name</th>
-                    <th>Education</th>
-                    <th>Department</th>
-                    <th>Exam status</th>
-                </thead>
-                {dataView}
-            </table>
-            </div>
-
-
-
             <div className="page-number">
                 <button className='preview'> &lt;&lt;</button>
                 <button className='next'> &gt;&gt;</button>

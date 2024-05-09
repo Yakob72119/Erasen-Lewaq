@@ -3,11 +3,7 @@ import React from 'react'
 const Faq = () => {
   return (
     <div className='fqa '>
-      <a className="question" href='#a1'># Lorem ipsum, dolor sit amet consectetur adipisicing elit ?</a>
-      <a className="question" href='#a2'># Lorem ipsum, dolor sit amet consectetur adipisicing elit ?</a>
-      <a className="question" href='#a3'># Lorem ipsum, dolor sit amet consectetur adipisicing elit ?</a>
-      <a className="question" href='#a4'># Lorem ipsum, dolor sit amet consectetur adipisicing elit ?</a>
-
+     
       <div className="answers">
         <div className="answer" id='a1'>
           <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit ?</h1>

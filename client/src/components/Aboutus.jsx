@@ -1,9 +1,9 @@
 import React from 'react'
 import erasenLweq from '../assets/erasenLweq.png'
 import akrem from '../assets/akrem.jpg'
-import picPerson01 from '../assets/pic-person-01.jpg'
+import picPerson01 from '../assets/yakoba.jpg'
 import picPerson02 from '../assets/about-us.jpg'
-import picPerson03 from '../assets/pic-person-03.jpg'
+import picPerson03 from '../assets/kidus.jpg'
 import ekram from '../assets/ekram.jpg'
 
 

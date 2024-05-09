@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const AdminUser = () => {
   const roles = ['Admin', 'Student', 'Educator'];
-  const [passwd, setPasswd] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
   const [formData, setFormData] = useState({
     name: '',
@@ -21,30 +20,30 @@ const AdminUser = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [selectedValue, currentPage]); 
+  }, [selectedValue, currentPage]);
 
   const fetchUsers = async () => {
-  try {
-    const url = `http://localhost:3000/user/getUsers?role=${selectedValue.toLowerCase()}&page=${currentPage}&limit=15`;
-    const response = await axios.get(url);
-    setUsers(response.data.users);
-    setTotalPages(Math.ceil(response.data.totalCount / 15));
-  } catch (error) {
-    console.error('Error fetching users:', error);
-  }
-};
+    try {
+      const url = `http://localhost:3000/user/getUsers?role=${selectedValue.toLowerCase()}&page=${currentPage}&limit=15`;
+      const response = await axios.get(url);
+      setUsers(response.data.users);
+      setTotalPages(Math.ceil(response.data.totalCount / 15));
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
 
-const handleNextPage = () => {
-  if (currentPage < totalPages) {
-    setCurrentPage(currentPage + 1);
-  }
-};
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
-const handlePrevPage = () => {
-  if (currentPage > 1) {
-    setCurrentPage(currentPage - 1);
-  }
-};
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -86,7 +85,7 @@ const handlePrevPage = () => {
     console.log('Generated Password:', password);
     return password;
   }
-  
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -100,7 +99,7 @@ const handlePrevPage = () => {
     setError('');
   };
 
-  
+
   const resetForm = () => {
     setFormData({
       name: '',
@@ -113,14 +112,14 @@ const handlePrevPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
-  
+
     const { name, email } = formData;
     if (!name || !email) {
       setError('All fields are required!');
       setErrorStyle('red');
       return;
     }
-    
+
     const generatedPassword = generatePassword();
     setFormData({ ...formData, password: generatedPassword });
 
@@ -131,7 +130,7 @@ const handlePrevPage = () => {
         password: generatedPassword,
         role: 'admin'
       });
-  
+
       setFormData({ ...formData, password: generatedPassword });
       setError('Admin registered successfully!');
       setErrorStyle('green');
@@ -144,23 +143,10 @@ const handlePrevPage = () => {
       setSubmit(false);
     }
   };
-  
+
 
   const handleDelete = async (event) => {
     event.preventDefault();
-    setSubmit(true);
-
-    if (passwd === '') {
-      setError('Insert Your Password to Delete!');
-      setErrorStyle('red')
-      return;
-    }
-
-    console.log(passwd);
-    setError("delete successfully!")
-    setErrorStyle("Green")
-    setPasswd('')
-    setSubmit(false)
   }
 
   const handleFilterChange = (event) => {
@@ -186,10 +172,10 @@ const handlePrevPage = () => {
   ) : (
     <p>No users found</p>
   );
-  
+
 
   return (
-    <div className='admin-user'>
+    <div className='admin-user admin-cv'>
       <div className="filter">
         <button onClick={handleOpen} className='addBtn'>+ Add new Admin</button>
         <select
@@ -250,27 +236,18 @@ const handlePrevPage = () => {
 
       <div className={`add-new-admin ${adminPass}`}>
         <button onClick={handleDeleteClose} className='close'>Close</button>
-        <form className="newAdminForm" onSubmit={handleDelete}>
-          <input
-            type="password"
-            name="password"
-            className="input"
-            placeholder="password"
-            value={passwd}
-            onChange={handleDeleteInputChange}
-            {...(submit && passwd === '' && { required: true })}
-          />
-          <div className="btn-message">
-            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" />
-            {error && <span style={{ color: errorStyle }}>{error}</span>}
+          <div className="newAdminForm">
+            <p>Are You sure you want to delet this cvs?</p>
           </div>
-        </form>
+          <div className="btn-message">
+            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" onClick={handleDelete}/>
+          </div>
       </div>
       <div className="page-number">
-  <button className='preview' onClick={handlePrevPage}> &lt;&lt;</button>
-  <span>Page {currentPage}</span>
-  <button className='next' onClick={handleNextPage}> &gt;&gt;</button>
-</div>
+        <button className='preview' onClick={handlePrevPage}> &lt;&lt;</button>
+        <span>Page {currentPage}</span>
+        <button className='next' onClick={handleNextPage}> &gt;&gt;</button>
+      </div>
     </div>
   )
 }

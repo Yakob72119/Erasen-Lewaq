@@ -75,16 +75,16 @@ const Admincv = () => {
 
   const handleFilter = async () => {
     try {
-      const { depart  } = filterData;
+      const { depart } = filterData;
       const response = await axios.get(`http://localhost:3000/cv/filter?department=${depart}`);
       const filteredCvs = response.data;
       const cvDeclarations = generateCvDeclarations(filteredCvs);
       setCvDeclaration(cvDeclarations);
-  } catch (error) {
+    } catch (error) {
       console.error('Error filtering CVs:', error);
       setError('Error filtering CVs');
       setErrorStyle('red');
-  }
+    }
   };
 
   const handleScheduleShow = () => {
@@ -95,7 +95,7 @@ const Admincv = () => {
     setSchedule('days');
   };
 
-  
+
 
   const redirectToResultPage = (gLink, _id) => {
     navigate(`/cv-grade?gLink=${gLink}&_id=${_id}`);
@@ -178,9 +178,9 @@ const Admincv = () => {
     <div className='admin-cv' >
       <div className="navbars">
         <div className="schedule">
-          <button  className='scheduleBtn' onClick={handleScheduleShow}>Application schedule</button>
+          <button className='scheduleBtn' onClick={handleScheduleShow}>Application schedule</button>
           <div className={schedule}>
-            <button style={{background:'red'}} onClick={handleScheduleHide}>Close</button>
+            <button style={{ background: 'red' }} onClick={handleScheduleHide}>Close</button>
             <label htmlFor="startDate">From</label>
             <input
               type='date'
@@ -231,7 +231,6 @@ const Admincv = () => {
         </div>
         <div className="btn-message">
           <input onClick={handleDeleteCurrentSearch} type="submit" value="Delete" className="deleteBtn" id="forBtn" />
-
         </div>
 
 

@@ -7,6 +7,7 @@ import Exam from '../assets/exam.svg'
 import User from '../assets/user.svg'
 import Cv from '../assets/cv.svg'
 import Payment from '../assets/payment.svg'
+import Fqa from '../assets/faq.svg'
 import Setting from '../assets/setting.svg'
 import Logout from '../assets/logout.svg'
 import Home2 from '../assets/home2.svg';
@@ -16,6 +17,7 @@ import AdminExam from '../components/AdminExam'
 import AdminPayment from '../components/AdminPayment'
 import AdminSetting from '../components/AdminSetting'
 import { Link } from 'react-router-dom'
+import AdminFqa from '../components/AdminFqa'
 
 const AdminDashboard = () => {
     const [navBar, setNavBar] = useState('side-nav')
@@ -62,6 +64,10 @@ const AdminDashboard = () => {
         setDisplay('payment')
     }
 
+    const handleFqa = () => {
+        setDisplay('fqa')
+    }
+
     const handleSetting = () => {
         setDisplay('setting')
     }
@@ -87,6 +93,7 @@ const AdminDashboard = () => {
                         <li className={display === 'user' && 'currentClass'} onClick={handleUser}><img src={User} alt="" />User</li>
                         <li className={display === 'cv' && 'currentClass'} onClick={handleCv}><img src={Cv} alt="" />CV</li>
                         <li className={display === 'payment' && 'currentClass'} onClick={handlePayment}><img src={Payment} alt="" />Payment</li>
+                        <li className={display === 'fqa' && 'currentClass'} onClick={handleFqa}><img src={Fqa} alt="" />FQA</li>
                     </ul>
                 </div>
                 <div className="setting">
@@ -103,6 +110,7 @@ const AdminDashboard = () => {
                 {display === 'user' && <AdminUser />}
                 {display === 'cv' && <Admincv />}
                 {display === 'payment' && <AdminPayment />}
+                {display === 'fqa' && <AdminFqa />}
                 {display === 'setting' && <AdminSetting />}
             </div>
             <div className='right-decor'>{/* this is just for right decor */}</div>

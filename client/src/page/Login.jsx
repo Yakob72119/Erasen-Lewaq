@@ -76,7 +76,7 @@ const Login = ({ history }) => {
       {/* container for all central components */}
       <div className="registration-container">
         <img className="EranseLewaqLogo" src={erasenLweq} alt="EranseLewaq-logo" />
-        <h1 className="title">Registration</h1>
+        <h1 className="title">Login</h1>
         <form className="registerForm" onSubmit={handleSubmit}>
           <input
             type="email"
