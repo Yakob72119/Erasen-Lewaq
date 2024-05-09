@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate  } from 'react-router-dom';
 import './style/CvGrade.scss';
 import erasenLweq from '../assets/erasenLweq.png';
 
@@ -9,57 +8,62 @@ const ExamView = () => {
     const [error, setError] = useState('');
     const [errorStyle, setErrorStyle] = useState('red');
     const [examData, setExamData] = useState({
-        id: '001',
+        id: '',
         answer: '',
         question: '',
-        answerA: '',
-        answerB: '',
-        answerC: '',
-        answerD: '',
+        choiceA: '',
+        choiceB: '',
+        choiceC: '',
+        choiceD: '',
     });
     const [submit, setSubmit] = useState(false);
     const [deleteCurrent, setDeleteCurrent] = useState('hide');
     const [validGoogleDoc, setValidGoogleDoc] = useState(false);
+    const [questions, setQuestions] = useState([]);
 
     const answerKey = ['A', 'B', 'C', 'D'];
-
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const link = searchParams.get('link');
     const _id = searchParams.get('_id');
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        const checkGoogleDocValidity = async () => {
-            try {
-                const response = await fetch(link);
-                if (response.ok && response.url.includes('docs.google.com')) {
-                    setValidGoogleDoc(true);
-                } else {
-                    setValidGoogleDoc(false);
-                    setError('This is not a valid Google Docs link.');
-                    setErrorStyle('red');
-                }
-            } catch (error) {
-                console.error('Error checking Google Docs link validity:', error);
+    const checkGoogleDocValidity = useCallback(async () => {
+        try {
+            const response = await fetch(link);
+            if (response.ok && response.url.includes('docs.google.com')) {
+                setValidGoogleDoc(true);
+            } else {
                 setValidGoogleDoc(false);
-                setError('An error occurred while validating the link.');
+                setError('This is not a valid Google Docs link.');
                 setErrorStyle('red');
             }
-        };
-
-        if (link) {
-            checkGoogleDocValidity();
+        } catch (error) {
+            console.error('Error checking Google Docs link validity:', error);
+            setValidGoogleDoc(false);
+            setError('An error occurred while validating the link.');
+            setErrorStyle('red');
         }
     }, [link]);
 
-    const handleDeleteOpen = () => {
-        setDeleteCurrent('show');
-    };
+    useEffect(() => {
+        if (link) {
+            checkGoogleDocValidity();
+        }
+    }, [link, checkGoogleDocValidity]);
 
-    const handleDeleteClose = () => {
-        setDeleteCurrent('hide');
-    };
+    useEffect(() => {
+        setExamData({
+            id: _id || '',
+            answer: '',
+            question: '',
+            choiceA: '',
+            choiceB: '',
+            choiceC: '',
+            choiceD: '',
+        });
+    }, [_id]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -72,16 +76,56 @@ const ExamView = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setExamData({ ...examData, [name]: value });
+        setExamData(prevData => ({ ...prevData, [name]: value }));
         setError('');
     };
 
-    const handleExamPost = (event) => {
-        // Handle posting exam data
+    const handleExamAdd = (event) => {
         event.preventDefault();
         setSubmit(true);
+        if (Object.values(examData).some(value => value === '')) {
+            setError('All fields are required.');
+            setErrorStyle('red');
+            return;
+        }
+        const newQuestion = { ...examData };
+        setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
+        setExamData({
+            id: _id || '',
+            answer: '',
+            question: '',
+            choiceA: '',
+            choiceB: '',
+            choiceC: '',
+            choiceD: '',
+        });
+        setError('');
+    };
 
-        console.log(examData)
+    const handleExamDone = async () => {
+        try {
+            console.log(questions)
+            const response = await axios.post('http://localhost:3000/question/add', questions);
+            navigate('/admin-dashboard');
+            console.log('Response:', response.data);
+
+        } catch (error) {
+            console.error('Error saving exam questions:', error);
+            setError('Error saving exam questions. Please try again.');
+            setErrorStyle('red');
+        }
+    };
+
+    const handleDecline = async () => {
+        try {
+            await axios.put(`http://localhost:3000/exam/${_id}`, { status: 'Declined' });
+            navigate('/admin-dashboard');
+            // You can add additional logic here such as redirecting or updating state
+        } catch (error) {
+            console.error('Error declining exam:', error);
+            setError('Error declining exam. Please try again.');
+            setErrorStyle('red');
+        }
     };
 
     return (
@@ -96,14 +140,14 @@ const ExamView = () => {
 
             <div className="exam-body grade-body">
                 <div className="exam resume">
-                    <button className='delete' onClick={handleDeleteOpen}>Decline</button>
+                    <button className='delete' onClick={handleDecline}>Decline</button>
                     {validGoogleDoc ? (
                         <iframe title="Exam" width="100%" height="100%" src={link}></iframe>
                     ) : (
                         <p>{error}</p>
                     )}
                     <div className={`add-new-admin ${deleteCurrent}`}>
-                        <button onClick={handleDeleteClose} className='close'>Close</button>
+                        <button onClick={() => setDeleteCurrent('hide')} className='close'>Close</button>
 
                         <div className="newAdminForm">
                             <p>Are You sure you want to delete this cvs?</p>
@@ -114,8 +158,8 @@ const ExamView = () => {
                     </div>
                 </div>
                 <div className='exam-inputs'>
-                    <p className='exam-no'>1</p>
-                    <form className="examForm" onSubmit={handleExamPost}>
+                    <p className='exam-no'>{questions.length + 1}</p>
+                    <form className="examForm" onSubmit={handleExamAdd}>
                         <div className="keys">
                             <input
                                 type="text"
@@ -123,9 +167,7 @@ const ExamView = () => {
                                 className="input id"
                                 placeholder="id-001"
                                 value={examData.id}
-                                disabled
                                 onChange={handleInputChange}
-                                {...(submit && examData.id === '' && { required: true })}
                             />
 
                             <select
@@ -133,7 +175,6 @@ const ExamView = () => {
                                 className="input answer"
                                 value={examData.answer}
                                 onChange={handleInputChange}
-                                {...(submit && examData.answer === '' && { required: true })}
                             >
                                 <option value="">Select Key</option>
                                 {answerKey.map((key) => (
@@ -152,54 +193,48 @@ const ExamView = () => {
                             placeholder="Question"
                             value={examData.question}
                             onChange={handleInputChange}
-                            {...(submit && examData.question === '' && { required: true })}
                         />
 
-                        <textarea
-                            type="text"
-                            name="answerA"
-                            className="input a"
-                            placeholder="A"
-                            value={examData.answerA}
-                            onChange={handleInputChange}
-                            {...(submit && examData.answerA === '' && { required: true })}
-                        />
+                            <textarea
+                                type="text"
+                                name="choiceA" // Change name to match backend
+                                className="input a"
+                                placeholder="A"
+                                value={examData.choiceA} // Change value to match state variable
+                                onChange={handleInputChange}
+                            />
 
-                        <textarea
-                            type="text"
-                            name="answerB"
-                            className="input b"
-                            placeholder="B"
-                            value={examData.answerB}
-                            onChange={handleInputChange}
-                            {...(submit && examData.answerB === '' && { required: true })}
-                        />
+                            <textarea
+                                type="text"
+                                name="choiceB" // Change name to match backend
+                                className="input b"
+                                placeholder="B"
+                                value={examData.choiceB} // Change value to match state variable
+                                onChange={handleInputChange}
+                            />
 
-                        <textarea
-                            type="text"
-                            name="answerC"
-                            className="input c"
-                            placeholder="C"
-                            value={examData.answerC}
-                            onChange={handleInputChange}
-                            {...(submit && examData.answerC === '' && { required: true })}
-                        />
+                            <textarea
+                                type="text"
+                                name="choiceC" // Change name to match backend
+                                className="input c"
+                                placeholder="C"
+                                value={examData.choiceC} // Change value to match state variable
+                                onChange={handleInputChange}
+                            />
 
-                        <textarea
-                            type="text"
-                            name="answerD"
-                            className="input c"
-                            placeholder="D"
-                            value={examData.answerD}
-                            onChange={handleInputChange}
-                            {...(submit && examData.answerD === '' && { required: true })}
-                        />
-
+                            <textarea
+                                type="text"
+                                name="choiceD" // Change name to match backend
+                                className="input d"
+                                placeholder="D"
+                                value={examData.choiceD} // Change value to match state variable
+                                onChange={handleInputChange}
+                            />
 
 
                         <div className="btn-message">
                             <input type="submit" value="Add" className="input AddBtn" id="forBtn" />
-                            <button type='button' className="input AddBtn" id="forBtn">Done</button>
+                            <button type='button' className="input AddBtn" id="forBtn" onClick={handleExamDone}>Done</button>
                             {error && <span style={{ color: errorStyle }}>{error}</span>}
                         </div>
                     </form>

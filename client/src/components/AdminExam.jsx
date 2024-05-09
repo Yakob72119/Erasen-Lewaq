@@ -7,6 +7,7 @@ const AdminExam = () => {
     const [examControl, setExamControl] = useState('show')
     // const [filterControl, setFilterControl] = useState('hide')
     const [exams, setExams] = useState([]);
+    const [filteredExams, setFilteredExams] = useState([]);
     const navigate = useNavigate();
 
 
@@ -21,9 +22,8 @@ const AdminExam = () => {
     };
 
     const handleFilter = () => {
-        console.log(depart);
-
-        setDepart('');
+        const filtered = exams.filter(exam => exam.department.toLowerCase().includes(depart.toLowerCase()));
+        setFilteredExams(filtered);
     };
 
     useEffect(() => {
@@ -41,13 +41,17 @@ const AdminExam = () => {
         fetchExams();
     }, []); // Empty dependency array ensures the effect runs only once after the initial render
 
+    useEffect(() => {
+        setFilteredExams(exams);
+    }, [exams]);
+
     const handleViewClick = (_id, link) => {
         console.log(_id, link)
         navigate(`/exam-view?_id=${_id}&link=${link}`);
 
     };
 
-    const examDeclaration = exams.map((exam, index) => (
+     const examDeclaration = filteredExams.map((exam, index) => (
         <div className="exam-declaration" key={index}>
             <div className='divOne'>
                 <p>Educator ID: {exam.educatorId}</p>
@@ -64,25 +68,6 @@ const AdminExam = () => {
             </div>
         </div>
     ));
-
-    const data = [
-        ['Akrem Muktar', 'PHD', 'Seng', 'Deleted'],
-        ['Akrem Muktar', 'PHD', 'Seng', 'Deleted'],
-        ['Akrem Muktar', 'PHD', 'Seng', 'Accepted']
-    ];
-
-    const dataView = data.map((item, index) => (
-        <tbody className='body' key={item.id}>
-            <tr>
-                <td className='name'> {item[0]}</td>
-                <td className='eduStatus'>{item[1]}</td>
-                <td className='depart'>{item[2]}</td>
-                <td className='examStates'>{item[3]}</td>
-
-            </tr>
-        </tbody>
-    ));
-
 
 
     return (
@@ -106,11 +91,6 @@ const AdminExam = () => {
 
             <div className={`exams ${examControl}`}>
                 {examDeclaration}
-            </div>
-            <div className="page-number">
-                <button className='preview'> &lt;&lt;</button>
-                <button className='next'> &gt;&gt;</button>
-
             </div>
 
         </div>
