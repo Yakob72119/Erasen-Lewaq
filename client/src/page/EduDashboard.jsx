@@ -11,9 +11,9 @@ import Exam from '../assets/exam.svg';
 import Payment from '../assets/payment.svg';
 import Logout from '../assets/logout.svg';
 import Home2 from '../assets/home2.svg';
+import EduDashboardCom from '../components/EduDashboardComponent'
 import EduExam from '../components/EduExam';
 import EduPayment from '../components/EduPayment';
-import Reject from '../components/Reject';
 
 const EduDashboard = () => {
     const [navBar, setNavBar] = useState('side-nav');
@@ -120,7 +120,7 @@ const EduDashboard = () => {
                     <>
                         {cvStatus === 'Accepted' && (
                             <>
-                                {display === 'dashboard' && 'dashboard'}
+                                {display === 'dashboard' && <EduDashboardCom />}
                                 {display === 'exam' && <EduExam />}
                                 {display === 'payment' && <EduPayment />}
                             </>

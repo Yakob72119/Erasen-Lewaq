@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
@@ -21,13 +22,13 @@ ChartJS.register(
   Legend);
 
 
-const AdminDashboardComponent = () => {
+const EduDashboardComponent = () => {
   // State to store fetched data
   const [data, setData] = useState({
-    numExamsTaken: 10,
-    numExamsPassed: 8,
+    numExamsPost: 10,
+    numExamsAccepted: 8,
     numFiles: 2,
-    userIncrease: [], // Array to store user increase data
+    paymentIncrease: [], // Array to store user increase data
   });
 
   // Function to fetch data from database
@@ -44,10 +45,10 @@ const AdminDashboardComponent = () => {
 
   // Chart data
   const chartData = {
-    labels: [ 'Exams Taken', 'Exams Passed', 'Files'],
+    labels: [ 'Exams Send', 'Exams Accepted', 'Files'],
     datasets: [
       {
-        data: [data.numExamsTaken, data.numExamsPassed, data.numFiles],
+        data: [data.numExamsPost, data.numExamsAccepted, data.numFiles],
         backgroundColor: [ '#FFCE56', '#4CAF50', '#e64e3d'],
         hoverBackgroundColor: [ '#FFCE56', '#4CAF50', '#e64e3d'],
       },
@@ -69,8 +70,8 @@ const AdminDashboardComponent = () => {
     labels: ['January', 'February', 'March', 'April', 'May'], // Example months
     datasets: [
       {
-        label: 'User Increase',
-        data: data.userIncrease,
+        label: 'Payment Increase',
+        data: data.paymentIncrease,
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
@@ -91,4 +92,4 @@ const AdminDashboardComponent = () => {
   );
 };
 
-export default AdminDashboardComponent;
+export default EduDashboardComponent;

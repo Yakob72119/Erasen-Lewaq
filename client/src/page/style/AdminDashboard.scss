@@ -4,6 +4,42 @@
 
 .admin-dashboard {
     .main {
+        .admin-dashboard {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15vh;
+
+            @include laptop {
+                margin-top: 5vh;
+                flex-direction: column;
+            }
+
+            .chartData {
+                width: 50%;
+                height: 40vh;
+                margin: auto;
+
+                @include between {
+                    width: 80%;
+                    height: auto;
+                }
+            }
+
+            .increaseData {
+                width: 50%;
+                height: 30vh;
+                margin: auto;
+                margin-top: 20px;
+
+                @include between {
+                    width: 80%;
+                    height: auto;
+                }
+            }
+        }
+
         .admin-exam {
             width: 100%;
             height: 100%;
