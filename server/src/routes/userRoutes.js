@@ -11,4 +11,7 @@ router.get('/getUsers', userController.getUsers);
 
 router.post('/registerAdmin', userController.registerAdmin);
 
+router.delete('/:userId', userController.deleteUser);
+
+
 module.exports = router;

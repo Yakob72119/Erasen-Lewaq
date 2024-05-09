@@ -80,6 +80,7 @@ const filterCvs = async (req, res) => {
   try {
       const { department } = req.body;
       const filteredCVs = await Cv.find({ department });
+      console.log(filteredCVs)
       res.json(filteredCVs);
   } catch (error) {
       console.error('Error filtering CVs:', error);

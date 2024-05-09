@@ -145,8 +145,15 @@ const AdminUser = () => {
   };
 
 
-  const handleDelete = async (event) => {
-    event.preventDefault();
+  const handleDelete = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:3000/user/${userId}`);
+      setUsers(prevUsers => prevUsers.filter(user => user._id !== userId));
+      setAdminPass('hideDelete'); // Hide the delete confirmation dialog
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      // Handle error
+    }
   }
 
   const handleFilterChange = (event) => {
@@ -164,7 +171,7 @@ const AdminUser = () => {
           <td className='role'>{user.password}</td>
           <td className='password'>{user.role}</td>
           <td className='payment'>
-            <button onClick={handleDeleteOpen}>Delete</button>
+          <button onClick={() => handleDelete(user._id)}>Delete</button>
           </td>
         </tr>
       </tbody>
@@ -172,6 +179,7 @@ const AdminUser = () => {
   ) : (
     <p>No users found</p>
   );
+
 
 
   return (

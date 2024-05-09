@@ -80,8 +80,9 @@ const Admincv = () => {
   const handleFilter = async () => {
     try {
       const { depart } = filterData;
-      const response = await axios.get(`http://localhost:3000/cv/filter?department=${depart}`);
+      const response = await axios.post('http://localhost:3000/cv/filter', { department: depart });
       const filteredCvs = response.data;
+      console.log(filteredCvs)
       const cvDeclarations = generateCvDeclarations(filteredCvs);
       setCvDeclaration(cvDeclarations);
     } catch (error) {
@@ -90,6 +91,8 @@ const Admincv = () => {
       setErrorStyle('red');
     }
   };
+  
+  
 
   const handleScheduleShow = () => {
     setSchedule('daysShow');
@@ -150,8 +153,8 @@ const Admincv = () => {
   const handleDeleteCurrentSearch = async () => {
     try {
 
-      const cvIds = cvData.map(cv => String(cv._id));
-      await axios.post('http://localhost:3000/cv/deleteMultipleCVs', { cvIds });
+     const cvIdsToDelete = cvDeclaration.map(cv => String(cv.props.cv._id));
+     await axios.post('http://localhost:3000/cv/deleteMultipleCVs', { cvIds: cvIdsToDelete });
 
       setCvDeclaration([]);
     } catch (error) {
@@ -241,11 +244,6 @@ const Admincv = () => {
 
       </div>
 
-      <div className="page-number">
-        <button className='preview'> &lt;&lt; Previous</button>
-        <button className='next'>Next &gt;&gt;</button>
-
-      </div>
     </div>
   );
 };
