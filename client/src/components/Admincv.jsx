@@ -73,6 +73,10 @@ const Admincv = () => {
     }
   };
 
+  const handleCloseSchedule = () => {
+
+  }
+
   const handleFilter = async () => {
     try {
       const { depart } = filterData;
@@ -199,6 +203,7 @@ const Admincv = () => {
             />
             <span style={{ color: errorStyle }}>{error}</span>
             <button className='btnSchedule' onClick={handleSchedule}>Schedule</button>
+            <button style={{ background: 'red', marginTop: '10px'}}  onClick={handleCloseSchedule}>Close All Schedule</button>
           </div>
         </div>
         <div className="filters">

@@ -11,6 +11,7 @@ import Fqa from '../assets/faq.svg'
 import Setting from '../assets/setting.svg'
 import Logout from '../assets/logout.svg'
 import Home2 from '../assets/home2.svg';
+import AdminDashboardCom from '../components/AdminDashboardComponent'
 import Admincv from '../components/Admincv'
 import AdminUser from '../components/AdminUser'
 import AdminExam from '../components/AdminExam'
@@ -105,7 +106,7 @@ const AdminDashboard = () => {
             </div>
 
             <div className="main">
-                {display === 'dashboard' && 'dashboard'}
+                {display === 'dashboard' && <AdminDashboardCom />}
                 {display === 'exam' && <AdminExam />}
                 {display === 'user' && <AdminUser />}
                 {display === 'cv' && <Admincv />}
