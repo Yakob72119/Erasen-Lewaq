@@ -1,4 +1,7 @@
 const User = require('./../models/userModel');
+const Educator = require('./../models/educatorModel');
+const Student = require('./../models/studentModel');
+
 const md5 = require("md5");
 
 const login = (req, res) => {
@@ -91,10 +94,31 @@ const registerAdmin = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+      const userId = req.params.userId;
+
+      // Delete user from User collection
+      await User.findByIdAndDelete(userId);
+
+      // Delete user references from Educator and Student collections
+    await Educator.findOneAndDelete({ user: userId });
+    await Student.findOneAndDelete({ user: userId });
+
+      res.status(200).json({ message: 'User and associated references deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).json({ error: 'An error occurred while deleting user' });
+  }
+};
+
+
+
 
 module.exports={
   login,
   logout,
   getUsers,
-  registerAdmin
+  registerAdmin,
+  deleteUser
 };
