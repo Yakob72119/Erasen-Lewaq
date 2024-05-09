@@ -14,7 +14,7 @@ const cvRoutes= require("./src/routes/cvRoutes.js");
 const userRoutes=require("./src/routes/userRoutes.js");
 const examRoutes=require("./src/routes/examRoutes.js");
 const questionRoutes=require("./src/routes/questionRoutes.js");
-
+const faqRoutes =require("./src/routes/fqaRoutes.js");
 
 const app = express();
 app.use(express.json());
@@ -43,6 +43,7 @@ mongoose.connect('mongodb://localhost:27017/erasen_lewaq_db')
  app.use("/user", userRoutes);
  app.use("/exam", examRoutes);
  app.use("/question", questionRoutes);
+ app.use('/faq', faqRoutes);
 const PORT = 3000;
         app.listen(PORT, () => {
                 console.log(`Server started on port ${PORT}`);

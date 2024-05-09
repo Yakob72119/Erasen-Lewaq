@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AdminFqa = () => {
     const [error, setError] = useState('');
@@ -12,52 +13,52 @@ const AdminFqa = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setError('');
-            setSubmit(false)
+            setSubmit(false);
         }, 3000);
 
         return () => clearTimeout(timer);
     }, [submit]);
 
-
-
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setUpdateData({ ...updateData, [name]: value });
+        setQuestionData({ ...questionData, [name]: value });
         setError('');
     };
 
-
-
-    const handleUpdate = async (event) => {
+    const handlePost = async (event) => {
         event.preventDefault();
         setSubmit(true);
 
         const emptyFields = Object.values(questionData).filter((value) => value === '');
         if (emptyFields.length > 0) {
             setError('All fields are required!');
-            setErrorStyle('red')
+            setErrorStyle('red');
             return;
         }
 
-        console.log(updateData);
-        setError("Post successfully!")
-        setErrorStyle("Green")
-        setQuestionData({
-            answer: '',
-            question: ''
-        })
-        setSubmit(false)
-    }
+        try {
+            await axios.post('http://localhost:3000/faq/post', questionData);
+            setError('Post successful!');
+            setErrorStyle('green');
+            setQuestionData({ question: '', answer: '' }); // Clear form after successful post
+            setSubmit(false);
+        } catch (error) {
+            console.error('Error posting FAQ:', error);
+            setError('Error posting FAQ');
+            setErrorStyle('red');
+        }
+    };
+
     return (
         <div className='admin-setting'>
             <div className="change">
-                <h3>FQA Post</h3>
-                <form className="updateFrom" >
+                <h3>FAQ Post</h3>
+                <form className="updateFrom">
                     <input
                         type="text"
                         name="question"
                         className="input"
-                        placeholder="question"
+                        placeholder="Question"
                         value={questionData.question}
                         onChange={handleChange}
                         {...(submit && questionData.question === '' && { required: true })}
@@ -74,13 +75,13 @@ const AdminFqa = () => {
                     />
 
                     <div className="btn-error">
-                        <button className="updateBtn" onClick={handleUpdate}>Post</button>
+                        <button className="updateBtn" onClick={handlePost}>Post</button>
                         {error && <span style={{ color: errorStyle }}>{error}</span>}
                     </div>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AdminFqa
+export default AdminFqa;
