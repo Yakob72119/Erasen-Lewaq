@@ -93,15 +93,6 @@ const AdminUser = () => {
 
   
 
-
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      email: '',
-      password: generatePassword()
-    });
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
@@ -114,10 +105,11 @@ const AdminUser = () => {
     }
 
     const generatedPassword = generatePassword();
+    
     setFormData({ ...formData, password: generatedPassword });
 
     try {
-      const response = await axios.post('http://localhost:3000/user/registerAdmin', {
+      await axios.post('http://localhost:3000/user/registerAdmin', {
         name,
         email,
         password: generatedPassword,
@@ -132,10 +124,15 @@ const AdminUser = () => {
       setError('Error registering admin');
       setErrorStyle('red');
     } finally {
-      resetForm();
+      setFormData({
+        name: '',
+        email: '',
+        password: generatedPassword
+      });
       setSubmit(false);
     }
   };
+
 
 
   const handleDelete = async (userId) => {

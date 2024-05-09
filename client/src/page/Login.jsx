@@ -57,8 +57,10 @@ const Login = ({ history }) => {
           navigate('/educator-dashboard');
         } else if (response.data.role === 'student') {
           navigate('/student-dashboard');
-        } else {
+        } else if (response.data.role === 'admin'){
           navigate('/admin-dashboard');
+        } else{
+          navigate('/');
         }
       } else {
         setError('Failed to login. Please check your credentials.');
