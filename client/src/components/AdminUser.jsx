@@ -58,9 +58,7 @@ const AdminUser = () => {
     setAddAdmin('show');
   }
 
-  const handleDeleteOpen = () => {
-    setAdminPass('showDelete');
-  }
+ 
 
   const handleClose = () => {
     setAddAdmin('hide');
@@ -93,20 +91,15 @@ const AdminUser = () => {
     setError('');
   };
 
-  const handleDeleteInputChange = (event) => {
-    const { value } = event.target;
-    setPasswd(value);
-    setError('');
-  };
+  
 
 
   const resetForm = () => {
     setFormData({
       name: '',
       email: '',
-      password: ''
+      password: generatePassword()
     });
-    setPasswd('');
   };
 
   const handleSubmit = async (event) => {
