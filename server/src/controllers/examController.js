@@ -10,7 +10,8 @@ const addExam = async (req, res) => {
             link: link,
             educatorId: educatorId,
             status: "Pending",
-            department: department
+            department: department,
+            payment_status:"Not payed"
         });
 
         await newExam.save();
@@ -82,11 +83,43 @@ const declineExam = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+const updatePaymentStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { payment_status } = req.body;
+        
+        // Update payment status
+        const updatedExam = await Exam.findByIdAndUpdate(id, { payment_status }, { new: true });
+        
+        if (!updatedExam) {
+            return res.status(404).json({ message: 'Exam not found' });
+        }
+        
+        res.json(updatedExam);
+    } catch (error) {
+        console.error('Error updating payment status:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const getExamsByPaymentStatus = async (req, res) => {
+    try {
+        const { paymentStatus } = req.params;
+        const exams = await Exam.find({ payment_status: paymentStatus });
+        res.json(exams);
+    } catch (error) {
+        console.error('Error fetching exams by payment status:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 module.exports={
     addExam,
     getExamsByEducatorId,
     deleteExam,
     getExamsByEducatorIdAndStatus,
     getAllExams,
-    declineExam
+    declineExam,
+    updatePaymentStatus,
+    getExamsByPaymentStatus
 }

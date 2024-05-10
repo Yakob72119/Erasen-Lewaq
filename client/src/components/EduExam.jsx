@@ -61,6 +61,8 @@ const EduExam = () => {
                             <p>Educator ID: {exam.educatorId}</p>
                             <p>Exam ID: {exam._id}</p>
                             <p>Status: {exam.status}</p>
+                            <p>payment status: {exam.payment_status}</p>
+
                         </div>
                         <div className='divTwo'>
                             <p>Department: {exam.department}</p>
