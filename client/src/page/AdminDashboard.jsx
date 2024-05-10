@@ -8,6 +8,7 @@ import Exam from '../assets/exam.svg'
 import User from '../assets/user.svg'
 import Cv from '../assets/cv.svg'
 import Payment from '../assets/payment.svg'
+import Compliment from '../assets/customer.svg';
 import Fqa from '../assets/faq.svg'
 import Setting from '../assets/setting.svg'
 import Logout from '../assets/logout.svg'
@@ -18,6 +19,7 @@ import AdminUser from '../components/AdminUser'
 import AdminExam from '../components/AdminExam'
 import AdminPayment from '../components/AdminPayment'
 import AdminSetting from '../components/AdminSetting'
+import AdminCompliment from "../components/AdminCompliment";
 import { Link } from 'react-router-dom'
 import AdminFqa from '../components/AdminFqa'
 
@@ -66,6 +68,10 @@ const AdminDashboard = () => {
         setDisplay('payment')
     }
 
+    const handleCompliment = () => {
+        setDisplay('compliment');
+    };
+
     const handleFqa = () => {
         setDisplay('fqa')
     }
@@ -76,15 +82,15 @@ const AdminDashboard = () => {
 
     const handleSignOut = async () => {
         try {
-          await axios.get('http://localhost:3000/user/logout');
-          sessionStorage.clear(); // Clear session storage
-          setAuthenticated(false); // Update authentication state
-          setFname(''); // Clear the user's name
-          window.location.href = '/';
+            await axios.get('http://localhost:3000/user/logout');
+            sessionStorage.clear(); // Clear session storage
+            setAuthenticated(false); // Update authentication state
+            setFname(''); // Clear the user's name
+            window.location.href = '/';
         } catch (error) {
-          console.error('Error logging out:', error);
+            console.error('Error logging out:', error);
         }
-      };
+    };
 
     return (
         <div className='admin-dashboard Registration edu-dashboard'>
@@ -105,6 +111,7 @@ const AdminDashboard = () => {
                         <li className={display === 'user' && 'currentClass'} onClick={handleUser}><img src={User} alt="" />User</li>
                         <li className={display === 'cv' && 'currentClass'} onClick={handleCv}><img src={Cv} alt="" />CV</li>
                         <li className={display === 'payment' && 'currentClass'} onClick={handlePayment}><img src={Payment} alt="" />Payment</li>
+                        <li className={display === 'compliment' ? 'currentClass' : ''} onClick={handleCompliment}><img src={Compliment} alt="" />Compliment</li>
                         <li className={display === 'fqa' && 'currentClass'} onClick={handleFqa}><img src={Fqa} alt="" />FQA</li>
                     </ul>
                 </div>
@@ -122,6 +129,7 @@ const AdminDashboard = () => {
                 {display === 'user' && <AdminUser />}
                 {display === 'cv' && <Admincv />}
                 {display === 'payment' && <AdminPayment />}
+                {display === 'compliment' && <AdminCompliment />}
                 {display === 'fqa' && <AdminFqa />}
                 {display === 'setting' && <AdminSetting />}
             </div>

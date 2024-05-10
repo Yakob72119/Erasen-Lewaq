@@ -80,6 +80,7 @@ const AdminDashboardComponent = () => {
 
   return (
     <div className='admin-dashboard'>
+      <h1>Dashboard</h1>
       <div className='chartData'>
         <Doughnut data={chartData} options={chartOptions} />
       </div>
