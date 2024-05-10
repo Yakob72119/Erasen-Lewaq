@@ -19,7 +19,9 @@ const StudentWalletComponent = () => {
 
   const handleInputChange = (event) => {
     const { value } = event.target;
-    setCoin(value);
+    if (parseFloat(value) > 0 || value === "") {
+      setCoin(value);
+    }
   };
 
   const handleBuyOpen = () => {
@@ -46,7 +48,7 @@ const StudentWalletComponent = () => {
           <img src={wallet} alt="" />
           <h1>Wallet</h1>
         </div>
-        <div className="disc">! 10 Erasen-lewaq coin = 1 ETB</div>
+        <div className="disc">! 1 Erasen-lewaq coin = 1 ETB</div>
       </div>
       <div className="body">
         <div className="balance">
