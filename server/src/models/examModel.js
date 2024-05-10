@@ -21,6 +21,10 @@ const examSchema = new mongoose.Schema({
     department: {
         type: String,
         required: true
+    },
+    payment_status: {
+        type: String,
+        required: true
     }
 });
 

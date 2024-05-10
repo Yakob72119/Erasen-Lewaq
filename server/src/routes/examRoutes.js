@@ -14,4 +14,8 @@ router.get('/getAllExams', examController.getAllExams);
 
 router.put('/:id', examController.declineExam);
 
+router.put('/updatePaymentStatus/:id', examController.updatePaymentStatus);
+
+router.get('/getExamsByPaymentStatus/:paymentStatus', examController.getExamsByPaymentStatus);
+
 module.exports = router;
