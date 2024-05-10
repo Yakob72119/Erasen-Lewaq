@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import dashboard from '../assets/dashboard.svg'
 import {
   Chart as ChartJS,
   CategoryScale,
