@@ -52,8 +52,8 @@ const EduAskPayment = () => {
                         {exam.payment_status === "Pending" && (
                             <button className='btnView' style={{ backgroundColor: 'yellow' }} disabled>Pending</button>
                         )}
-                        {exam.payment_status === "Payed" && (
-                            <button className='btnView' style={{ backgroundColor: 'green' }} disabled>Payed</button>
+                        {exam.payment_status === "Paid" && (
+                            <button className='btnView' style={{ backgroundColor: 'green' }} disabled>Paid</button>
                         )}
                     </div>
                 </div>

@@ -164,7 +164,7 @@ const EducatorRegister = () => {
     'Other'
   ];
   
-  const bank = ['Awash Bank', 'Bank of Abyssinia', 'CBEBirr', 'Commercial Bank of Ethiopia (CBE)', 'Cooperative Bank of Oromia (COOP)', 'Dashen Bank', 'M-Pesa', 'telebirr','Zemen Bank'];
+  const bank = ['Awash Bank', 'Bank of Abyssinia', 'CBEBirr', 'Commercial Bank of Ethiopia', 'Cooperative Bank of Oromia', 'Dashen Bank', 'M-Pesa', 'telebirr','Zemen Bank'];
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
