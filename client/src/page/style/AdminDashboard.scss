@@ -4,6 +4,9 @@
 
 .admin-dashboard {
     .main {
+        overflow: hidden;
+
+
         .admin-dashboard {
             width: 100%;
             display: flex;
@@ -16,7 +19,7 @@
                 flex-direction: column;
             }
 
-            h1{
+            h1 {
                 position: absolute;
                 top: 10px;
                 color: #5e5c6da6;
@@ -737,6 +740,35 @@
                 }
             }
 
+        }
+
+        .admin-compliment {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: scroll;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+
+
+            .compliment {
+                width: 90%;
+                margin-bottom: 20px;
+                padding: 10px;
+                background-color: #3f6892;
+                border-radius: 10px;
+                box-shadow: 2px 2px 5px #000;
+                color: aliceblue;
+
+                .examId {
+                    background-color: #5b86b1;
+                    padding: 5px;
+                    width: fit-content;
+                    margin-bottom: 10px;
+                }
+            }
         }
 
         .admin-setting {
