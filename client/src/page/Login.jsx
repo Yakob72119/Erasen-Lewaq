@@ -119,6 +119,9 @@ const Login = ({ history }) => {
               You Don't have account? <Link className="ancr" to={'/information'}>Register</Link>
             </p>
             <p>
+              <Link className="ancr" to={'/forget-password'}>Forget Password?</Link>
+            </p>
+            <p>
               Back to <Link className="ancr" to={'/'}>Home</Link>
             </p>
           </div>

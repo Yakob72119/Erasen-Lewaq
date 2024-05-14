@@ -14,6 +14,7 @@ import EduProfile from './page/EduProfile';
 import ExamPage from './page/ExamPage';
 import CvGrade from './page/CvGrade';
 import ExamView from './page/ExamView';
+import ForgetPassword from './page/ForgetPassword';
 
 
 const ProtectedRoute = ({ role, element }) => {
@@ -39,6 +40,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="login" element={<Login />} />
+          <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="register" element={<Registration />} />
           <Route path="information" element={<RegisterInfo />} />
           <Route path="educator-registration" element={<EducatorRegister />} />
