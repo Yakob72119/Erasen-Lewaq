@@ -34,12 +34,21 @@ const AdminPayment = () => {
             console.log('Transfer initiated:', response.data);
     
             // Check if the transfer was successful (assuming the response structure has a success property)
-            if (response.status === 200 && response.data.success) {
-                setTransferSuccess(true);
-                const response1 = await axios.post('http://localhost:3000/payment/transfer/verify', { examId, educatorId });
-                console.log(response1)
+            try {
+                if (response.status === 200 && response.data.success) {
+                    setTransferSuccess(true);
+                    const TEXT_REF = response.data.reference;
+                    const response1 = await axios.post('http://localhost:3000/payment/transfer/verify', { examId, educatorId, TEXT_REF });
+                    console.log(response1);
+                } else {
+                    // Handle unsuccessful transfer verification
+                    console.error("Transfer verification failed");
+                }
+            } catch (error) {
+                // Handle any errors that occurred during the request
+                console.error("Error verifying transfer:", error);
             }
-    
+            
             // Reset error state
             setTransferError(null);
         } catch (error) {

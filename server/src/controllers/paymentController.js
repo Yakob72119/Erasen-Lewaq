@@ -1,7 +1,11 @@
+require("dotenv").config()
 const fetch = require('node-fetch');
+const axios = require('axios'); // Import axios library
 const Educator = require('./../models/educatorModel');
+const User = require('./../models/userModel');
 const Exam = require('./../models/examModel');
 const PaymentHistory = require('./../models/paymentModel');
+
 
 const bankCodeMapping = {
     "Awash Bank": "80a510ea-7497-4499-8b49-ac13a3ab7d07",
@@ -18,7 +22,6 @@ const bankCodeMapping = {
 const initiateTransfer = async (req, res) => {
     try {
         const { examId, educatorId } = req.body;
-
         const educator = await Educator.findOne({ user: educatorId });
         if (!educator) {
             return res.status(404).json({ error: "Educator not found" });
@@ -30,15 +33,16 @@ const initiateTransfer = async (req, res) => {
         }
 
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer CHASECK_TEST-bIT2tai8gXLOlpbQylUCyBQunlZFFqJ3");
+        myHeaders.append("Authorization", process.env.CHAPA_AUTH);
         myHeaders.append("Content-Type", "application/json");
-
+        const TEXT_REF = "tx-erasenlewaq123-" + Date.now();
+        console.log("text ref in transfer",TEXT_REF)
         const transferData = {
             account_name: educator.bank,
             account_number: educator.bankAcc,
             amount: "1000",
             currency: "ETB",
-            reference: `${examId}`,
+            reference: TEXT_REF,
             bank_code: bank_code
         };
 
@@ -54,7 +58,7 @@ const initiateTransfer = async (req, res) => {
             .then(async result => {
                 console.log("result for transfer",result)
                 if (result.status === 'success') {
-                    res.status(200).json({ success: "Transfer completed" });
+                    res.status(200).json({ success: "Transfer completed", reference:TEXT_REF });
                 } else {
                     res.status(500).json({ error: "Transfer failed" });
                 }
@@ -64,35 +68,100 @@ const initiateTransfer = async (req, res) => {
                         res.status(500).json({ error: "Error initiating transfer" });
                     }};
 
-const verifyTransfer = async (req, res) =>{
+const verifyTransfer = async (req, res) => {
+    const { examId, educatorId, TEXT_REF } = req.body;
 
-    const { examId, educatorId } = req.body;
-    await Exam.findByIdAndUpdate(examId, { payment_status: "Paid" });
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer CHASECK_TEST-bIT2tai8gXLOlpbQylUCyBQunlZFFqJ3");
-    myHeaders.append("Content-Type", "application/json");
-    
-    const requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
+    try {
+        await Exam.findByIdAndUpdate(examId, { payment_status: "Paid" });
 
-    fetch(`https://api.chapa.co/v1/transfers/verify/${examId}`, requestOptions)
-    .then(response => response.json())
-    .then(async result => {
-    console.log("result for verfication",result)
+        const config = {
+            headers: {
+                Authorization: `Bearer ${process.env.CHAPA_AUTH}`
+            }
+        };
+
+        const response = await axios.get(`https://api.chapa.co/v1/transfers/verify/${TEXT_REF}`, config);
         const paymentHistory = new PaymentHistory({
             educatorId,
             examId,
-            verificationResponse: result
+            verificationResponse: response.data
         });
-         paymentHistory.save();
-    })
+        await paymentHistory.save();
+
+        res.status(200).json({ message: "Transfer verified successfully" });
+    } catch (error) {
+        console.error("Error verifying transfer:");
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+
+
+
+const buyCoins = async (req, res) => {
+    const { userId, amount } = req.body;
+    
+    try {
+        // Find the user by ID
+        const user = await User.findById(userId);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${process.env.CHAPA_AUTH}`
+            }
+        }
+        
+        // a unique reference given to every transaction
+        const TEXT_REF = "tx-erasenlewaq123-" + Date.now()
+          // chapa redirect you to this url when payment is successful
+          const CALLBACK_URL = `http://localhost:3000/payment/verify-payment/${TEXT_REF}`;
+
+          
+  
+          // form data
+          const data = {
+              amount: amount, 
+              currency: 'ETB',
+              email: user.email,
+              first_name: user.fname,
+              tx_ref: TEXT_REF,
+              callback_url: CALLBACK_URL,
+          }
+  
+          await axios.post(process.env.CHAPA_URL_TRANSACTION_INITIALIZE, data, config)
+          .then((response) => {
+              res.status(200).json({ checkout_url: response.data.data.checkout_url });
+          })
+          .catch((err) => console.log(err))
+    } catch (error) {
+        console.error('Error buying coins:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+const verifyPayment = async (req, res) => {
+    const { TEXT_REF } = req.params; // Get the TEXT_REF from the URL parameter
+    console.log(TEXT_REF," in verify payment");
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${process.env.CHAPA_AUTH}`
+            }
+        }
+    try {
+        const response = await axios.get(`https://api.chapa.co/v1/transaction/verify/${TEXT_REF}`, config);
+        console.log("Payment was successfully verified");
+        res.status(200).json({ message: "Payment verified successfully" });
+    } catch (error) {
+        console.error("Payment can't be verified:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 };
 
 
 module.exports = {
     initiateTransfer,
-    verifyTransfer
+    verifyTransfer,
+    buyCoins,
+    verifyPayment
 };
