@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const AdminPayment = () => {
     const [exams, setExams] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [transferError, setTransferError] = useState(null);
+    const [transferSuccess, setTransferSuccess] = useState(false); // Added state variable for transfer success
 
     useEffect(() => {
         const fetchExams = async () => {
@@ -11,24 +14,44 @@ const AdminPayment = () => {
                 setExams(response.data);
             } catch (error) {
                 console.error('Error fetching exams:', error);
-                // Handle error
+                // Set error state for user feedback
+                setTransferError('An error occurred while fetching exams. Please try again later.');
             }
         };
 
         fetchExams();
     }, []);
 
-    const handlePay = async (examId, educatorId) => {
+    const handleTransfer = async (examId, educatorId) => {
         try {
-            // Send a POST request to your backend to initiate the payment process
-            const response = await axios.post('http://localhost:3000/payment/pay', { examId, educatorId });
-            // Redirect to the Chapa payment page
-            window.location.href = response.data.data.checkout_url;
+            // Set loading state to true to indicate transfer initiation is in progress
+            setLoading(true);
+    
+            // Send a POST request to your backend to initiate the transfer process
+            const response = await axios.post('http://localhost:3000/payment/transfer', { examId, educatorId });
+    
+            // Handle the response from the backend as needed
+            console.log('Transfer initiated:', response.data);
+    
+            // Check if the transfer was successful (assuming the response structure has a success property)
+            if (response.status === 200 && response.data.success) {
+                setTransferSuccess(true);
+                const response1 = await axios.post('http://localhost:3000/payment/transfer/verify', { examId, educatorId });
+                console.log(response1)
+            }
+    
+            // Reset error state
+            setTransferError(null);
         } catch (error) {
-            console.error('Error initiating payment:', error);
-            // Handle error
+            console.error('Error initiating transfer:', error);
+            // Set transfer error state to display appropriate message to the user
+            setTransferError('An error occurred while initiating the transfer. Please try again later.');
+        } finally {
+            // Reset loading state after transfer process is complete (whether successful or not)
+            setLoading(false);
         }
     };
+    
 
     const paymentDeclaration = exams.map((exam, index) => (
         <div className="exam-declaration" key={index}>
@@ -45,7 +68,7 @@ const AdminPayment = () => {
             </div>
             <div className="controllers">
                 {/* Pass both examId and educatorId to handlePay function */}
-                <button className='btnView' onClick={() => handlePay(exam._id, exam.educatorId)}>Pay</button>
+                <button className='btnView' onClick={() => handleTransfer(exam._id, exam.educatorId)}>Pay</button>
             </div>
         </div>
     ));
@@ -53,6 +76,8 @@ const AdminPayment = () => {
     return (
         <div className='admin-payment admin-exam'>
             <div className='exams'>
+                {transferSuccess && <p>Transfer successful!</p>} {/* Show success message if transfer is successful */}
+                {transferError && <p>Error: {transferError}</p>} {/* Show error message if there's an error */}
                 {paymentDeclaration}
             </div>
         </div>
