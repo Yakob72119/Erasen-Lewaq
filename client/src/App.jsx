@@ -15,6 +15,7 @@ import ExamPage from './page/ExamPage';
 import CvGrade from './page/CvGrade';
 import ExamView from './page/ExamView';
 import ForgetPassword from './page/ForgetPassword';
+import StudentExamReview from './page/StudentExamReview';
 
 
 const ProtectedRoute = ({ role, element }) => {
@@ -57,6 +58,7 @@ const App = () => {
           {/* <Route path="admin-dashboard" element={<ProtectedRoute role="admin" element={<AdminDashboard />} />} /> */}
 
           <Route path="student-dashboard"  element={<StudDashboard />} />
+          <Route path="exam-review"  element={<StudentExamReview />} />
           {/* <Route path="student-dashboard" element={<ProtectedRoute role="student" element={<StudDashboard />} />} /> */}
           <Route path="student-profile" element={<ProtectedRoute role="student" element={<StudProfile />} />} />
           

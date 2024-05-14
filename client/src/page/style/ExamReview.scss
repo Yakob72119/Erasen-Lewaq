@@ -1,0 +1,22 @@
+@import "../../mixins.scss";
+@import "../../color.scss";
+
+.exam-review {
+    overflow: scroll;
+    // background-color: red;
+    .exam {
+        .answers {
+            .correctAnswer {
+                border: 3px solid $brand-color-two;
+    
+            }
+    
+            .wrongAnswer {
+                border: 3px solid $button-delete;
+                
+            }
+        }
+    }
+    
+    
+}
