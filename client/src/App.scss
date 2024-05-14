@@ -465,6 +465,17 @@
             }
         }
 
+        .warning {
+            color: $text-gray-dark;
+            font-size: calc(10px + 2vmin);
+            position: fixed;
+            bottom: 20%;
+            width: 50%;
+            background-color: #bebebeb7;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
         .right-decor {
             position: fixed;
             z-index: 1;
