@@ -4,10 +4,16 @@
 .exam-review {
     overflow: scroll;
     // background-color: red;
+    .toDashboard {
+        position: fixed;
+        top: 10px;
+        right: 30px;
+        width: 50px;
+    }
     .exam {
         .answers {
             .correctAnswer {
-                border: 3px solid $brand-color-two;
+                border: 3px solid $brand-color-one;
     
             }
     

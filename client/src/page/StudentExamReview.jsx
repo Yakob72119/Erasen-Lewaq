@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import erasenLweq from '../assets/erasenLweq.png'
+import Home from '../assets/home2.svg';
 import './style/ExamReview.scss'
+import { Link } from 'react-router-dom';
 
 
 
@@ -67,6 +69,7 @@ const StudentExamReview = () => {
   return (
     <div className='exam-review exam-page '>
       <div className="left-decor"></div>
+      <Link to='/student-dashboard'><img className='toDashboard' src={Home} alt="" /></Link>
       {ExamView}
       <img className="logo" src={erasenLweq} alt="" />
     </div>

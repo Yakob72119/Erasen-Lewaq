@@ -18,7 +18,7 @@ const StudentDashboardComponent = () => {
         <td className='time'>1:30:12</td>
         <td className='examResult'>82</td>
         <td className='view'>
-          <Link className='viewBtn' to={'/'}>view</Link>
+          <Link className='viewBtn' to={'/exam-review'}>view</Link>
         </td>
       </tr>
     </tbody>
