@@ -4,11 +4,9 @@ const paymentController = require('../controllers/paymentController');
 
 router.post("/transfer", paymentController.initiateTransfer);
 
-router.post("/transfer/verify", paymentController.verifyTransfer);
-
 router.post("/buycoin", paymentController.buyCoins);
 
-router.get('/verify-payment/:TEXT_REF', paymentController.verifyPayment)
+router.get('/verify-payment/:TEXT_REF', paymentController.verifyPayment);
 
 router.get('/:studentId/balance', paymentController.getStudentBalance);
 

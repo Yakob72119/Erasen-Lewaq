@@ -33,9 +33,10 @@ const AdminPayment = () => {
             // Handle the response from the backend as needed
             console.log('Transfer initiated:', response.data);
     
-    
+            // Check if the transfer was successful (assuming the response structure has a success property)
+        
                     setTransferSuccess(true);
-           
+            setTransferError(null);
         } catch (error) {
             console.error('Error initiating transfer:', error);
             // Set transfer error state to display appropriate message to the user
