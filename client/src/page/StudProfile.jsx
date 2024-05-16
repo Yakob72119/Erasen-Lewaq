@@ -99,7 +99,7 @@ const StudProfile = () => {
     <div className='Profile'>
       <div className='nav'>
         <img src={erasenLweq} alt="Erasen-Lewaq Logo" />
-        <Link className='back' to={'/'}>Back</Link>
+        <Link className='back' to={'/student-dashboard'}>Back</Link>
       </div>
 
       <div className="body Registration" >

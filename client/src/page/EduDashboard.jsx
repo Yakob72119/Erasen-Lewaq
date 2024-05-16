@@ -10,6 +10,7 @@ import Reject from '../components/Reject'
 import Home from '../assets/home.svg';
 import Exam from '../assets/exam.svg';
 import Payment from '../assets/payment.svg';
+import User from '../assets/user.svg';
 import Logout from '../assets/logout.svg';
 import Home2 from '../assets/home2.svg';
 import EduDashboardCom from '../components/EduDashboardComponent'
@@ -25,18 +26,18 @@ const EduDashboard = () => {
     const [userId, setUserId] = useState('');
     const [hasCv, setHasCv] = useState(false);
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         const fname = sessionStorage.getItem('fname');
-    
+
         if (fname) {
-          setAuthenticated(true);
-          setFname(fname);
+            setAuthenticated(true);
+            setFname(fname);
         } else {
-          setAuthenticated(false);
-          setFname('');
+            setAuthenticated(false);
+            setFname('');
         }
-      }, []);
+    }, []);
 
     useEffect(() => {
         const fetchCvStatus = async () => {
@@ -112,6 +113,7 @@ const EduDashboard = () => {
                 </div>
                 <div className="setting">
                     <ul>
+                        <li><Link className='profile' to={'/educator-profile'}><img src={User} alt="" />Profile</Link></li>
                         <li onClick={handleLogout}><img src={Logout} alt="" />Sign out</li>
                     </ul>
                 </div>

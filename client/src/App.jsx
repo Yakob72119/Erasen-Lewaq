@@ -47,7 +47,8 @@ const App = () => {
           <Route path="educator-registration" element={<EducatorRegister />} />
           <Route path="admin-dashboard" element={<AdminDashboard />} />
 
-          <Route path="educator-profile" element={<ProtectedRoute role="educator" element={<EduProfile />} />} />
+          {/* <Route path="educator-profile" element={<ProtectedRoute role="educator" element={<EduProfile />} />} /> */}
+          <Route path="educator-profile" element={<EduProfile />} />
           <Route path="educator-dashboard" element={<ProtectedRoute role="educator" element={<EduDashboard />} />} />
           {/* <Route path="educator-dashboard"  element={<EduDashboard />} /> */}
 
@@ -60,7 +61,8 @@ const App = () => {
           <Route path="student-dashboard"  element={<StudDashboard />} />
           <Route path="exam-review"  element={<StudentExamReview />} />
           {/* <Route path="student-dashboard" element={<ProtectedRoute role="student" element={<StudDashboard />} />} /> */}
-          <Route path="student-profile" element={<ProtectedRoute role="student" element={<StudProfile />} />} />
+          {/* <Route path="student-profile" element={<ProtectedRoute role="student" element={<StudProfile />} />} /> */}
+          <Route path="student-profile" element={<StudProfile />} />
           
           
           <Route path="*" element={<Navigate to="/" />} />
