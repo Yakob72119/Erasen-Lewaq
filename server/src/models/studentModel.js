@@ -10,7 +10,15 @@ const studentSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-}
+},
+balance: {
+  type: Number,
+  default: 0
+},
+purchasedExams: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Exam'
+}]
 });
 
 const Student = mongoose.model('Student', studentSchema);

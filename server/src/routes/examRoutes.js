@@ -18,4 +18,10 @@ router.put('/updatePaymentStatus/:id', examController.updatePaymentStatus);
 
 router.get('/getExamsByPaymentStatus/:paymentStatus', examController.getExamsByPaymentStatus);
 
+router.get('/:studentId/exams', examController.getStudentExams);
+
+router.get('/suggested', examController.getSuggestedExams);
+
+router.post('/buy', examController.buyExam);
+
 module.exports = router;

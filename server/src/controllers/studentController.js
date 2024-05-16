@@ -20,7 +20,8 @@ const register = async (req, res) => {
       fname: firstName,
       password: md5(password),
       role: "student",
-      department: department 
+      department: department,
+      balance: 0 
     });
 
     await user.save();

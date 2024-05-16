@@ -10,5 +10,6 @@ router.post("/buycoin", paymentController.buyCoins);
 
 router.get('/verify-payment/:TEXT_REF', paymentController.verifyPayment)
 
+router.get('/:studentId/balance', paymentController.getStudentBalance);
 
 module.exports = router;

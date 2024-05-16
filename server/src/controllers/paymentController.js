@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const axios = require('axios'); // Import axios library
 const Educator = require('./../models/educatorModel');
 const User = require('./../models/userModel');
+const Student = require('./../models/studentModel');
 const Exam = require('./../models/examModel');
 const PaymentHistory = require('./../models/paymentModel');
 
@@ -33,14 +34,14 @@ const initiateTransfer = async (req, res) => {
         }
 
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", process.env.CHAPA_AUTH);
+        myHeaders.append("Authorization", `Bearer ${process.env.CHAPA_AUTH}`);
         myHeaders.append("Content-Type", "application/json");
+
         const TEXT_REF = "tx-erasenlewaq123-" + Date.now();
-        console.log("text ref in transfer",TEXT_REF)
         const transferData = {
             account_name: educator.bank,
             account_number: educator.bankAcc,
-            amount: "1000",
+            amount: "1",
             currency: "ETB",
             reference: TEXT_REF,
             bank_code: bank_code
@@ -55,48 +56,23 @@ const initiateTransfer = async (req, res) => {
 
         fetch("https://api.chapa.co/v1/transfers", requestOptions)
             .then(response => response.json())
-            .then(async result => {
-                console.log("result for transfer",result)
+            .then(result => {
+                console.log("result for transfer", result);
                 if (result.status === 'success') {
-                    res.status(200).json({ success: "Transfer completed", reference:TEXT_REF });
+                    res.status(200).json({ success: "Transfer completed", reference: TEXT_REF });
                 } else {
                     res.status(500).json({ error: "Transfer failed" });
                 }
-                    }); 
-                 } catch (error) {
-                        console.error("Error initiating transfer:", error);
-                        res.status(500).json({ error: "Error initiating transfer" });
-                    }};
-
-const verifyTransfer = async (req, res) => {
-    const { examId, educatorId, TEXT_REF } = req.body;
-
-    try {
-        await Exam.findByIdAndUpdate(examId, { payment_status: "Paid" });
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${process.env.CHAPA_AUTH}`
-            }
-        };
-
-        const response = await axios.get(`https://api.chapa.co/v1/transfers/verify/${TEXT_REF}`, config);
-        const paymentHistory = new PaymentHistory({
-            educatorId,
-            examId,
-            verificationResponse: response.data
-        });
-        await paymentHistory.save();
-
-        res.status(200).json({ message: "Transfer verified successfully" });
+            })
+            .catch(error => {
+                console.error("Error initiating transfer:", error);
+                res.status(500).json({ error: "Error initiating transfer" });
+            });
     } catch (error) {
-        console.error("Error verifying transfer:");
-        res.status(500).json({ error: "Internal server error" });
+        console.error("Error initiating transfer:", error);
+        res.status(500).json({ error: "Error initiating transfer" });
     }
 };
-
-
-
 
 
 const buyCoins = async (req, res) => {
@@ -105,6 +81,9 @@ const buyCoins = async (req, res) => {
     try {
         // Find the user by ID
         const user = await User.findById(userId);
+        const student = await Student.findOne({ user: userId });
+        const Name = student.fullName;
+        const lname = Name.split(" ")[1];
         const config = {
             headers: {
                 Authorization: `Bearer ${process.env.CHAPA_AUTH}`
@@ -120,16 +99,23 @@ const buyCoins = async (req, res) => {
   
           // form data
           const data = {
+              key:"CHAPUBK-tYWCuUsG5M7CxrmkoFNGc9Qw1gzOShzE",
               amount: amount, 
               currency: 'ETB',
               email: user.email,
               first_name: user.fname,
+              last_name: lname,
               tx_ref: TEXT_REF,
               callback_url: CALLBACK_URL,
           }
   
           await axios.post(process.env.CHAPA_URL_TRANSACTION_INITIALIZE, data, config)
           .then((response) => {
+            if (response.status === 200) {
+                // Assuming you have a field called balance in your user schema
+                student.balance += amount;
+                student.save();
+            }
               res.status(200).json({ checkout_url: response.data.data.checkout_url });
           })
           .catch((err) => console.log(err))
@@ -141,7 +127,6 @@ const buyCoins = async (req, res) => {
 
 const verifyPayment = async (req, res) => {
     const { TEXT_REF } = req.params; // Get the TEXT_REF from the URL parameter
-    console.log(TEXT_REF," in verify payment");
         
         const config = {
             headers: {
@@ -149,8 +134,7 @@ const verifyPayment = async (req, res) => {
             }
         }
     try {
-        const response = await axios.get(`https://api.chapa.co/v1/transaction/verify/${TEXT_REF}`, config);
-        console.log("Payment was successfully verified");
+         await axios.get(`https://api.chapa.co/v1/transaction/verify/${TEXT_REF}`, config);
         res.status(200).json({ message: "Payment verified successfully" });
     } catch (error) {
         console.error("Payment can't be verified:", error);
@@ -159,9 +143,29 @@ const verifyPayment = async (req, res) => {
 };
 
 
+const getStudentBalance = async (req, res) => {
+    const { studentId } = req.params;
+  
+    try {
+      const student = await Student.findOne({ user: studentId });
+      if (!student) {
+        return res.status(404).json({ error: 'user not found' });
+      }
+  
+      // Assuming you have a field called balance in your user schema
+      const balance = student.balance;
+      res.status(200).json({ balance });
+    } catch (error) {
+      console.error('Error fetching student balance:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+  
+
 module.exports = {
     initiateTransfer,
     verifyTransfer,
     buyCoins,
-    verifyPayment
+    verifyPayment,
+    getStudentBalance
 };

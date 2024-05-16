@@ -1,4 +1,5 @@
 const Exam = require('./../models/examModel');
+const Student = require('./../models/studentModel');
 
 
 const addExam = async (req, res) => {
@@ -113,6 +114,84 @@ const getExamsByPaymentStatus = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+
+const getStudentExams = async (req, res) => {
+    try {
+        const studentId = req.params.studentId;
+        
+        // Fetch the student by ID
+        const student = await Student.findOne({ user: studentId }).populate('purchasedExams');
+
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        const purchasedExamIds = student.purchasedExams;
+  
+        // Fetch exams based on the purchased exam IDs
+        const studentExams = await Exam.find({ _id: { $in: purchasedExamIds }});
+        res.status(200).json({ exams: studentExams });
+      }catch (error) {
+      console.error('Error fetching student exams:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+
+  const getSuggestedExams = async (req, res) => {
+    try {
+     const studentId = req.query.studentId;
+    const department = req.query.department;
+
+     // Fetch suggested exams based on the student's department
+     const student = await Student.findOne({ user: studentId });
+     if (!student) {
+       return res.status(404).json({ message: 'Student not found' });
+     }
+  
+     const purchasedExamIds = student.purchasedExams;
+     const suggestedExams = await Exam.find({ department, _id: { $nin: purchasedExamIds }, status: 'Accepted', payment_status: 'Paid' });
+  
+      res.status(200).json(suggestedExams);
+    } catch (error) {
+      console.error('Error fetching suggested exams:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+
+  const buyExam = async (req, res) => {
+    try {
+      const studentId = req.body.studentId;
+      const amount = req.body.amount; // Fixed amount received from frontend
+  
+      // Fetch the student by ID
+      const student = await Student.findOne({ user: studentId });
+  
+      if (!student) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+  
+      if (student.balance < amount) {
+        return res.status(400).json({ message: 'Insufficient balance' });
+      }
+  
+      // Deduct the fixed amount from the student's balance
+      student.balance -= amount;
+  
+      // Add the exam ID to the purchasedExams array
+      student.purchasedExams.push(req.body.examId); // Assuming you send the exam ID from the frontend
+  
+      await student.save();
+  
+      res.status(200).json({ message: 'Successfully bought' });
+    } catch (error) {
+      console.error('Error buying exam:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+
 module.exports={
     addExam,
     getExamsByEducatorId,
@@ -121,5 +200,8 @@ module.exports={
     getAllExams,
     declineExam,
     updatePaymentStatus,
-    getExamsByPaymentStatus
+    getExamsByPaymentStatus,
+    getStudentExams,
+    getSuggestedExams,
+    buyExam
 }

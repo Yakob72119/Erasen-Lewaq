@@ -9,9 +9,31 @@ const StudentWalletComponent = () => {
   const [coin, setCoin] = useState('');
   const [submit, setSubmit] = useState(false);
   const [deleteCurrent, setDeleteCurrent] = useState('hide');
-  const [paymentVerified, setPaymentVerified] = useState(false);
+  const [balance, setBalance] = useState(0); 
 
- 
+  useEffect(() => {
+    // Fetch the current balance when the component mounts
+    fetchBalance();
+  }, []);
+
+  const fetchBalance = () => {
+    // Assuming you have a function to get the user ID from the session
+    const studentId = sessionStorage.getItem('_id');
+
+    // Assuming you have an API endpoint to fetch the balance
+    const apiUrl = `http://localhost:3000/payment/${studentId}/balance`;
+
+    // Make a GET request to your backend API using Axios
+    axios.get(apiUrl)
+      .then((response) => {
+        // Set the current balance from the response
+        setBalance(response.data.balance);
+      })
+      .catch((error) => {
+        console.error('Error fetching balance:', error);
+      });
+  };
+
   
 
   useEffect(() => {
@@ -76,10 +98,10 @@ const StudentWalletComponent = () => {
       </div>
       <div className='body'>
         <div className='balance'>
-          <div className='view'>
-            <h1>2000 Coin</h1>
-            <p>Total balance</p>
-          </div>
+        <div className='view'>
+        <h1>{balance} Coin</h1>
+        <p>Total balance</p>
+      </div>
           <img src={coins} alt='' />
         </div>
         <div className='buy'>

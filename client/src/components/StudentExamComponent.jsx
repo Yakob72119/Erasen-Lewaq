@@ -1,48 +1,105 @@
-import React, { useState } from 'react'
-import examAvater from '../assets/exam-avater.png'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import examAvater from '../assets/exam-avater.png';
 
 const StudentExamComponent = () => {
-  const [exams, setExams] = useState(['Software Engineering', 'computer since', 'Management', 'Accounting', 'Economics', 'Pharmacy', 'Medicine', 'Nursing'])
+  const [myExams, setMyExams] = useState([]);
+  const [suggestedExams, setSuggestedExams] = useState([]);
 
-  const examMy = exams.map((exam, index) => (
+  const fetchMyExams = async () => {
+    try {
+      const studentId = sessionStorage.getItem('_id');
+
+      // Fetch my exams
+      const myExamsResponse = await axios.get(`http://localhost:3000/exam/${studentId}/exams`);
+      setMyExams(myExamsResponse.data.exams);
+    } catch (error) {
+      console.error('Error fetching my exams:', error);
+    }
+  };
+
+  const fetchSuggestedExams = async () => {
+    try {
+      const studentId = sessionStorage.getItem('_id');
+      const studentDepartment = sessionStorage.getItem('department');
+
+      // Fetch suggested exams based on student's department
+      const suggestedResponse = await axios.get(`http://localhost:3000/exam/suggested?studentId=${studentId}&department=${studentDepartment}`);
+      console.log("suggested exam", suggestedResponse.data)
+      setSuggestedExams(suggestedResponse.data);
+    } catch (error) {
+      console.error('Error fetching suggested exams:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSuggestedExams();
+    fetchMyExams();
+  }, []);
+
+  const buyExam = async (examId, amount) => {
+    try {
+      const studentId = sessionStorage.getItem('_id');
+      await axios.post(`http://localhost:3000/exam/buy`, {
+        studentId,
+        amount,
+        examId
+      });
+
+      // If no error occurs, refresh exams
+      fetchMyExams();
+      fetchSuggestedExams();
+    } catch (error) {
+      // Check if the error message indicates insufficient balance
+      if (error.response && error.response.data && error.response.data.message === 'Insufficient balance') {
+        // Show an alert to the user
+        alert('Insufficient balance. Please recharge your account.');
+      } else {
+        // Log other errors to the console
+        console.error('Error buying exam:', error);
+      }
+    }
+  };
+
+  const myExamElements = myExams.map((exam, index) => (
     <div key={index} className="exam">
       <h1>Package</h1>
       <img src={examAvater} alt="" />
       <div className="exam-info">
-        <p>Department: {exam}</p>
-        <p>Heigh Scour: 89</p>
-        <button>Take</button>
+        <p>Department: {exam.department}</p>
+        <p>Amount: {"100 coins"}</p>
       </div>
     </div>
   ));
 
-  const examPackage = exams.map((exam, index) => (
+  const suggestedExamElements = suggestedExams.map((exam, index) => (
     <div key={index} className="exam">
       <h1>Package</h1>
       <img src={examAvater} alt="" />
       <div className="exam-info">
-        <p>Department: {exam}</p>
-        <p>Payment: 49 birr </p>
-        <button>Buy</button>
+        <p>Department: {exam.department}</p>
+        <p>Amount: {exam.payment_status === 'paid' ? 'Already Purchased' : "100 coins"}</p>
+        <button onClick={() => buyExam(exam._id, 100)}>Buy</button>
       </div>
     </div>
   ));
+
   return (
     <div className='package-exams'>
       <div className="my-exam">
         <h2>My Exam</h2>
         <div className="exams">
-          {examMy}
+          {myExamElements}
         </div>
       </div>
       <div className="suggested-exam">
         <h2>Suggested Exam</h2>
         <div className="exams">
-          {examPackage}
+          {suggestedExamElements}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StudentExamComponent
+export default StudentExamComponent;
