@@ -59,6 +59,7 @@ const initiateTransfer = async (req, res) => {
             .then(result => {
                 console.log("result for transfer", result);
                 if (result.status === 'success') {
+                   Exam.findByIdAndUpdate(examId, { payment_status: "Paid" });
                     res.status(200).json({ success: "Transfer completed", reference: TEXT_REF });
                 } else {
                     res.status(500).json({ error: "Transfer failed" });
