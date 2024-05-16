@@ -33,6 +33,8 @@ const initiateTransfer = async (req, res) => {
             return res.status(400).json({ error: "Invalid account name" });
         }
 
+        await Exam.findByIdAndUpdate(examId, { payment_status: "Paid" });
+
         const myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${process.env.CHAPA_AUTH}`);
         myHeaders.append("Content-Type", "application/json");
@@ -59,7 +61,6 @@ const initiateTransfer = async (req, res) => {
             .then(result => {
                 console.log("result for transfer", result);
                 if (result.status === 'success') {
-                   Exam.findByIdAndUpdate(examId, { payment_status: "Paid" });
                     res.status(200).json({ success: "Transfer completed", reference: TEXT_REF });
                 } else {
                     res.status(500).json({ error: "Transfer failed" });
