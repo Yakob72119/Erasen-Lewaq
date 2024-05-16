@@ -79,7 +79,7 @@ const Aboutus = () => {
       <div className="contact">
         <p className='classic'>WE LIKE TO KNOW NEW PEOPLE</p>
         <p className='text'>Have a question, feedback, or just want to say hello? We'd love to hear from you! Fill out the form below or reach out to us directly via email or phone. Our dedicated team is here to assist you with any inquiries you may have.</p>
-        <a className='link' href='https://t.me/erasen_leweq'>Get in touch</a>
+        <a className='link' href='https://t.me/erasen_leweq' target='_blanck'>Get in touch</a>
       </div>
     </div>
   )

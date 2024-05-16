@@ -20,8 +20,8 @@ const ExamPage = () => {
                 <p className='time-remain'>1:39:43</p>
             </div>
 
-            <Exam />
-            {/* <Result /> */}
+            {/* <Exam /> */}
+            <Result />
 
 
             <img className="logo" src={erasenLweq} alt="" />

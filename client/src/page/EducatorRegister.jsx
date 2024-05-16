@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const EducatorRegister = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -127,7 +127,6 @@ const EducatorRegister = () => {
     'Industrial Economics',
     'Transport Economics',
     'Finance Economics',
-    'Management',
     'Psychology',
     'Special Needs and Inclusive Education',
     'Civics',
@@ -144,9 +143,9 @@ const EducatorRegister = () => {
     'Educational Leadership and Policy Studies',
     'Governance & Development Studies',
     'Other Department'
-  
+
   ];
-  
+
 
   const residences = [
     'Addis Ababa',
@@ -163,14 +162,16 @@ const EducatorRegister = () => {
     'Tigray',
     'Other'
   ];
-  
-  const bank = ['Awash Bank', 'Bank of Abyssinia', 'CBEBirr', 'Commercial Bank of Ethiopia', 'Cooperative Bank of Oromia', 'Dashen Bank', 'M-Pesa', 'telebirr','Zemen Bank'];
+
+  const bank = ['Awash Bank', 'Bank of Abyssinia', 'CBEBirr', 'Commercial Bank of Ethiopia', 'Cooperative Bank of Oromia', 'Dashen Bank', 'M-Pesa', 'telebirr', 'Zemen Bank'];
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+
     setError(''); // Clear error message when input changes
   };
+
 
   const handleCheckboxChange = () => {
     SetIsCheck(!isCheck); // Toggle the value of isCheck
@@ -263,25 +264,25 @@ const EducatorRegister = () => {
               {...(submit && formData.email === '' && { required: true })}
             />
             <div className="phoneNumber">
-            <input
-              type='tel'
-              name='code'
-              className='code'
-              placeholder='+251'
-              value='+251'
-              onChange={handleInputChange}
-              disabled true
-            />
-            <input
-              type='tel'
-              name='phone'
-              className='phone'
-              placeholder='XXX XXX XXX'
-              value={formData.phone}
-              onChange={handleInputChange}
-              maxLength={9}
-              {...(submit && formData.phone === '' && { required: true })}
-            />
+              <input
+                type='tel'
+                name='code'
+                className='code'
+                placeholder='+251'
+                value='+251'
+                onChange={handleInputChange}
+                disabled true
+              />
+              <input
+                type='tel'
+                name='phone'
+                className='phone'
+                placeholder='XXX XXX XXX'
+                value={formData.phone}
+                onChange={handleInputChange}
+                maxLength={10}
+                {...(submit && formData.phone === '' && { required: true })}
+              />
             </div>
           </div>
           <select
