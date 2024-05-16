@@ -50,10 +50,10 @@ const EduAskPayment = () => {
                             <button className='btnView' onClick={() => handleAskPayment(exam._id)}>Ask Pay</button>
                         )}
                         {exam.payment_status === "Pending" && (
-                            <button className='btnView' style={{ backgroundColor: 'yellow' }} disabled>Pending</button>
+                            <button className='btnView' style={{ backgroundColor: '#f39c11' }} disabled>Pending</button>
                         )}
                         {exam.payment_status === "Paid" && (
-                            <button className='btnView' style={{ backgroundColor: 'green' }} disabled>Paid</button>
+                            <button className='btnView' style={{ backgroundColor: '#41948a' }} disabled>Paid</button>
                         )}
                     </div>
                 </div>

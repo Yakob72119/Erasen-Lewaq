@@ -150,6 +150,9 @@
                     border-radius: 5px;
                     padding: 10px;
                     margin-bottom: 15px;
+                    @include mobile {
+                        font-size: calc(2px + 1.5vmin);
+                    }
 
 
                     .controllers {
@@ -157,17 +160,24 @@
                         flex-direction: column;
 
                         .btnView {
+                            border-radius: 5px;
                             background-color: $brand-color-two;
-
+                            @include mobile {
+                                font-size: calc(2px +  1.5vmin);
+                            }
                             &:hover {
                                 background-color: $button-primary;
                             }
                         }
 
                         .btnDelete {
+                            border-radius: 5px;
+
                             margin-top: 10px;
                             background-color: $button-delete;
-
+                            @include mobile {
+                                font-size: calc(2px +  1.5vmin);
+                            }
                             &:hover {
                                 background-color: red;
                             }

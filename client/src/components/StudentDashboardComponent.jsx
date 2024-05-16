@@ -66,10 +66,10 @@ const StudentDashboardComponent = () => {
           <thead className='head'>
             <tr>
               <th>Name</th>
-              <th>Email</th>
-              <th>Id</th>
-              <th>Password</th>
-              <th>Role</th>
+              <th>Exam Time</th>
+              <th>Finishing Time</th>
+              <th>Result</th>
+              <th>View</th>
             </tr>
           </thead>
           {examResult}

@@ -51,7 +51,7 @@ const EduExam = () => {
     return (
         <div className='edu-exam admin-exam'>
             <div className="navbars nav-btns">
-                <button onClick={handleOpen} className='addBtn'>+ Add new Admin</button>
+                <button onClick={handleOpen} className='addBtn'>+ Add new Exam</button>
             </div>
 
             <div className={`exams`}>
