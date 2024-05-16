@@ -93,13 +93,16 @@ const buyCoins = async (req, res) => {
         // a unique reference given to every transaction
         const TEXT_REF = "tx-erasenlewaq123-" + Date.now()
           // chapa redirect you to this url when payment is successful
-          const CALLBACK_URL = `http://localhost:3000/payment/verify-payment/${TEXT_REF}`;
+          const CALLBACK_URL = `http://localhost:3000/payment/verify-payment/${TEXT_REF}?userId=${userId}&amount=${req.body.amount}`;
+
+
+
 
           
   
           // form data
           const data = {
-              key:"CHAPUBK-tYWCuUsG5M7CxrmkoFNGc9Qw1gzOShzE",
+              key:"CHAPUBK_TEST-PDL7acBzuikgM8etodDuUwg8yNYvroY7",
               amount: amount, 
               currency: 'ETB',
               email: user.email,
@@ -111,11 +114,6 @@ const buyCoins = async (req, res) => {
   
           await axios.post(process.env.CHAPA_URL_TRANSACTION_INITIALIZE, data, config)
           .then((response) => {
-            if (response.status === 200) {
-                // Assuming you have a field called balance in your user schema
-                student.balance += amount;
-                student.save();
-            }
               res.status(200).json({ checkout_url: response.data.data.checkout_url });
           })
           .catch((err) => console.log(err))
@@ -127,14 +125,31 @@ const buyCoins = async (req, res) => {
 
 const verifyPayment = async (req, res) => {
     const { TEXT_REF } = req.params; // Get the TEXT_REF from the URL parameter
-        
+    const userId = req.query.userId;
+    const amount = req.query['amp;amount'];
         const config = {
             headers: {
                 Authorization: `Bearer ${process.env.CHAPA_AUTH}`
             }
         }
     try {
-         await axios.get(`https://api.chapa.co/v1/transaction/verify/${TEXT_REF}`, config);
+        const response = await axios.get(`https://api.chapa.co/v1/transaction/verify/${TEXT_REF}`, config);
+   
+        const student = await Student.findOne({ user: userId });
+        if (student) {            
+            // Ensure amount is parsed as a number before addition
+            const parsedAmount = parseFloat(amount);
+            if (!isNaN(parsedAmount)) {
+                student.balance += parsedAmount;
+            } else {
+                console.error("Invalid amount:", amount);
+            }
+
+            await student.save();
+        } else {
+            console.error("Student not found for user ID:", userId);
+        }
+
         res.status(200).json({ message: "Payment verified successfully" });
     } catch (error) {
         console.error("Payment can't be verified:", error);
@@ -164,7 +179,6 @@ const getStudentBalance = async (req, res) => {
 
 module.exports = {
     initiateTransfer,
-    verifyTransfer,
     buyCoins,
     verifyPayment,
     getStudentBalance
