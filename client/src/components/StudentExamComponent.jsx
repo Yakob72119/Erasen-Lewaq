@@ -68,6 +68,7 @@ const StudentExamComponent = () => {
       <div className="exam-info">
         <p>Department: {exam.department}</p>
         <p>Amount: {"100 coins"}</p>
+        <button>Take Exam</button>
       </div>
     </div>
   ));
