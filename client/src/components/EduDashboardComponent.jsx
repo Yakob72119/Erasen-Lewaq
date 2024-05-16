@@ -32,16 +32,17 @@ const EduDashboardComponent = () => {
   });
 
   // Function to fetch data from database
-  const fetchData = async () => {
-    // Simulate fetching data for now, replace with actual API call
-    const userIncreaseData = [10, 15, 20, 25, 30]; // Example data for user increase each month
-    setData(prevData => ({ ...prevData, userIncrease: userIncreaseData }));
-  };
+  
 
   useEffect(() => {
     // Fetch data when component mounts
+    const fetchData = async () => {
+      // Simulate fetching data for now, replace with actual API call
+      const userIncreaseData = [10, 15, 20, 25, 30]; // Example data for user increase each month
+      setData(prevData => ({ ...prevData, userIncrease: userIncreaseData }));
+    };
     fetchData();
-  }, []);
+  }, [data]);
 
   // Chart data
   const chartData = {

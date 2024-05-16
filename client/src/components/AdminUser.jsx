@@ -17,6 +17,7 @@ const AdminUser = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [userToDelete, setUserToDelete] = useState('');
 
   useEffect(() => {
     fetchUsers();
@@ -71,6 +72,11 @@ const AdminUser = () => {
 
   const handleDeleteClose = () => {
     setAdminPass('hideDelete');
+  }
+
+  const handleDeleteOpen = async (id) => {
+    setUserToDelete(id)
+    setAdminPass('showDelete');
   }
 
   const generatePassword = () => {
@@ -152,6 +158,7 @@ const AdminUser = () => {
   };
 
   const dataView = Array.isArray(users) ? (
+    
     users.map((user) => (
       <tbody className='body' key={user._id}>
         <tr>
@@ -161,10 +168,11 @@ const AdminUser = () => {
           <td className='role'>{user.password}</td>
           <td className='password'>{user.role}</td>
           <td className='payment'>
-          <button onClick={() => handleDelete(user._id)}>Delete</button>
+          <button onClick={() => handleDeleteOpen(user._id)}>Delete</button>
           </td>
         </tr>
       </tbody>
+      
     ))
   ) : (
     <p>No users found</p>
@@ -238,7 +246,7 @@ const AdminUser = () => {
             <p>Are You sure you want to delet this cvs?</p>
           </div>
           <div className="btn-message">
-            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" onClick={handleDelete}/>
+            <input type="submit" value="Delete" className="deleteBtn" id="forBtn" onClick={() => handleDelete(userToDelete)}/>
           </div>
       </div>
       <div className="page-number">

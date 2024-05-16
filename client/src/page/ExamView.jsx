@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Link, useLocation, useNavigate  } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './style/CvGrade.scss';
 import erasenLweq from '../assets/erasenLweq.png';
 
@@ -140,7 +140,7 @@ const ExamView = () => {
 
             <div className="exam-body grade-body">
                 <div className="exam resume">
-                    <button className='delete' onClick={handleDecline}>Decline</button>
+                    <button className='delete' onClick={() => setDeleteCurrent('show')}>Decline</button>
                     {validGoogleDoc ? (
                         <iframe title="Exam" width="100%" height="100%" src={link}></iframe>
                     ) : (
@@ -153,7 +153,7 @@ const ExamView = () => {
                             <p>Are You sure you want to delete this cvs?</p>
                         </div>
                         <div className="btn-message">
-                            <button className="delete" >Decline</button>
+                            <button className="delete" onClick={handleDecline}>Decline</button>
                         </div>
                     </div>
                 </div>
@@ -195,41 +195,41 @@ const ExamView = () => {
                             onChange={handleInputChange}
                         />
 
-                            <textarea
-                                type="text"
-                                name="choiceA" // Change name to match backend
-                                className="input a"
-                                placeholder="A"
-                                value={examData.choiceA} // Change value to match state variable
-                                onChange={handleInputChange}
-                            />
+                        <textarea
+                            type="text"
+                            name="choiceA" // Change name to match backend
+                            className="input a"
+                            placeholder="A"
+                            value={examData.choiceA} // Change value to match state variable
+                            onChange={handleInputChange}
+                        />
 
-                            <textarea
-                                type="text"
-                                name="choiceB" // Change name to match backend
-                                className="input b"
-                                placeholder="B"
-                                value={examData.choiceB} // Change value to match state variable
-                                onChange={handleInputChange}
-                            />
+                        <textarea
+                            type="text"
+                            name="choiceB" // Change name to match backend
+                            className="input b"
+                            placeholder="B"
+                            value={examData.choiceB} // Change value to match state variable
+                            onChange={handleInputChange}
+                        />
 
-                            <textarea
-                                type="text"
-                                name="choiceC" // Change name to match backend
-                                className="input c"
-                                placeholder="C"
-                                value={examData.choiceC} // Change value to match state variable
-                                onChange={handleInputChange}
-                            />
+                        <textarea
+                            type="text"
+                            name="choiceC" // Change name to match backend
+                            className="input c"
+                            placeholder="C"
+                            value={examData.choiceC} // Change value to match state variable
+                            onChange={handleInputChange}
+                        />
 
-                            <textarea
-                                type="text"
-                                name="choiceD" // Change name to match backend
-                                className="input d"
-                                placeholder="D"
-                                value={examData.choiceD} // Change value to match state variable
-                                onChange={handleInputChange}
-                            />
+                        <textarea
+                            type="text"
+                            name="choiceD" // Change name to match backend
+                            className="input d"
+                            placeholder="D"
+                            value={examData.choiceD} // Change value to match state variable
+                            onChange={handleInputChange}
+                        />
 
 
                         <div className="btn-message">
