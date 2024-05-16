@@ -2,26 +2,31 @@ import React, { useState } from 'react'
 import examT from '../assets/taken-exam.svg'
 import examP from '../assets/passed-exam.svg'
 import examF from '../assets/fail-exam.svg'
-import empty from '../assets/empty.svg'
+// import empty from '../assets/empty.svg'
+import { Link } from 'react-router-dom';
+
 
 const StudentDashboardComponent = () => {
 
-  const [exams, setExams] = useState(['Software Engineering', 'computer since', 'Management', 'Accounting', 'Economics', 'Pharmacy', 'Medicine', 'Nursing'])
+  const [exams, setExams] = useState(['Software Engineering', 'computer since', 'Management', 'Accounting', 'Economics', 'Pharmacy', 'Medicine', 'Nursing', 'Medwife'])
 
   const examResult = exams.map((exam, index) => (
-    <div key={index} className="exam-result">
-      <h1>Examp Result</h1>
-      <div className="exam-result-info">
-        <p>Department: {exam}</p>
-        <p>Result: 76</p>
-        <span>01/01/2001</span>
-      </div>
-    </div>
+    <tbody className='body' key={index}>
+      <tr>
+        <td className='depart'>{exam}</td>
+        <td className='examTime'>2:00:00</td>
+        <td className='time'>1:30:12</td>
+        <td className='examResult'>82</td>
+        <td className='view'>
+          <Link className='viewBtn' to={'/exam-review'}>view</Link>
+        </td>
+      </tr>
+    </tbody>
   ));
 
-  const noExamPackage = () => {
+  // const noExamPackage = () => {
 
-  }
+  // }
 
 
   return (
@@ -57,11 +62,22 @@ const StudentDashboardComponent = () => {
         </div>
       </div>
       <div className='result'>
-        {/* {examResult} */}
-        <div className="no-result">
+        <table >
+          <thead className='head'>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Id</th>
+              <th>Password</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          {examResult}
+        </table>
+        {/* <div className="no-result">
           <img src={empty} alt="" />
           <h2>To begin, please take an exam. Once completed, you can view your results here!</h2>
-        </div>
+        </div> */}
       </div>
     </div>
   )
