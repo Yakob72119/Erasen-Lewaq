@@ -18,6 +18,8 @@ const Admincv = () => {
   const [cvData, setCvData] = useState([]);
   const [submit, setSubmit] = useState(false);
   const [deleteCurrent, setDeleteCurrent] = useState('hide')
+  const [deleteCurrentClass, setDeleteCurrentClass] = useState('hide')
+  const [cvDeleteData, setCvDeleteData]= useState('')
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -28,7 +30,25 @@ const Admincv = () => {
     return () => clearTimeout(timer);
   }, [submit]);
 
-  const handleDeleteOpen = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/cv/getCVs', { params: { limit: 10 } });
+        const fetchedCvData = response.data;
+        const cvDeclarations = generateCvDeclarations(fetchedCvData);
+        setCvDeclaration(cvDeclarations);
+        setCvData(fetchedCvData);
+      } catch (error) {
+        console.error('Error fetching CV data:', error);
+        setError('Error fetching CV data');
+        setErrorStyle('red');
+      }
+    };
+
+    fetchData();
+  }, [cvData]);
+
+  const handleDeleteOpen =  () => {
     setDeleteCurrent('showDelete');
 
   }
@@ -36,6 +56,17 @@ const Admincv = () => {
   const handleDeleteClose = () => {
     setDeleteCurrent('hideDelete');
   }
+
+  const handleOpen = async (cvID) => {
+    setCvDeleteData(cvID)
+    setDeleteCurrentClass('show');
+
+  }
+
+  const handleClose = () => {
+    setDeleteCurrentClass('hide');
+  }
+
 
 
   const navigate = useNavigate();
@@ -122,6 +153,7 @@ const Admincv = () => {
       setError('Error deleting CV');
       setErrorStyle('red');
     }
+    setDeleteCurrentClass('hide');
   };
 
 
@@ -144,7 +176,7 @@ const Admincv = () => {
             <button className='btnGrade' onClick={() => redirectToResultPage(cv.gLink, cv._id)}>Grade</button>
           )}
           {/* Pass cv._id to handleDeleteCV */}
-          <button className='btnDelete' onClick={() => handleDeleteCV(cv._id, index)}>Delete</button>
+          <button className='btnDelete' onClick={() => handleOpen(cv._id)}>Delete</button>
         </div>
       </div>
     ));
@@ -163,23 +195,7 @@ const Admincv = () => {
       setErrorStyle('red');
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/cv/getCVs', { params: { limit: 10 } });
-        const fetchedCvData = response.data;
-        const cvDeclarations = generateCvDeclarations(fetchedCvData);
-        setCvDeclaration(cvDeclarations);
-        setCvData(fetchedCvData);
-      } catch (error) {
-        console.error('Error fetching CV data:', error);
-        setError('Error fetching CV data');
-        setErrorStyle('red');
-      }
-    };
-
-    fetchData();
-  }, []);
+  
 
   return (
     <div className='admin-cv' >
@@ -231,6 +247,7 @@ const Admincv = () => {
         {cvDeclaration}
       </div>
 
+
       <div className={`add-new-admin ${deleteCurrent}`}>
         <button onClick={handleDeleteClose} className='close'>Close</button>
 
@@ -240,10 +257,19 @@ const Admincv = () => {
         <div className="btn-message">
           <input onClick={handleDeleteCurrentSearch} type="submit" value="Delete" className="deleteBtn" id="forBtn" />
         </div>
-
-
       </div>
 
+      <div className={`add-new-admin ${deleteCurrentClass}`}>
+        <button onClick={handleClose} className='close'>Close</button>
+
+        <div className="newAdminForm">
+          <p>Are You sure you want to delet this cvs?</p>
+        </div>
+        <div className="btn-message">
+      
+          <input onClick={() => handleDeleteCV(cvDeleteData)} type="submit" value="Delete" className="deleteBtn" id="forBtn" />
+        </div>
+      </div>
     </div>
   );
 };

@@ -37,7 +37,7 @@ const EduDashboard = () => {
             setAuthenticated(false);
             setFname('');
         }
-    }, []);
+    }, [authenticated, fname]);
 
     useEffect(() => {
         const fetchCvStatus = async () => {
@@ -53,7 +53,7 @@ const EduDashboard = () => {
         };
 
         fetchCvStatus();
-    }, []);
+    }, [userId, cvStatus, hasCv]);
 
     const handleNav = () => {
         setNavBar(navBar === 'side-nav' ? 'side-nav-show' : 'side-nav');

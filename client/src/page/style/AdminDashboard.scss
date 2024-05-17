@@ -523,23 +523,12 @@
                     margin-bottom: 30px;
                     color: red;
                     text-align: center;
+                }
 
-
-                    .input {
-                        padding: 10px;
-                        margin-bottom: 20px;
-                        outline: none;
-                        border: 1px solid $brand-color-one;
-                        border-radius: 5px;
-                        background-color: #fff;
-                        color: #000;
-
-                        &:required {
-                            border: 1PX solid red;
-                        }
+                .deleteBtn {
+                    &:hover {
+                        cursor: pointer;
                     }
-
-
                 }
             }
 
@@ -703,6 +692,9 @@
                         border: none;
                         margin-right: 10px;
                         color: #fff;
+                         &:hover {
+                            cursor: pointer;
+                        }
                     }
 
                     .deleteBtn {
