@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import examT from "../assets/taken-exam.svg";
 import Compliment from "../assets/complain.svg";
 
@@ -29,19 +30,25 @@ const StudentComplainComponent = () => {
       ([key, value]) => value === ""
     );
     if (emptyFields.length === 0) {
-      console.log("Submitting:", complainData);
-      // Reset form fields
-      setComplainData({
-        email: email,
-        userId: _id,
-        examDepart: department,
-        examId: "",
-        complainBox: "",
-      });
-      setSubmit(false);
-      setErrors({});
+      axios
+        .post("http://localhost:3000/complaint/postComplaint", complainData)
+        .then((response) => {
+          setComplainData({
+            email: email,
+            userId: _id,
+            examDepart: department,
+            examId: "",
+            complainBox: "",
+          });
+          setSubmit(false);
+          setErrors({});
+          alert("Complaint submitted successfully!");
+        })
+        .catch((error) => {
+          console.error("Error submitting complaint:", error);
+          alert("An error occurred while submitting the complaint.");
+        });
     } else {
-      // Set errors for empty fields
       const errorObj = {};
       emptyFields.forEach(([key]) => {
         errorObj[key] = "This field is required";
@@ -54,9 +61,7 @@ const StudentComplainComponent = () => {
     <div className="complain">
       <img className="image-1" src={Compliment} alt="" />
       <img className="image-2" src={examT} alt="" />
-      <h3>
-        If You have any complain on the exam we provide you can told for us!
-      </h3>
+      <h3>If You have any complain on the exam we provide you can told for us!</h3>
       <form className="complainForm" onSubmit={handleComplainPost}>
         <input
           type="email"
@@ -95,7 +100,7 @@ const StudentComplainComponent = () => {
         <span className="error">{errors.examDepart}</span>
 
         <input
-          type="text"
+          type="number" // Changed input type to number
           name="examId"
           className="input"
           placeholder="Exam ID"
@@ -103,6 +108,7 @@ const StudentComplainComponent = () => {
           onChange={handleInputChange}
           {...(submit && complainData.examId === "" && { required: true })}
         />
+
         <span className="error">{errors.examId}</span>
 
         <textarea
@@ -113,10 +119,9 @@ const StudentComplainComponent = () => {
           onChange={handleInputChange}
           {...(submit && complainData.complainBox === "" && { required: true })}
         />
-
         <span className="error">{errors.complainBox}</span>
 
-        <input type="submit" value="Submit" className="input submitBtn" onClick={handleComplainPost}/>
+        <input type="submit" value="Submit" className="input submitBtn" />
       </form>
     </div>
   );

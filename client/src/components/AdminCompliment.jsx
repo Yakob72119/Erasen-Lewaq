@@ -1,42 +1,40 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AdminCompliment = () => {
-    const compliments = [
-        {
-            examId: '66308e90a7f6a6b01b595e47',
-            complimentText: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit tempora esse, quia et quod impedit facere nobis rem temporibus eos pariatur, repellat quis, deleniti nihil suscipit ducimus incidunt. Ipsum, optio.',
-        },
-        {
-            examId: '66308e90a7f6a6b01b595e47',
-            complimentText: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit tempora esse, quia et quod impedit facere nobis rem temporibus eos pariatur, repellat quis, deleniti nihil suscipit ducimus incidunt. Ipsum, optio.',
-        },
-        {
-            examId: '66308e90a7f6a6b01b595e47',
-            complimentText: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit tempora esse, quia et quod impedit facere nobis rem temporibus eos pariatur, repellat quis, deleniti nihil suscipit ducimus incidunt. Ipsum, optio.',
-        },
-        {
-            examId: '66308e90a7f6a6b01b595e47',
-            complimentText: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit tempora esse, quia et quod impedit facere nobis rem temporibus eos pariatur, repellat quis, deleniti nihil suscipit ducimus incidunt. Ipsum, optio.',
-        },
-        {
-            examId: '66308e90a7f6a6b01b595e47',
-            complimentText: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit tempora esse, quia et quod impedit facere nobis rem temporibus eos pariatur, repellat quis, deleniti nihil suscipit ducimus incidunt. Ipsum, optio.',
-        },
-    ];
+    const [compliments, setCompliments] = useState([]);
+
+    useEffect(() => {
+        // Fetch complaints when the component mounts
+        axios.get('http://localhost:3000/complaint/getAllComplaints')
+            .then(response => {
+                setCompliments(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching complaints:', error);
+            });
+    }, []); // Empty dependency array ensures the effect runs only once when the component mounts
+
     return (
         <div className='admin-compliment'>
             {compliments.map((compliment, index) => (
                 <div key={index} className="compliment">
                     <div className="examId">
-                        {compliment.examId}
+                    Complainant Gmail : {compliment.email}
                     </div>
                     <div className="complimentText">
-                        {compliment.complimentText}
+                      Exam Id :  {compliment.examId}
+                    </div>
+                    <div className="examId">
+                      Department : {compliment.examDepart}
+                    </div>
+                    <div className="complimentText">
+                      Complaint : {compliment.complainBox}
                     </div>
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
 
-export default AdminCompliment
+export default AdminCompliment;
