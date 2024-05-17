@@ -47,6 +47,59 @@ const register = async (req, res) => {
   }
 };
 
+
+const getStudentProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const student = await Student.findOne({ user: id });
+    if (student) {
+      res.json(student);
+    } else {
+      res.status(404).json({ message: 'Student not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching student data', error: error.message });
+  }
+};
+
+const updateStudentProfile = async (req, res) => {
+  const { id } = req.params;
+  const updatedStudent = req.body;
+  try {
+    const studentRecord = await Student.findOne({ user: id });
+    if (studentRecord) {
+      // Update student fields
+      studentRecord.fullName = updatedStudent.fullName;
+      studentRecord.department = updatedStudent.department;
+      studentRecord.collage = updatedStudent.collage;
+      studentRecord.gender = updatedStudent.gender;
+      studentRecord.password = updatedStudent.password;
+
+      const updated = await studentRecord.save();
+      // Only update password if provided
+      const user = await User.findById(id);
+      if (user) {
+        const fullName = updatedStudent.fullName;
+        const nameParts = fullName.split(" ");
+        const fname = nameParts[0];
+        user.fname = fname;
+        user.department = updatedStudent.department;
+        user.email = updatedStudent.email;
+        user.password = updatedStudent.password;
+
+      }
+     await user.save();
+      res.json(updated);
+    } else {
+      res.status(404).json({ message: 'Student not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating student data', error: error.message });
+  }
+};
+
 module.exports={
-  register
+  register,
+  getStudentProfile,
+  updateStudentProfile
 };
