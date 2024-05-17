@@ -33,4 +33,6 @@ router.get('/:examId', examController.getExamById);
 // Route to fetch questions for a specific exam
 router.get('/:examId/questions', examController.getQuestionsForExam);
 
+
+
 module.exports = router;

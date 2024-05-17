@@ -220,6 +220,7 @@ const getQuestionsForExam = async (req, res) => {
   }
 };
 
+
 module.exports={
     addExam,
     getExamsByEducatorId,
@@ -233,5 +234,5 @@ module.exports={
     getSuggestedExams,
     buyExam,
     getExamById,
-    getQuestionsForExam
+    getQuestionsForExam 
 }
