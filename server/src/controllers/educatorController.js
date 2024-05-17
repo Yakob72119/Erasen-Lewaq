@@ -6,7 +6,7 @@ const mongoose=require('mongoose');
 const register = async (req, res) => {
   try {
     
-    const {fullName, email, collage,residence,bank, bankAcc, password, gender } = req.body;
+    const {fullName, email,phone, collage,residence,bank, bankAcc, password, gender } = req.body;
 
     const existingUser  = await User.findOne({ email });
 
@@ -30,6 +30,7 @@ const register = async (req, res) => {
     const educator = new Educator({
       fullName: fullName,
       email: email,
+      phone:phone,
       collage: collage,
       residence: residence,
       bank: bank,
@@ -50,6 +51,63 @@ const register = async (req, res) => {
 };
 
 
+const getEducatoProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const educator = await Educator.findOne({ user: id });
+    if (educator) {
+      res.json(educator);
+    } else {
+      res.status(404).json({ message: 'Educator not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching educator data', error: error.message });
+  }
+};
+
+const updateEducatorProfile = async (req, res) => {
+  const { id } = req.params;
+  const updatedEducator = req.body;
+  try {
+    const educatorRecord = await Educator.findOne({ user: id });
+    if (educatorRecord) {
+      // Update student fields
+      educatorRecord.fullName = updatedEducator.fullName;
+      educatorRecord.collage = updatedEducator.collage;
+      educatorRecord.phone = updatedEducator.phone;
+      educatorRecord.gender = updatedEducator.gender;
+      educatorRecord.email = updatedEducator.email;
+      educatorRecord.bank = updatedEducator.bank;
+      educatorRecord.bankAcc = updatedEducator.bankAcc;
+      educatorRecord.password = updatedEducator.password;
+      educatorRecord.gender = updatedEducator.gender;
+    
+      const updated = await educatorRecord.save();
+      // Only update password if provided
+      const user = await User.findById(id);
+      if (user) {
+        const fullName = updatedEducator.fullName;
+        const nameParts = fullName.split(" ");
+        const fname = nameParts[0];
+        user.fname = fname;
+        user.department = updatedEducator.department;
+        user.email = updatedEducator.email;
+        user.password = updatedEducator.password;
+
+      }
+     await user.save();
+      res.json(updated);
+    } else {
+      res.status(404).json({ message: 'Student not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating student data', error: error.message });
+  }
+};
+
+
 module.exports={
-  register
+  register,
+  getEducatoProfile,
+  updateEducatorProfile
 };

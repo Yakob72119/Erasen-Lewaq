@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import './style/Profile.scss'
+import React, { useState, useEffect } from 'react';
+import './style/Profile.scss';
 import { Link } from 'react-router-dom';
-import erasenLweq from '../assets/erasenLweq.png'
-import user from '../assets/teacher.svg'
+import axios from 'axios';
+import erasenLweq from '../assets/erasenLweq.png';
+import user from '../assets/teacher.svg';
 
 const EduProfile = () => {
   const [formData, setFormData] = useState({
@@ -17,26 +18,59 @@ const EduProfile = () => {
     confirmPassword: '',
     gender: ''
   });
-  const [selectedRadio, setselectedRadio] = useState('');
-  const [isCheck, SetIsCheck] = useState(false);
+  const [selectedRadio, setSelectedRadio] = useState('');
+  const [isCheck, setIsCheck] = useState(false);
   const [error, setError] = useState('');
   const [errorStyle, setErrorStyle] = useState('red');
   const [submit, setSubmit] = useState('');
-  const [boyView, setBodyView] = useState('show')
-  const [updateView, setUpdateiew] = useState('hide')
+  const [boyView, setBodyView] = useState('show');
+  const [updateView, setUpdateView] = useState('hide');
 
-  const collages = ['Hramaya university', 'Addis Ababa university', 'Software Engineering', 'Computer Science']; // Corrected typo
+  const collages = ['Haramaya University', 'Addis Ababa University']; // Corrected typo
 
   const residences = ['Harar', 'Addis Ababa'];
-  const bank = ['CBE', 'Awash International Bank', 'Abyssinia Bank'];
+  const banks = ['CBE', 'Awash International Bank', 'Abyssinia Bank'];
+
+  useEffect(() => {
+    // Function to fetch educator data
+    const fetchEducatorData = async () => {
+      try {
+        const educatorId = sessionStorage.getItem('_id');
+        if (!educatorId) {
+          throw new Error('No educator ID found in session storage');
+        }
+        const response = await axios.get(`http://localhost:3000/educator/profile/${educatorId}`); // Adjust the API endpoint as needed
+        const data = response.data;
+
+        setFormData({
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          collage: data.collage,
+          residence: data.residence,
+          bank: data.bank,
+          bankAcc: data.bankAcc,
+          password: '', // Keep passwords empty for security reasons
+          confirmPassword: '',
+          gender: data.gender
+        });
+        setSelectedRadio(data.gender);
+      } catch (error) {
+        console.error('Error fetching educator data:', error);
+        setError('Failed to fetch educator data.');
+        setErrorStyle('red');
+      }
+    };
+
+    fetchEducatorData();
+  }, []); // Empty dependency array ensures this runs once when the component mounts
 
   const handleBodyClass = () => {
-    if (boyView == 'show') {
-      setBodyView('hide')
-      setUpdateiew('show')
+    if (boyView === 'show') {
+      setBodyView('hide');
+      setUpdateView('show');
     }
-  }
-
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -45,59 +79,74 @@ const EduProfile = () => {
   };
 
   const handleCheckboxChange = () => {
-    SetIsCheck(!isCheck);
+    setIsCheck(!isCheck);
   };
 
   const handleSelectedRadio = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setselectedRadio(value);
+    setSelectedRadio(value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
 
-    if (boyView == 'hide') {
-      setBodyView('show')
-      setUpdateiew('hide')
+    if (boyView === 'hide') {
+      setBodyView('show');
+      setUpdateView('hide');
     }
 
     // Form validation
     const emptyFields = Object.values(formData).filter((value) => value === '');
     if (emptyFields.length > 0) {
       setError('All fields are required.');
-      setErrorStyle('red')
+      setErrorStyle('red');
       return;
     }
 
-    if (formData.password.length < 6) {
+    if (formData.password.length < 6 && formData.password !== '') {
       setError('The Password must be at least 6 characters long.');
-      setErrorStyle('red')
+      setErrorStyle('red');
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
       setError('The Passwords do not match.');
-      setErrorStyle('red')
+      setErrorStyle('red');
       return;
     }
 
-    console.log(response.data);
-    setFormData({
-      fullName: '',
-      phone: '',
-      collage: '',
-      residence: '',
-      bank: '',
-      bankAcc: '',
-      password: '',
-      confirmPassword: '',
-      gender: ''
-    });
-    setError('Registration successful'); // Provide feedback to the user
-    setErrorStyle('green')
-    setSubmit(false)
+    try {
+      const educatorId = sessionStorage.getItem('_id');
+      if (!educatorId) {
+        throw new Error('No educator ID found in session storage');
+      }
+
+      // Prepare the data for the update
+      const updatedData = {
+        fullName: formData.fullName,
+        phone: formData.phone,
+        collage: formData.collage,
+        residence: formData.residence,
+        bank: formData.bank,
+        bankAcc: formData.bankAcc,
+        gender: formData.gender
+      };
+
+      // Only include password field if it is provided
+      if (formData.password) {
+        updatedData.password = formData.password;
+      }
+
+      const response = await axios.put(`http://localhost:3000/educator/profile/${educatorId}`, updatedData);
+      setError('Profile updated successfully');
+      setErrorStyle('green');
+    } catch (error) {
+      console.error('Error updating educator data:', error);
+      setError('Failed to update educator data.');
+      setErrorStyle('red');
+    }
   };
 
   return (
@@ -107,13 +156,13 @@ const EduProfile = () => {
         <Link className='back' to={'/educator-dashboard'}>Back</Link>
       </div>
 
-      <div className="body Registration" >
+      <div className="body Registration">
         <div className={`main-container ${boyView}`}>
           <div className="names">
-            <img src={user} alt="" />
+            <img src={user} alt="User Avatar" />
             <div className="name">
-              <h1>Akrem Muktar</h1>
-              <p>akremmuktar332@gmail.com</p>
+              <h1>{formData.fullName}</h1>
+              <p>{formData.email}</p>
             </div>
           </div>
           <div className="infos">
@@ -123,27 +172,27 @@ const EduProfile = () => {
             </div>
             <div className="info">
               <p>Phone: </p>
-              <p className='value'>+251936130427</p>
+              <p className='value'>{formData.phone}</p>
             </div>
             <div className="info">
-              <p>Department: </p>
-              <p className='value'>Haramaya University</p>
+              <p>Collage: </p>
+              <p className='value'>{formData.collage}</p>
             </div>
             <div className="info">
               <p>Residence: </p>
-              <p className='value'>Harar</p>
+              <p className='value'>{formData.residence}</p>
             </div>
             <div className="info">
               <p>Bank: </p>
-              <p className='value'>CBE</p>
+              <p className='value'>{formData.bank}</p>
             </div>
             <div className="info">
               <p>Bank Account: </p>
-              <p className='value'>12345678909</p>
+              <p className='value'>{formData.bankAcc}</p>
             </div>
             <div className="info">
               <p>Gender: </p>
-              <p className='value'>Male</p>
+              <p className='value'>{formData.gender}</p>
             </div>
 
             <button onClick={handleBodyClass}>Edit Profile</button>
@@ -157,7 +206,6 @@ const EduProfile = () => {
       <div className={`update Registration ${updateView}`}>
         <div className='registration-container'>
           <form className='registerForm' onSubmit={handleSubmit}>
-
             <input
               type='text'
               name='fullName'
@@ -166,49 +214,21 @@ const EduProfile = () => {
               onChange={handleInputChange}
               {...(submit && formData.fullName === '' && { required: true })}
             />
-
-            <div className="contact">
-              <input
-                type='email'
-                name='email'
-                placeholder='Email'
-                value={'akremmuktar332@gmail.com'}
-                disabled
-                onChange={handleInputChange}
-                {...(submit && formData.email === '' && { required: true })}
-              />
-              <div className="phoneNumber">
-                <input
-                  type='tel'
-                  name='code'
-                  className='code'
-                  placeholder='+251'
-                  value='+251'
-                  onChange={handleInputChange}
-                  disabled true
-                />
-                <input
-                  type='tel'
-                  name='phone'
-                  className='phone'
-                  placeholder='XXX XXX XXX'
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  maxLength={9}
-                  {...(submit && formData.phone === '' && { required: true })}
-                />
-              </div>
-            </div>
+            <input
+              type='tel'
+              name='phone'
+              placeholder='Phone'
+              value={formData.phone}
+              onChange={handleInputChange}
+              {...(submit && formData.phone === '' && { required: true })}
+            />
             <select
               className='input'
               name='collage'
-              id='comboCollage'
               value={formData.collage}
               onChange={handleInputChange}
               {...(submit && formData.collage === '' && { required: true })}>
-              <option className='option' value=''>
-                ~Current Collage/Department~
-              </option>
+              <option value=''>~Collage~</option>
               {collages.map((collage) => (
                 <option key={collage} value={collage}>
                   {collage}
@@ -218,13 +238,10 @@ const EduProfile = () => {
             <select
               className='input'
               name='residence'
-              id='comboResidence'
               value={formData.residence}
               onChange={handleInputChange}
               {...(submit && formData.residence === '' && { required: true })}>
-              <option className='option' value=''>
-                ~Residence~
-              </option>
+              <option value=''>~Residence~</option>
               {residences.map((residence) => (
                 <option key={residence} value={residence}>
                   {residence}
@@ -234,14 +251,11 @@ const EduProfile = () => {
             <select
               className='input'
               name='bank'
-              id='comboBank'
               value={formData.bank}
               onChange={handleInputChange}
               {...(submit && formData.bank === '' && { required: true })}>
-              <option className='option' value=''>
-                ~Bank~
-              </option>
-              {bank.map((bank) => (
+              <option value=''>~Bank~</option>
+              {banks.map((bank) => (
                 <option key={bank} value={bank}>
                   {bank}
                 </option>
@@ -250,7 +264,7 @@ const EduProfile = () => {
             <input
               type='number'
               name='bankAcc'
-              placeholder='Bank Acccount'
+              placeholder='Bank Account'
               value={formData.bankAcc}
               onChange={handleInputChange}
               {...(submit && formData.bankAcc === '' && { required: true })}
@@ -271,7 +285,7 @@ const EduProfile = () => {
               onChange={handleInputChange}
               {...(submit && formData.confirmPassword === '' && { required: true })}
             />
-            <div className={submit && formData.gender === '' ? 'error' : 'Gender'}>
+            <div className='Gender'>
               <label htmlFor='gender'>Gender</label>
               <label className='radioGroup'>
                 <input
@@ -307,17 +321,12 @@ const EduProfile = () => {
               </label>
             </div>
             {error && <span style={{ color: errorStyle }}>{error}</span>}
-            <input type="submit" value="Update" className="formBtn" id='forBtn' />
-           
+            <input type='submit' value='Update' className='formBtn' />
           </form>
         </div>
-
       </div>
-
-
     </div>
-  )
+  );
+};
 
-}
-
-export default EduProfile
+export default EduProfile;
