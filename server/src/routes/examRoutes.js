@@ -24,4 +24,13 @@ router.get('/suggested', examController.getSuggestedExams);
 
 router.post('/buy', examController.buyExam);
 
+// routes needed for taking exam
+
+
+// Route to fetch exam details by ID
+router.get('/:examId', examController.getExamById);
+
+// Route to fetch questions for a specific exam
+router.get('/:examId/questions', examController.getQuestionsForExam);
+
 module.exports = router;

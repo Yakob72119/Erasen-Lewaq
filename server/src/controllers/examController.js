@@ -1,6 +1,6 @@
 const Exam = require('./../models/examModel');
 const Student = require('./../models/studentModel');
-
+const Question = require('./../models/questionModel');
 
 const addExam = async (req, res) => {
     const { time, link, educatorId, department } = req.body;
@@ -192,6 +192,34 @@ const getStudentExams = async (req, res) => {
   };
 
 
+  // functions used for taking exams
+
+  const getExamById = async (req, res) => {
+    try {
+        const { examId } = req.params;
+        const exam = await Exam.findById(examId);
+        if (!exam) {
+            return res.status(404).json({ error: 'Exam not found' });
+        }
+        res.json(exam);
+    } catch (error) {
+        console.error('Error fetching exam details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+const getQuestionsForExam = async (req, res) => {
+  try {
+      const { examId } = req.params;
+      const questions = await Question.find({ examId });
+      res.json(questions);
+  } catch (error) {
+      console.error('Error fetching questions for exam:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports={
     addExam,
     getExamsByEducatorId,
@@ -203,5 +231,7 @@ module.exports={
     getExamsByPaymentStatus,
     getStudentExams,
     getSuggestedExams,
-    buyExam
+    buyExam,
+    getExamById,
+    getQuestionsForExam
 }

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
 import axios from 'axios';
 import examAvater from '../assets/exam-avater.png';
 
 const StudentExamComponent = () => {
   const [myExams, setMyExams] = useState([]);
   const [suggestedExams, setSuggestedExams] = useState([]);
+  const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
 
   const fetchMyExams = async () => {
     try {
@@ -61,14 +63,21 @@ const StudentExamComponent = () => {
     }
   };
 
+  const handleTakeExam = (examId) => {
+    const userId = sessionStorage.getItem('_id');
+    // Use navigate function to navigate to the desired page
+    navigate(`/exam-page?examId=${examId}&userId=${userId}`);
+
+  };
+
   const myExamElements = myExams.map((exam, index) => (
     <div key={index} className="exam">
       <h1>Package</h1>
       <img src={examAvater} alt="" />
       <div className="exam-info">
         <p>Department: {exam.department}</p>
-        <p>Amount: {"100 coins"}</p>
-        <button>Take Exam</button>
+        <p>Exam Id: {exam._id}</p>
+        <button onClick={() => handleTakeExam(exam._id)}>Take Exam</button>
       </div>
     </div>
   ));

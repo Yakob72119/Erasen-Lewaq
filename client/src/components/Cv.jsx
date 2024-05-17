@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Cv = () => {
@@ -11,15 +11,22 @@ const Cv = () => {
     });
     const [error, setError] = useState('');
     const [errorStyle, setErrorStyle] = useState('red');
-    const [submit, setSubmit] = useState('');
+    const [submit, setSubmit] = useState(false);
 
     const eduStatus = ['Degree', 'Masters', 'PHD']; // Corrected typo
+
+    useEffect(() => {
+        // Retrieve department from session storage when the component mounts
+        const savedDepartment = sessionStorage.getItem('department');
+        if (savedDepartment) {
+            setFormData((prevData) => ({ ...prevData, department: savedDepartment }));
+        }
+    }, []);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -29,13 +36,13 @@ const Cv = () => {
         const emptyFields = Object.values(formData).filter((value) => value === '');
         if (emptyFields.length > 0) {
             setError('All fields are required.');
-            setErrorStyle('red')
+            setErrorStyle('red');
             return;
         }
 
         try {
             const educatorId = sessionStorage.getItem('_id');
-            const response= await axios.post('http://localhost:3000/cv/submitCV', { ...formData, educatorId });
+            const response = await axios.post('http://localhost:3000/cv/submitCV', { ...formData, educatorId });
             console.log(response.data);
             setError('Submitted');
             setErrorStyle('green');
@@ -114,10 +121,9 @@ const Cv = () => {
                 {error && <span style={{ color: errorStyle, fontWeight: 900 }}>{error}</span>}
                 <input type="submit" value="Submit" className="formBtn" id='forBtn' />
                 <a href="#" className='examp'>Example of Google Doc form</a>
-
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default Cv;
