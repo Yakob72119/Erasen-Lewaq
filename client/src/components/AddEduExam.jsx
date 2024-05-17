@@ -28,17 +28,18 @@ const AddEduExam = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-
-        // Regex pattern to allow only numbers from 1 to 3, including decimal points
-        const timePattern = /^\d{1}(\.\d{0,2})?$/;
-
+    
+        // Regex pattern to allow only integers from 1 to 3
+        const timePattern = /^[1-3]$/;
+    
         // Check if the input matches the pattern and falls within the range of 1 to 3
-        if (name === 'time' && (timePattern.test(value) || value === '') && parseFloat(value) >= 1 && parseFloat(value) <= 3) {
+        if (name === 'time' && (timePattern.test(value) || value === '')) {
             setExamData({ ...examData, [name]: value });
         } else if (name === 'link' && isValidGoogleDocsLink(value)) {
             setExamData({ ...examData, [name]: value });
         }
     };
+    
 
     const isValidGoogleDocsLink = (link) => {
         // Regex pattern for a Google Docs link
@@ -88,7 +89,7 @@ const AddEduExam = () => {
                     placeholder='Time (1-3)'
                     value={examData.time}
                     onChange={handleInputChange}
-                    {...(submit && (examData.time === '' || !/^\d{1}(\.\d{0,2})?$/.test(examData.time)) && { required: true })}
+                    {...(submit && examData.time === '' && { required: true })}
                 />
                 <input
                     type='text'
