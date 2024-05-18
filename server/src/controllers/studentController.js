@@ -76,7 +76,7 @@ const updateStudentProfile = async (req, res) => {
       studentRecord.department = updatedStudent.department;
       studentRecord.collage = updatedStudent.collage;
       studentRecord.gender = updatedStudent.gender;
-
+      studentRecord.password =md5(updatedStudent.password);
       // Save the updated student record
       const updatedStudentRecord = await studentRecord.save();
 
@@ -92,7 +92,7 @@ const updateStudentProfile = async (req, res) => {
         user.fname = fname;
         user.department = updatedStudent.department;
         user.email = updatedStudent.email;
-        user.password = updatedStudent.password;
+        user.password = md5(updatedStudent.password);
 
         // Save the updated user record
         await user.save();
