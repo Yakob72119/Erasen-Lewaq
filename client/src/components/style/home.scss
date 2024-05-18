@@ -562,10 +562,16 @@
 .fqa {
     margin: 30px;
     width: 90%;
+    height: 55vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
 
     a {
         color: #0b283b;
@@ -579,7 +585,7 @@
     }
 
     .answers {
-        width: 100%;
+        width: 90%;
 
         .answer {
             width: 100%;

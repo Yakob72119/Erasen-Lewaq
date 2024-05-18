@@ -7,7 +7,7 @@ const createComplaint = async (req, res) => {
         email,
         userId,
         examDepart,
-        examId: parseInt(examId),
+        examId,
         complainBox
       });
       await complaint.save();

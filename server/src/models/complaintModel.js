@@ -4,7 +4,7 @@ const complaintSchema = new mongoose.Schema({
   email: { type: String, required: true },
   userId: { type: String, required: true },
   examDepart: { type: String, required: true },
-  examId: { type: Number },
+  examId: { type: String, required: true },
   complainBox: { type: String, required: true }
 });
 

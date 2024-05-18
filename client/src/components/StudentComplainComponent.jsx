@@ -100,7 +100,7 @@ const StudentComplainComponent = () => {
         <span className="error">{errors.examDepart}</span>
 
         <input
-          type="number" // Changed input type to number
+          type="text" // Changed input type to number
           name="examId"
           className="input"
           placeholder="Exam ID"
