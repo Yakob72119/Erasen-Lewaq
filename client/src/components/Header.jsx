@@ -105,7 +105,7 @@ const Header = ({ onButtonClick, handleClass }) => {
               className={`link ln ${currentClass === 'faq' ? 'active' : ''}`}
               onClick={() => onButtonClick('faq')}
             >
-              FAQ
+              FQA
             </button>
           </li>
           <li className="prof">
