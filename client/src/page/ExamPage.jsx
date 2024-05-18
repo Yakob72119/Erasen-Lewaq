@@ -12,12 +12,12 @@ const ExamPage = () => {
   const [nextButtonText, setNextButtonText] = useState("Next");
   const [examCompleted, setExamCompleted] = useState(false);
   const [examResult, setExamResult] = useState("");
-  const [examTime, setExamTime] = useState(null); // State for countdown timer
-  const [timeRemaining, setTimeRemaining] = useState(null); // State for countdown timer
-  const [timerInterval, setTimerInterval] = useState(null); // Interval reference for countdown timer
-  const [timeUsed, setTimeUsed] = useState(0); // State to track the time used
-  const [countingUp, setCountingUp] = useState(false); // State to track counting direction
-  const [done, setDone] = useState(false); // State to track if the exam is done
+  const [examTime, setExamTime] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [timerInterval, setTimerInterval] = useState(null);
+  const [timeUsed, setTimeUsed] = useState(0);
+  const [countingUp, setCountingUp] = useState(false);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
     const fetchExamDetails = async () => {
@@ -27,13 +27,11 @@ const ExamPage = () => {
 
         console.log("Fetching exam details...");
 
-        // Fetch exam details including questions and answers
         const examResponse = await axios.get(
           `http://localhost:3000/exam/${examId}`
         );
 
         if (!examResponse.data) {
-          // Handle the case where data is undefined
           console.error("Error: Exam data is undefined");
           return;
         }
@@ -42,26 +40,22 @@ const ExamPage = () => {
 
         console.log("Exam details:", examResponse.data);
 
-        // Fetch questions for the exam
         const questionsResponse = await axios.get(
           `http://localhost:3000/exam/${examId}/questions`
         );
 
         if (!questionsResponse.data) {
-          // Handle the case where questions are undefined
           console.error("Error: Questions are undefined");
           return;
         }
 
-        // Map questions to include the correctAnswer field
         const questionsWithAnswers = questionsResponse.data.map((question) => ({
           ...question,
-          correctAnswer: question.answer, // Set correctAnswer from the answer field
+          correctAnswer: question.answer,
         }));
 
         setQuestions(questionsWithAnswers);
 
-        // Start countdown timer based on exam time
         const examTimeInHours = parseFloat(examResponse.data.time);
         startCountdown(examTimeInHours);
         setExamTime(examTimeInHours);
@@ -81,11 +75,10 @@ const ExamPage = () => {
       const currentTime = new Date();
       let timeDiff = endTime - currentTime;
 
-      // Check if the time is up
       if (timeDiff <= 0) {
-        clearInterval(interval); // Stop the countdown timer
-        timeDiff = Math.abs(timeDiff); // Get the absolute value of time difference for negative countdown
-        setCountingUp(true); // Set counting direction to up when time is up
+        clearInterval(interval);
+        timeDiff = Math.abs(timeDiff);
+        setCountingUp(true);
       }
 
       const hoursRemaining = Math.floor(timeDiff / (1000 * 60 * 60));
@@ -100,7 +93,7 @@ const ExamPage = () => {
       }
     }, 1000);
 
-    setTimerInterval(interval); // Save interval reference
+    setTimerInterval(interval);
   };
 
   const handleSelectedRadio = (e) => {
@@ -114,24 +107,17 @@ const ExamPage = () => {
   };
 
   const handleNextQuestion = () => {
-    // Check if the current question has a selected answer
     if (!selectedAnswers[currentQuestion._id]) {
-      // Display an alert or perform any other action to prompt the user to select an answer
       alert("Please select an answer before proceeding to the next question.");
-      return; // Exit the function if an answer is not selected
+      return;
     }
 
-    // Check if the current question is the second-to-last question
     if (currentQuestionIndex === questions.length - 2) {
       setNextButtonText("Done");
     }
 
-    // Check if the last question is reached
     if (currentQuestionIndex === questions.length - 1) {
-      console.log("Selected Answer:", selectedAnswers[currentQuestion._id]);
-      console.log("Correct Answer:", currentQuestion.correctAnswer);
       handleSubmit();
-      // Call handleSubmit when the last question is reached
     } else {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     }
@@ -141,13 +127,12 @@ const ExamPage = () => {
     try {
       let answeredQuestionsCount = 0;
       let correctAnswersCount = 0;
-      const results = []; // Array to store results for each question
-
-      // Compare selected answers with correct answers and count correct answers and answered questions
+      const results = [];
+  
       questions.forEach((question) => {
         const studentAnswer = selectedAnswers[question._id];
         const isCorrect = studentAnswer === question.correctAnswer;
-
+  
         results.push({
           questionId: question._id,
           question: question.question,
@@ -155,8 +140,7 @@ const ExamPage = () => {
           studentAnswer,
           isCorrect,
         });
-
-        // Count answered questions
+  
         if (studentAnswer) {
           answeredQuestionsCount++;
           if (isCorrect) {
@@ -164,25 +148,48 @@ const ExamPage = () => {
           }
         }
       });
-
+  
       const resultMessage = `Result ${correctAnswersCount}/${answeredQuestionsCount}`;
       setExamCompleted(true);
       setExamResult(resultMessage);
-
-      // Calculate total time used in hours
+  
       const [remainingHours, remainingMinutes, remainingSeconds] = timeRemaining
         .split(":")
         .map(Number);
       const totalTimeUsedInHours =
         examTime - (remainingHours + remainingMinutes / 60 + remainingSeconds / 3600);
-
-      setTimeUsed(totalTimeUsedInHours.toFixed(2)); // Store time used in hours with 2 decimal places
-
+  
+      setTimeUsed(totalTimeUsedInHours.toFixed(2));
+  
+      const userId = sessionStorage.getItem("_id");
+      const examId = new URLSearchParams(window.location.search).get("examId");
+  
+      // Send data to backend
+      await axios.post("http://localhost:3000/examResult/save-exam", {
+        examId,
+        userId,
+        correctAnswers: results,
+        examResult: resultMessage,
+        timeUsed: totalTimeUsedInHours.toFixed(2),
+        allAnswers: selectedAnswers,
+      });
+  
+      console.log("Exam Submission Data:");
+      console.log({
+        examId,
+        userId,
+        correctAnswers: results,
+        examResult: resultMessage,
+        timeUsed: totalTimeUsedInHours.toFixed(2),
+        allAnswers: selectedAnswers, // Include all selected answers
+      });
+  
     } catch (error) {
       console.error("Error submitting answers:", error);
     }
   };
-
+  
+  
   const currentQuestion = questions[currentQuestionIndex];
   const selectedAnswer = currentQuestion
     ? selectedAnswers[currentQuestion._id]
@@ -218,7 +225,7 @@ const ExamPage = () => {
           <p className="exam-name">{examDetails.department} Exam</p>
           <p className="amount-exam">{questions.length} Questions</p>
           <p className="time-used">{`Time Used: ${timeUsed} hours`}</p>
-          <p className="mark"> {examResult}</p> {/* Display exam result */}
+          <p className="mark"> {examResult}</p>
           <Link className="close" to={"/student-dashboard"}>
             Close
           </Link>

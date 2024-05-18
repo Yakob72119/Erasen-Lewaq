@@ -187,7 +187,7 @@ const EducatorRegister = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmit(true);
-
+  
     // Form validation
     const emptyFields = Object.values(formData).filter((value) => value === '');
     if (emptyFields.length > 0) {
@@ -195,19 +195,19 @@ const EducatorRegister = () => {
       setErrorStyle('red')
       return;
     }
-
+  
     if (formData.password.length < 6) {
       setError('The Password must be at least 6 characters long.');
       setErrorStyle('red')
       return;
     }
-
+  
     if (formData.password !== formData.confirmPassword) {
       setError('The Passwords do not match.');
       setErrorStyle('red')
       return;
     }
-
+  
     try {
       const response = await axios.post('http://localhost:3000/educator/register', formData);
       console.log(response.data); // Log the response from the backend
@@ -222,7 +222,8 @@ const EducatorRegister = () => {
         bankAcc: '',
         password: '',
         confirmPassword: '',
-        gender: ''
+        gender: '',
+        phone: '' // Clear phone number after successful registration
       });
       setError('Registration successful'); // Provide feedback to the user
       setErrorStyle('green')
@@ -234,6 +235,7 @@ const EducatorRegister = () => {
       setErrorStyle('red')
     }
   };
+  
 
   console.log(formData)
 
@@ -275,7 +277,6 @@ const EducatorRegister = () => {
                 placeholder='+251'
                 value='+251'
                 onChange={handleInputChange}
-                disabled true
               />
               <input
                 type='tel'
@@ -287,7 +288,8 @@ const EducatorRegister = () => {
                 maxLength={10}
                 {...(submit && formData.phone === '' && { required: true })}
               />
-            </div>
+            </div>  
+
           </div>
           <select
             className='input'
