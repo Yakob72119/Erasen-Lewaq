@@ -1,32 +1,34 @@
-// models/ExamResult.js
+// models/ExamSubmission.js
 
 const mongoose = require('mongoose');
 
-const examResultSchema = new mongoose.Schema({
+const ExamSubmissionSchema = new mongoose.Schema({
   examId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exam',
+    ref: 'Exam', // Reference to the Exam model if you have one
     required: true
   },
-  studentId: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Student',
+    ref: 'User', // Reference to the User model
     required: true
   },
-  questionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
-  },
-  studentAnswer: {
-    type: String,
-    required: true
-  },
-  isCorrect: {
-    type: Boolean,
-    required: true
-  },
-  // Add any other fields you need
-}, { timestamps: true });
+  correctAnswers: [{
+    questionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Question', // Reference to the Question model if you have one
+      required: true
+    },
+    question: String,
+    correctAnswer: String,
+    studentAnswer: String,
+    isCorrect: Boolean
+  }],
+  examResult: String,
+  timeUsed: Number,
+  allAnswers: Object
+});
 
-module.exports = mongoose.model('ExamResult', examResultSchema);
+const ExamSubmission = mongoose.model('ExamSubmission', ExamSubmissionSchema);
 
+module.exports = ExamSubmission;
