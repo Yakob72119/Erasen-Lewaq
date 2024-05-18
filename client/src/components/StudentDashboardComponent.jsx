@@ -65,9 +65,9 @@ const StudentDashboardComponent = () => {
         <table >
           <thead className='head'>
             <tr>
-              <th>Name</th>
+              <th>Department</th>
               <th>Exam Time</th>
-              <th>Finishing Time</th>
+              <th>Use Time</th>
               <th>Result</th>
               <th>View</th>
             </tr>

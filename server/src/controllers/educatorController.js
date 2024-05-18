@@ -66,12 +66,15 @@ const getEducatoProfile = async (req, res) => {
 };
 
 const updateEducatorProfile = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Assuming `id` is the user ID
   const updatedEducator = req.body;
+
   try {
+    // Find the educator record based on the user ID
     const educatorRecord = await Educator.findOne({ user: id });
+
     if (educatorRecord) {
-      // Update student fields
+      // Update educator fields
       educatorRecord.fullName = updatedEducator.fullName;
       educatorRecord.collage = updatedEducator.collage;
       educatorRecord.phone = updatedEducator.phone;
@@ -79,31 +82,39 @@ const updateEducatorProfile = async (req, res) => {
       educatorRecord.email = updatedEducator.email;
       educatorRecord.bank = updatedEducator.bank;
       educatorRecord.bankAcc = updatedEducator.bankAcc;
-      educatorRecord.password = updatedEducator.password;
-      educatorRecord.gender = updatedEducator.gender;
-    
-      const updated = await educatorRecord.save();
-      // Only update password if provided
+      educatorRecord.password = md5(updatedEducator.password);
+
+      // Save the updated educator record
+      const updatedEducatorRecord = await educatorRecord.save();
+
+      // Find the user record by ID and update
       const user = await User.findById(id);
+
       if (user) {
         const fullName = updatedEducator.fullName;
         const nameParts = fullName.split(" ");
         const fname = nameParts[0];
+
+        // Update user fields
         user.fname = fname;
         user.department = updatedEducator.department;
         user.email = updatedEducator.email;
-        user.password = updatedEducator.password;
+        user.password = md5(updatedEducator.password);
 
+        // Save the updated user record
+        await user.save();
       }
-     await user.save();
-      res.json(updated);
+
+      res.json(updatedEducatorRecord);
     } else {
-      res.status(404).json({ message: 'Student not found' });
+      res.status(404).json({ message: 'Educator not found' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error updating student data', error: error.message });
+    res.status(500).json({ message: 'Error updating educator data', error: error.message });
   }
 };
+
+module.exports = { updateEducatorProfile };
 
 
 module.exports={

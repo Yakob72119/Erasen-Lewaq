@@ -63,33 +63,42 @@ const getStudentProfile = async (req, res) => {
 };
 
 const updateStudentProfile = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Assuming `id` is the user ID
   const updatedStudent = req.body;
+
   try {
+    // Find the student record based on the user ID
     const studentRecord = await Student.findOne({ user: id });
+
     if (studentRecord) {
       // Update student fields
       studentRecord.fullName = updatedStudent.fullName;
       studentRecord.department = updatedStudent.department;
       studentRecord.collage = updatedStudent.collage;
       studentRecord.gender = updatedStudent.gender;
-      studentRecord.password = updatedStudent.password;
 
-      const updated = await studentRecord.save();
-      // Only update password if provided
+      // Save the updated student record
+      const updatedStudentRecord = await studentRecord.save();
+
+      // Find the user record by ID and update
       const user = await User.findById(id);
+
       if (user) {
         const fullName = updatedStudent.fullName;
         const nameParts = fullName.split(" ");
         const fname = nameParts[0];
+
+        // Update user fields
         user.fname = fname;
         user.department = updatedStudent.department;
         user.email = updatedStudent.email;
         user.password = updatedStudent.password;
 
+        // Save the updated user record
+        await user.save();
       }
-     await user.save();
-      res.json(updated);
+
+      res.json(updatedStudentRecord);
     } else {
       res.status(404).json({ message: 'Student not found' });
     }
