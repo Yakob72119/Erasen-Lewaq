@@ -120,7 +120,7 @@ const Cv = () => {
 
                 {error && <span style={{ color: errorStyle, fontWeight: 900 }}>{error}</span>}
                 <input type="submit" value="Submit" className="formBtn" id='forBtn' />
-                <a href="#" className='examp'>Example of Google Doc form</a>
+                <a href="https://youtu.be/7q6h1fYuYM4?si=fZDLJcoAefVLeCyQ" target='_blanck' className='examp'>Example of Google Doc form</a>
             </form>
         </div>
     );

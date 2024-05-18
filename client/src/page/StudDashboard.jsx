@@ -71,7 +71,7 @@ const StudDashboard = () => {
             <li className={display === 'dashboard' ? 'currentClass' : ''} onClick={handleDashboard}><img src={Home} alt="" />Dashboard</li>
             <li className={display === 'wallet' ? 'currentClass' : ''} onClick={handleWallet}><img src={Wallet} alt="" />Wallet</li>
             <li className={display === 'exam' ? 'currentClass' : ''} onClick={handleExam}><img src={Exam} alt="" />Exams</li>
-            <li className={display === 'compliment' ? 'currentClass' : ''} onClick={handleCompliment}><img src={Compliment} alt="" />Compliment</li>
+            <li className={display === 'compliment' ? 'currentClass' : ''} onClick={handleCompliment}><img src={Compliment} alt="" />Complain</li>
           </ul>
         </div>
         <div className="setting">

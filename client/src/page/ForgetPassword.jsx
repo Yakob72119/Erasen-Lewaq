@@ -6,7 +6,20 @@ const ForgetPassword = () => {
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState('');
+    const [passWd, setPassWd] = useState('');
 
+    const generatePassword = () => {
+        const passwordLength = 8;
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@$_&';
+        let password = '';
+        for (let i = 0; i < passwordLength; i++) {
+            password += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        console.log('Generated Password:', password);
+        return password;
+    }
+
+    
 
     const handleInputChange = (event) => {
         setEmail(event.target.value);
@@ -17,10 +30,14 @@ const ForgetPassword = () => {
 
         setSubmit(true);
 
+
         if (email === '') {
             setError('The Email field is required.');
             return;
         }
+
+        const generatedPasswd = generatePassword();
+        setPassWd(generatedPasswd)
 
         console.log(email)
         setEmail('')
@@ -59,11 +76,9 @@ const ForgetPassword = () => {
 
 
                 </form>
-
+                {/* {passWd} */}
             </div>
-            <div className="warning">
-                This is For student and educator only, if you are Admin contact the admin that added you before.
-            </div>
+            
             <div className="right-decor">{/* this is just for right decor */}</div>
 
         </div>

@@ -111,7 +111,7 @@ const AdminDashboard = () => {
                         <li className={display === 'user' && 'currentClass'} onClick={handleUser}><img src={User} alt="" />User</li>
                         <li className={display === 'cv' && 'currentClass'} onClick={handleCv}><img src={Cv} alt="" />CV</li>
                         <li className={display === 'payment' && 'currentClass'} onClick={handlePayment}><img src={Payment} alt="" />Payment</li>
-                        <li className={display === 'compliment' ? 'currentClass' : ''} onClick={handleCompliment}><img src={Compliment} alt="" />Compliment</li>
+                        <li className={display === 'compliment' ? 'currentClass' : ''} onClick={handleCompliment}><img src={Compliment} alt="" />Complain</li>
                         <li className={display === 'fqa' && 'currentClass'} onClick={handleFqa}><img src={Fqa} alt="" />FQA</li>
                     </ul>
                 </div>
