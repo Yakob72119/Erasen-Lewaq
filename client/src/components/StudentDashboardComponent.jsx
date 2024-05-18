@@ -3,10 +3,11 @@ import axios from 'axios';
 import examT from '../assets/taken-exam.svg';
 import examP from '../assets/passed-exam.svg';
 import examF from '../assets/fail-exam.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const StudentDashboardComponent = () => {
   const [examResults, setExamResults] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExamResults = async () => {
@@ -22,6 +23,11 @@ const StudentDashboardComponent = () => {
     fetchExamResults();
   }, []);
 
+  
+  const handleViewClick = (examId) => {
+    navigate(`/exam-review?examId=${examId}&userId=${sessionStorage.getItem('_id')}`);
+  };
+
   const examResultRows = examResults.map((result) => (
     <tbody className='body' key={result._id}>
       <tr>
@@ -31,7 +37,7 @@ const StudentDashboardComponent = () => {
         <td className='examResult'>{result.examResult}</td>
         <td className='status'>{result.status}</td>
         <td className='view'>
-          <Link className='viewBtn' to={`/exam-review/${result._id}`}>view</Link>
+          <button className='viewBtn' onClick={() => handleViewClick(result.examId._id)}>View</button>
         </td>
       </tr>
     </tbody>

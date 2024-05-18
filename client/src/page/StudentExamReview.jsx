@@ -1,71 +1,66 @@
-import React, { useState } from 'react'
-import erasenLweq from '../assets/erasenLweq.png'
+import React, { useState, useEffect } from 'react';
+import erasenLweq from '../assets/erasenLweq.png';
 import Home from '../assets/home2.svg';
-import './style/ExamReview.scss'
-import { Link } from 'react-router-dom';
-
-
+import './style/ExamReview.scss';
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const StudentExamReview = () => {
-  const fortest = [1, 2, 3, 4];
-  const [selectedRadio, setselectedRadio] = useState('');
+  const [exam, setExam] = useState(null);
+  const location = useLocation();
 
-  const handleSelectedRadio = (e) => {
-    const { name, value } = e.target;
-    // setFormData({ ...formData, [name]: value });
-    setselectedRadio(value);
-  };
+  useEffect(() => {
+    const fetchExamData = async () => {
+      const queryParams = new URLSearchParams(location.search);
+      const examId = queryParams.get('examId');
+      const userId = queryParams.get('userId');
 
-  const ExamView = fortest.map((index) => (
+      try {
+        const response = await axios.get(`http://localhost:3000/examResult/exam/${examId}/user/${userId}`);
+        setExam(response.data);
+      } catch (error) {
+        console.error('Error fetching exam data:', error);
+      }
+    };
+
+    fetchExamData();
+  }, [location.search]);
+
+  if (!exam) {
+    return <div>Loading...</div>;
+  }
+
+  const ExamView = exam.correctAnswers.map((answer, index) => (
     <div className='exam' key={index}>
       <div className="que">
-        <p className='question-no'>Q {fortest[index - 1]}</p>
-        <p className='question'>Question: What is the primary goal of software testing?</p>
+        <p className='question-no'>Q {index + 1}</p>
+        <p className='question'>Question: {answer.question}</p>
       </div>
       <div className='answers'>
-        <label className='radioGroup'>
-          <input
-            type='radio'
-            name='s'
-            value='a'
-            checked={selectedRadio === 'a'}
-            onChange={handleSelectedRadio}
-          />
-          To ensure that the software meets all functional requirements.
+        <label className={`radioGroup ${answer.correctAnswer === 'A' ? 'correctAnswer' : ''} ${answer.studentAnswer === 'A' && !answer.isCorrect ? 'wrongAnswer' : ''}`}>
+          <input type='radio' name={`q${index}`} value='A' checked={answer.studentAnswer === 'A'} readOnly />
+          {answer.correctAnswer === 'A' && <strong>(Correct)</strong>}
+          A. Answer A
         </label>
-        <label className='radioGroup correctAnswer'>
-          <input
-            type='radio'
-            name='b'
-            value='b'
-            checked={selectedRadio === 'b'}
-            onChange={handleSelectedRadio}
-          />
-          To identify and fix all defects in the software.
+        <label className={`radioGroup ${answer.correctAnswer === 'B' ? 'correctAnswer' : ''} ${answer.studentAnswer === 'B' && !answer.isCorrect ? 'wrongAnswer' : ''}`}>
+          <input type='radio' name={`q${index}`} value='B' checked={answer.studentAnswer === 'B'} readOnly />
+          {answer.correctAnswer === 'B' && <strong>(Correct)</strong>}
+          B. Answer B
         </label>
-        <label className='radioGroup'>
-          <input
-            type='radio'
-            name='c'
-            value='c'
-            checked={selectedRadio === 'c'}
-            onChange={handleSelectedRadio}
-          />
-          To validate that the software behaves as expected under different conditions.
+        <label className={`radioGroup ${answer.correctAnswer === 'C' ? 'correctAnswer' : ''} ${answer.studentAnswer === 'C' && !answer.isCorrect ? 'wrongAnswer' : ''}`}>
+          <input type='radio' name={`q${index}`} value='C' checked={answer.studentAnswer === 'C'} readOnly />
+          {answer.correctAnswer === 'C' && <strong>(Correct)</strong>}
+          C. Answer C
         </label>
-        <label className='radioGroup wrongAnswer'>
-          <input
-            type='radio'
-            name='d'
-            value='d'
-            checked={selectedRadio === 'd'}
-            onChange={handleSelectedRadio}
-          />
-          To increase the complexity of the software development process.
+        <label className={`radioGroup ${answer.correctAnswer === 'D' ? 'correctAnswer' : ''} ${answer.studentAnswer === 'D' && !answer.isCorrect ? 'wrongAnswer' : ''}`}>
+          <input type='radio' name={`q${index}`} value='D' checked={answer.studentAnswer === 'D'} readOnly />
+          {answer.correctAnswer === 'D' && <strong>(Correct)</strong>}
+          D. Answer D
         </label>
       </div>
     </div>
   ));
+
   return (
     <div className='exam-review exam-page '>
       <div className="left-decor"></div>
@@ -73,7 +68,7 @@ const StudentExamReview = () => {
       {ExamView}
       <img className="logo" src={erasenLweq} alt="" />
     </div>
-  )
+  );
 }
 
-export default StudentExamReview
+export default StudentExamReview;
