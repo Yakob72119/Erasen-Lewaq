@@ -165,6 +165,7 @@ const EducatorRegister = () => {
 
   const bank = ['Awash Bank', 'Bank of Abyssinia', 'CBEBirr', 'Commercial Bank of Ethiopia', 'Cooperative Bank of Oromia', 'Dashen Bank', 'M-Pesa', 'telebirr', 'Zemen Bank'];
 
+  console.log(formData.phone)
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -210,9 +211,11 @@ const EducatorRegister = () => {
     try {
       const response = await axios.post('http://localhost:3000/educator/register', formData);
       console.log(response.data); // Log the response from the backend
+      console.log(formData)
       setFormData({
         fullName: '',
         email: '',
+        phone: '',
         collage: '',
         residence: '',
         bank: '',
@@ -232,6 +235,7 @@ const EducatorRegister = () => {
     }
   };
 
+  console.log(formData)
 
   return (
     <div className='Registration'>
