@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 import erasenLweq from '../assets/erasenLweq.png';
 import './style/EduDashboard.scss';
 import './style/AdminDashboard.scss';
@@ -10,7 +11,7 @@ import Wallet from '../assets/wallet.svg';
 import Compliment from '../assets/customer.svg';
 import Logout from '../assets/logout.svg';
 import User from '../assets/user.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import StudentDashboardComponent from './../components/StudentDashboardComponent'
 import StudentWalletComponent from './../components/StudentWalletComponent'
 import StudentExamComponent from './../components/StudentExamComponent'
@@ -21,7 +22,7 @@ const StudDashboard = () => {
   const [display, setDisplay] = useState('dashboard');
   const [fname, setFname] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fname = sessionStorage.getItem('fname');
@@ -54,6 +55,17 @@ const StudDashboard = () => {
   const handleCompliment = () => {
     setDisplay('compliment');
   };
+  const handleLogout = async () => {
+    try {
+      await axios.get('http://localhost:3000/user/logout');
+      sessionStorage.clear(); // Clear session storage
+      setAuthenticated(false); // Update authentication state
+      setFname(''); // Clear the user's name
+      navigate('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   return (
     <div className='Registration edu-dashboard admin-dashboard student-dashboard'>
@@ -77,7 +89,7 @@ const StudDashboard = () => {
         <div className="setting">
           <ul>
             <li><Link className='profile' to={'/student-profile'}><img src={User} alt="" />Profile</Link></li>
-            <li><img src={Logout} alt="" />Sign out</li>
+            <li onClick={handleLogout}><img src={Logout} alt="" />Sign out</li>
           </ul>
         </div>
       </div>
