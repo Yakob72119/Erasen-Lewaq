@@ -26,7 +26,8 @@ const ExamSubmissionSchema = new mongoose.Schema({
   }],
   examResult: String,
   timeUsed: Number,
-  allAnswers: Object
+  allAnswers: Object,
+  status: String // New field to store exam status
 });
 
 const ExamSubmission = mongoose.model('ExamSubmission', ExamSubmissionSchema);

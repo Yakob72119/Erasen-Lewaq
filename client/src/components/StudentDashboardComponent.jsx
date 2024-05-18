@@ -1,33 +1,45 @@
-import React, { useState } from 'react'
-import examT from '../assets/taken-exam.svg'
-import examP from '../assets/passed-exam.svg'
-import examF from '../assets/fail-exam.svg'
-// import empty from '../assets/empty.svg'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import examT from '../assets/taken-exam.svg';
+import examP from '../assets/passed-exam.svg';
+import examF from '../assets/fail-exam.svg';
 import { Link } from 'react-router-dom';
 
-
 const StudentDashboardComponent = () => {
+  const [examResults, setExamResults] = useState([]);
 
-  const [exams, setExams] = useState(['Software Engineering', 'computer since', 'Management', 'Accounting', 'Economics', 'Pharmacy', 'Medicine', 'Nursing', 'Medwife'])
+  useEffect(() => {
+    const fetchExamResults = async () => {
+      try {
+        const userId = sessionStorage.getItem('_id');
+        const response = await axios.get(`http://localhost:3000/examResult/exam-submissions/${userId}`);
+        setExamResults(response.data);
+      } catch (error) {
+        console.error('Error fetching exam results:', error);
+      }
+    };
 
-  const examResult = exams.map((exam, index) => (
-    <tbody className='body' key={index}>
+    fetchExamResults();
+  }, []);
+
+  const examResultRows = examResults.map((result) => (
+    <tbody className='body' key={result._id}>
       <tr>
-        <td className='depart'>{exam}</td>
-        <td className='examTime'>2:00:00</td>
-        <td className='time'>1:30:12</td>
-        <td className='examResult'>82</td>
+        <td className='depart'>{result.examId.department}</td>
+        <td className='examTime'>{result.examId.time}</td>
+        <td className='time'>{result.timeUsed.toFixed(2)}</td>
+        <td className='examResult'>{result.examResult}</td>
+        <td className='status'>{result.status}</td>
         <td className='view'>
-          <Link className='viewBtn' to={'/exam-review'}>view</Link>
+          <Link className='viewBtn' to={`/exam-review/${result._id}`}>view</Link>
         </td>
       </tr>
     </tbody>
   ));
 
-  // const noExamPackage = () => {
-
-  // }
-
+  const attemptedExams = examResults.length;
+  const passedExams = examResults.filter(result => result.status === 'Passed').length;
+  const failedExams = examResults.filter(result => result.status === 'Failed').length;
 
   return (
     <div className='dashboard'>
@@ -38,7 +50,7 @@ const StudentDashboardComponent = () => {
             <img src={examT} alt="" />
           </div>
           <div className="part-text">
-            <p className="point">20</p>
+            <p className="point">{attemptedExams}</p>
             <p className="text">Attempted Exams</p>
           </div>
         </div>
@@ -47,7 +59,7 @@ const StudentDashboardComponent = () => {
             <img src={examP} alt="" />
           </div>
           <div className="part-text">
-            <p className="point">16</p>
+            <p className="point">{passedExams}</p>
             <p className="text">Exams Passed</p>
           </div>
         </div>
@@ -56,31 +68,28 @@ const StudentDashboardComponent = () => {
             <img src={examF} alt="" />
           </div>
           <div className="part-text">
-            <p className="point">4</p>
+            <p className="point">{failedExams}</p>
             <p className="text">Exams Failed</p>
           </div>
         </div>
       </div>
       <div className='result'>
-        <table >
+        <table>
           <thead className='head'>
             <tr>
               <th>Department</th>
               <th>Exam Time</th>
-              <th>Use Time</th>
+              <th>Used Time</th>
               <th>Result</th>
+              <th>Status</th>
               <th>View</th>
             </tr>
           </thead>
-          {examResult}
+          {examResultRows}
         </table>
-        {/* <div className="no-result">
-          <img src={empty} alt="" />
-          <h2>To begin, please take an exam. Once completed, you can view your results here!</h2>
-        </div> */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StudentDashboardComponent
+export default StudentDashboardComponent;
