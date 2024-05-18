@@ -223,7 +223,6 @@ const EducatorRegister = () => {
         password: '',
         confirmPassword: '',
         gender: '',
-        phone: '' // Clear phone number after successful registration
       });
       setError('Registration successful'); // Provide feedback to the user
       setErrorStyle('green')
