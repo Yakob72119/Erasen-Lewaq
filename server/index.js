@@ -18,6 +18,8 @@ const faqRoutes =require("./src/routes/fqaRoutes.js");
 const paymentRoutes =require("./src/routes/paymentRoutes.js");
 const complaintRoutes =require("./src/routes/complaintRoutes.js");
 const examResultRoutes =require("./src/routes/examResultRoutes.js");
+const emailRoutes =require("./src/routes/emailRoutes.js");
+
 
 
 
@@ -52,6 +54,9 @@ mongoose.connect('mongodb://localhost:27017/erasen_lewaq_db')
  app.use('/payment', paymentRoutes);
  app.use('/complaint', complaintRoutes);
  app.use('/examResult', examResultRoutes);
+ app.use('/examResult', examResultRoutes);
+ app.use('/email', emailRoutes);
+
 
 const PORT = 3000;
         app.listen(PORT, () => {
